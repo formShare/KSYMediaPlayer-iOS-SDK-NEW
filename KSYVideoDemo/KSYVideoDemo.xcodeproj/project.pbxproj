@@ -22,8 +22,6 @@
 		0A68AA4A1ABBFAE2006CA2EF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A68AA491ABBFAE2006CA2EF /* main.m */; };
 		0A68AA4D1ABBFAE2006CA2EF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A68AA4C1ABBFAE2006CA2EF /* AppDelegate.m */; };
 		0A68AA641ABBFAE3006CA2EF /* KSYVideoDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A68AA631ABBFAE3006CA2EF /* KSYVideoDemoTests.m */; };
-		0A6DCA351AFCB9810026E5D6 /* KSYPlayerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6DCA341AFCB9810026E5D6 /* KSYPlayerUtil.m */; };
-		0A7CBF931AD79299007C363C /* VideoPlayerKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CBF921AD79299007C363C /* VideoPlayerKit.m */; };
 		0AF27E601B28342200B38C40 /* libKSYMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF27E5F1B28342200B38C40 /* libKSYMediaPlayer.a */; };
 		130F72881B0F37F4004B966B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 130F72871B0F37F4004B966B /* Images.xcassets */; };
 		130F72BD1B1317C9004B966B /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 130F72BC1B1317C9004B966B /* ThemeManager.m */; };
@@ -43,7 +41,14 @@
 		13F0AB311B15C13600BE9BBF /* red in Resources */ = {isa = PBXBuildFile; fileRef = 13F0AB2D1B15C13600BE9BBF /* red */; };
 		7C2902DB1C116FC100F95AF3 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C2902DA1C116FC100F95AF3 /* CoreTelephony.framework */; };
 		7CBE38B31B7B5847003AC1D9 /* a.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CBE38B21B7B5847003AC1D9 /* a.mp4 */; };
-		7CD2AD391C0D969A00E6532D /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2AD381C0D969A00E6532D /* RootViewController.m */; };
+		7CD2AD391C0D969A00E6532D /* KSYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2AD381C0D969A00E6532D /* KSYMainViewController.m */; };
+		7CDBE5A41C15556B00D221C7 /* KSYPopilarLivePlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5A31C15556B00D221C7 /* KSYPopilarLivePlayVC.m */; };
+		7CDBE5A71C15557B00D221C7 /* KSYPopilarLivePlayBackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5A61C15557B00D221C7 /* KSYPopilarLivePlayBackVC.m */; };
+		7CDBE5AA1C15558900D221C7 /* KSYPhoneLivePlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5A91C15558900D221C7 /* KSYPhoneLivePlayVC.m */; };
+		7CDBE5AD1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5AC1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.m */; };
+		7CDBE5B01C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5AF1C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m */; };
+		7CDBE5B31C1555B800D221C7 /* KSYShortVideoPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5B21C1555B800D221C7 /* KSYShortVideoPlayVC.m */; };
+		7CDBE5BB1C1567FB00D221C7 /* KSYBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5BA1C1567FB00D221C7 /* KSYBaseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +62,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		044212701B8C6F5A00BABE76 /* KSYAppInfoUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSYAppInfoUnit.h; sourceTree = "<group>"; };
-		044212711B8C6F6500BABE76 /* KSYLogInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSYLogInfo.h; sourceTree = "<group>"; };
 		04C477281B8DAAD900159373 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		04C4773C1B8DAF3D00159373 /* KSYMediaResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KSYMediaResource.bundle; sourceTree = "<group>"; };
 		0A164AD01ABC238200AEEB75 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -79,18 +82,9 @@
 		0A68AA5D1ABBFAE3006CA2EF /* KSYVideoDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KSYVideoDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A68AA621ABBFAE3006CA2EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A68AA631ABBFAE3006CA2EF /* KSYVideoDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSYVideoDemoTests.m; sourceTree = "<group>"; };
-		0A6DCA2C1AFCB9810026E5D6 /* DrmRelativeAllModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrmRelativeAllModel.h; sourceTree = "<group>"; };
-		0A6DCA2D1AFCB9810026E5D6 /* DrmRelativeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrmRelativeModel.h; sourceTree = "<group>"; };
-		0A6DCA2E1AFCB9810026E5D6 /* KSYFFOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYFFOptions.h; sourceTree = "<group>"; };
-		0A6DCA2F1AFCB9810026E5D6 /* KSYMediaModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYMediaModule.h; sourceTree = "<group>"; };
 		0A6DCA301AFCB9810026E5D6 /* KSYMediaPlayback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYMediaPlayback.h; sourceTree = "<group>"; };
-		0A6DCA311AFCB9810026E5D6 /* KSYMediaPlayer-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KSYMediaPlayer-Header.h"; sourceTree = "<group>"; };
 		0A6DCA321AFCB9810026E5D6 /* KSYPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYPlayer.h; sourceTree = "<group>"; };
-		0A6DCA331AFCB9810026E5D6 /* KSYPlayerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYPlayerUtil.h; sourceTree = "<group>"; };
-		0A6DCA341AFCB9810026E5D6 /* KSYPlayerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYPlayerUtil.m; sourceTree = "<group>"; };
-		0A7CBF911AD79299007C363C /* VideoPlayerKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerKit.h; sourceTree = "<group>"; };
-		0A7CBF921AD79299007C363C /* VideoPlayerKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerKit.m; sourceTree = "<group>"; };
-		0A7CBF941AD7968F007C363C /* KSYDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYDefine.h; sourceTree = "<group>"; };
+		0A7CBF941AD7968F007C363C /* KSYDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSYDefine.h; path = ../VideoViewController/KSYDefine.h; sourceTree = "<group>"; };
 		0AF27E5F1B28342200B38C40 /* libKSYMediaPlayer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKSYMediaPlayer.a; sourceTree = "<group>"; };
 		130F72871B0F37F4004B966B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		130F72BB1B1317C9004B966B /* ThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeManager.h; sourceTree = "<group>"; };
@@ -118,8 +112,23 @@
 		13F0AB2D1B15C13600BE9BBF /* red */ = {isa = PBXFileReference; lastKnownFileType = folder; path = red; sourceTree = "<group>"; };
 		7C2902DA1C116FC100F95AF3 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		7CBE38B21B7B5847003AC1D9 /* a.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = a.mp4; sourceTree = "<group>"; };
-		7CD2AD371C0D969A00E6532D /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		7CD2AD381C0D969A00E6532D /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		7CD2AD371C0D969A00E6532D /* KSYMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYMainViewController.h; sourceTree = "<group>"; };
+		7CD2AD381C0D969A00E6532D /* KSYMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYMainViewController.m; sourceTree = "<group>"; };
+		7CDBE5A11C15362A00D221C7 /* DrmRelativeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrmRelativeModel.h; sourceTree = "<group>"; };
+		7CDBE5A21C15556B00D221C7 /* KSYPopilarLivePlayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYPopilarLivePlayVC.h; sourceTree = "<group>"; };
+		7CDBE5A31C15556B00D221C7 /* KSYPopilarLivePlayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYPopilarLivePlayVC.m; sourceTree = "<group>"; };
+		7CDBE5A51C15557B00D221C7 /* KSYPopilarLivePlayBackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYPopilarLivePlayBackVC.h; sourceTree = "<group>"; };
+		7CDBE5A61C15557B00D221C7 /* KSYPopilarLivePlayBackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYPopilarLivePlayBackVC.m; sourceTree = "<group>"; };
+		7CDBE5A81C15558900D221C7 /* KSYPhoneLivePlayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYPhoneLivePlayVC.h; sourceTree = "<group>"; };
+		7CDBE5A91C15558900D221C7 /* KSYPhoneLivePlayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYPhoneLivePlayVC.m; sourceTree = "<group>"; };
+		7CDBE5AB1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYPhoneLivePlayBackVC.h; sourceTree = "<group>"; };
+		7CDBE5AC1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYPhoneLivePlayBackVC.m; sourceTree = "<group>"; };
+		7CDBE5AE1C1555A900D221C7 /* KSYVideoOnDemandPlayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYVideoOnDemandPlayVC.h; sourceTree = "<group>"; };
+		7CDBE5AF1C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYVideoOnDemandPlayVC.m; sourceTree = "<group>"; };
+		7CDBE5B11C1555B800D221C7 /* KSYShortVideoPlayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYShortVideoPlayVC.h; sourceTree = "<group>"; };
+		7CDBE5B21C1555B800D221C7 /* KSYShortVideoPlayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYShortVideoPlayVC.m; sourceTree = "<group>"; };
+		7CDBE5B91C1567FB00D221C7 /* KSYBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYBaseViewController.h; sourceTree = "<group>"; };
+		7CDBE5BA1C1567FB00D221C7 /* KSYBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYBaseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +199,7 @@
 			children = (
 				0A68AA4B1ABBFAE2006CA2EF /* AppDelegate.h */,
 				0A68AA4C1ABBFAE2006CA2EF /* AppDelegate.m */,
+				0A7CBF941AD7968F007C363C /* KSYDefine.h */,
 				130F72871B0F37F4004B966B /* Images.xcassets */,
 			);
 			path = KSYVideoDemo;
@@ -225,17 +235,9 @@
 		0A6DCA2B1AFCB9810026E5D6 /* KSYMediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				0A6DCA2C1AFCB9810026E5D6 /* DrmRelativeAllModel.h */,
-				0A6DCA2D1AFCB9810026E5D6 /* DrmRelativeModel.h */,
-				0A6DCA2E1AFCB9810026E5D6 /* KSYFFOptions.h */,
-				0A6DCA2F1AFCB9810026E5D6 /* KSYMediaModule.h */,
+				7CDBE5A11C15362A00D221C7 /* DrmRelativeModel.h */,
 				0A6DCA301AFCB9810026E5D6 /* KSYMediaPlayback.h */,
-				0A6DCA311AFCB9810026E5D6 /* KSYMediaPlayer-Header.h */,
 				0A6DCA321AFCB9810026E5D6 /* KSYPlayer.h */,
-				0A6DCA331AFCB9810026E5D6 /* KSYPlayerUtil.h */,
-				0A6DCA341AFCB9810026E5D6 /* KSYPlayerUtil.m */,
-				044212701B8C6F5A00BABE76 /* KSYAppInfoUnit.h */,
-				044212711B8C6F6500BABE76 /* KSYLogInfo.h */,
 			);
 			path = KSYMediaPlayer;
 			sourceTree = "<group>";
@@ -291,13 +293,24 @@
 		13869D231AC3F4570083B670 /* VideoViewController */ = {
 			isa = PBXGroup;
 			children = (
-				7CD2AD371C0D969A00E6532D /* RootViewController.h */,
-				7CD2AD381C0D969A00E6532D /* RootViewController.m */,
+				7CD2AD371C0D969A00E6532D /* KSYMainViewController.h */,
+				7CD2AD381C0D969A00E6532D /* KSYMainViewController.m */,
+				7CDBE5B91C1567FB00D221C7 /* KSYBaseViewController.h */,
+				7CDBE5BA1C1567FB00D221C7 /* KSYBaseViewController.m */,
+				7CDBE5A21C15556B00D221C7 /* KSYPopilarLivePlayVC.h */,
+				7CDBE5A31C15556B00D221C7 /* KSYPopilarLivePlayVC.m */,
+				7CDBE5A51C15557B00D221C7 /* KSYPopilarLivePlayBackVC.h */,
+				7CDBE5A61C15557B00D221C7 /* KSYPopilarLivePlayBackVC.m */,
+				7CDBE5A81C15558900D221C7 /* KSYPhoneLivePlayVC.h */,
+				7CDBE5A91C15558900D221C7 /* KSYPhoneLivePlayVC.m */,
+				7CDBE5AB1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.h */,
+				7CDBE5AC1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.m */,
+				7CDBE5AE1C1555A900D221C7 /* KSYVideoOnDemandPlayVC.h */,
+				7CDBE5AF1C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m */,
+				7CDBE5B11C1555B800D221C7 /* KSYShortVideoPlayVC.h */,
+				7CDBE5B21C1555B800D221C7 /* KSYShortVideoPlayVC.m */,
 				13869D261AC3F4570083B670 /* VideoViewController.h */,
 				13869D271AC3F4570083B670 /* VideoViewController.m */,
-				0A7CBF911AD79299007C363C /* VideoPlayerKit.h */,
-				0A7CBF921AD79299007C363C /* VideoPlayerKit.m */,
-				0A7CBF941AD7968F007C363C /* KSYDefine.h */,
 			);
 			path = VideoViewController;
 			sourceTree = "<group>";
@@ -429,18 +442,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CDBE5A41C15556B00D221C7 /* KSYPopilarLivePlayVC.m in Sources */,
 				13869D2C1AC3F4570083B670 /* VideoViewController.m in Sources */,
+				7CDBE5AD1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.m in Sources */,
+				7CDBE5AA1C15558900D221C7 /* KSYPhoneLivePlayVC.m in Sources */,
 				13869D291AC3F4570083B670 /* MediaControlView.m in Sources */,
-				7CD2AD391C0D969A00E6532D /* RootViewController.m in Sources */,
+				7CDBE5A71C15557B00D221C7 /* KSYPopilarLivePlayBackVC.m in Sources */,
+				7CD2AD391C0D969A00E6532D /* KSYMainViewController.m in Sources */,
 				134F58A41B1D850800126D81 /* MediaVoiceView.m in Sources */,
 				130F72BD1B1317C9004B966B /* ThemeManager.m in Sources */,
 				0A68AA4D1ABBFAE2006CA2EF /* AppDelegate.m in Sources */,
-				0A7CBF931AD79299007C363C /* VideoPlayerKit.m in Sources */,
-				0A6DCA351AFCB9810026E5D6 /* KSYPlayerUtil.m in Sources */,
 				0A68AA4A1ABBFAE2006CA2EF /* main.m in Sources */,
 				1327D3981ACD377F0042A834 /* Reachability.m in Sources */,
 				13869D2A1AC3F4570083B670 /* MediaControlViewController.m in Sources */,
+				7CDBE5B31C1555B800D221C7 /* KSYShortVideoPlayVC.m in Sources */,
 				131EDE951B2EAD6F002930E3 /* KSYBarView.m in Sources */,
+				7CDBE5BB1C1567FB00D221C7 /* KSYBaseViewController.m in Sources */,
+				7CDBE5B01C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

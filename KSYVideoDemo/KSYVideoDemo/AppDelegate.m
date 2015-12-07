@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "VideoViewController.h"
 #import <objc/runtime.h>
-#import "RootViewController.h"
+#import "KSYMainViewController.h"
 @interface AppDelegate ()
 
 
@@ -21,7 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     application.statusBarOrientation = UIInterfaceOrientationPortrait;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    RootViewController *viewController = [[RootViewController alloc] init];
+    KSYMainViewController *viewController = [[KSYMainViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];

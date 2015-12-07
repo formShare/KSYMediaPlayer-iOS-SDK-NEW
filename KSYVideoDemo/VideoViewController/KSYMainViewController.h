@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UIViewController
+@interface KSYMainViewController : UIViewController
 
 @end
