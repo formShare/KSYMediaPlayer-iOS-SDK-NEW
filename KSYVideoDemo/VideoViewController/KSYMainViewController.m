@@ -137,8 +137,14 @@
     switch (indexPath.section) {
         case 0:
         {
-            KSYPopilarLivePlayVC *popilarLivePlayVC = [KSYPopilarLivePlayVC new];
-            [self.navigationController pushViewController:popilarLivePlayVC animated:YES];
+            if (indexPath.row == 0) {
+                KSYPopilarLivePlayVC *popilarLivePlayVC = [KSYPopilarLivePlayVC new];
+                [self.navigationController pushViewController:popilarLivePlayVC animated:YES];
+
+            }else {
+                KSYPopilarLivePlayBackVC *popilarLivePlayBackVC = [KSYPopilarLivePlayBackVC new];
+                [self.navigationController pushViewController:popilarLivePlayBackVC animated:YES];
+            }
         }
             break;
         case 1:
