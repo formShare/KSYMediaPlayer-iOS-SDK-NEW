@@ -7,8 +7,12 @@
 //
 
 #import "KSYPhoneLivePlayBackVC.h"
-
+#import "KSYPlayer.h"
+#import "KSYPhoneLivePlayView.h"
 @interface KSYPhoneLivePlayBackVC ()
+{
+    KSYPlayer *_player;
+}
 
 @end
 
@@ -16,7 +20,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+
 }
 
 - (void)didReceiveMemoryWarning {

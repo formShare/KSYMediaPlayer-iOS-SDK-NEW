@@ -149,7 +149,11 @@
             break;
         case 1:
         {
-            
+            if (indexPath.row == 0) {
+                KSYPhoneLivePlayVC *phoneLivePlayerVC = [KSYPhoneLivePlayVC new];
+                phoneLivePlayerVC.videoUrlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+                [self.navigationController presentViewController:phoneLivePlayerVC animated:YES completion:nil];
+            }
         }
             break;
         case 2:

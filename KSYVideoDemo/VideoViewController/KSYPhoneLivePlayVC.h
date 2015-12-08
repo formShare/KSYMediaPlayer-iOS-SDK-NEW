@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "KSYBaseViewController.h"
 
+
 @interface KSYPhoneLivePlayVC : KSYBaseViewController
 
+@property (nonatomic, copy)NSString  *videoUrlString;
 @end

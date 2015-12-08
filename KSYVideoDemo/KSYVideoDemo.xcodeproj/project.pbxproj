@@ -49,6 +49,9 @@
 		7CDBE5B01C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5AF1C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m */; };
 		7CDBE5B31C1555B800D221C7 /* KSYShortVideoPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5B21C1555B800D221C7 /* KSYShortVideoPlayVC.m */; };
 		7CDBE5BB1C1567FB00D221C7 /* KSYBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5BA1C1567FB00D221C7 /* KSYBaseViewController.m */; };
+		7CDBE5C01C157C0D00D221C7 /* UIViewController+PlayerState.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5BF1C157C0D00D221C7 /* UIViewController+PlayerState.m */; };
+		7CDBE5D41C158F4600D221C7 /* KSYPhoneLivePlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5D31C158F4600D221C7 /* KSYPhoneLivePlayView.m */; };
+		7CDBE5D71C15B12100D221C7 /* UIView+BFExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5D61C15B12100D221C7 /* UIView+BFExtension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +132,12 @@
 		7CDBE5B21C1555B800D221C7 /* KSYShortVideoPlayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYShortVideoPlayVC.m; sourceTree = "<group>"; };
 		7CDBE5B91C1567FB00D221C7 /* KSYBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYBaseViewController.h; sourceTree = "<group>"; };
 		7CDBE5BA1C1567FB00D221C7 /* KSYBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYBaseViewController.m; sourceTree = "<group>"; };
+		7CDBE5BE1C157C0D00D221C7 /* UIViewController+PlayerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PlayerState.h"; sourceTree = "<group>"; };
+		7CDBE5BF1C157C0D00D221C7 /* UIViewController+PlayerState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PlayerState.m"; sourceTree = "<group>"; };
+		7CDBE5D21C158F4600D221C7 /* KSYPhoneLivePlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYPhoneLivePlayView.h; sourceTree = "<group>"; };
+		7CDBE5D31C158F4600D221C7 /* KSYPhoneLivePlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYPhoneLivePlayView.m; sourceTree = "<group>"; };
+		7CDBE5D51C15B12100D221C7 /* UIView+BFExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+BFExtension.h"; sourceTree = "<group>"; };
+		7CDBE5D61C15B12100D221C7 /* UIView+BFExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+BFExtension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,7 +185,9 @@
 				13869D2D1AC3FAF30083B670 /* Framework */,
 				13869D091AC3EDD70083B670 /* Resources */,
 				13869D121AC3EDD70083B670 /* Util */,
+				7CDBE5BD1C157BC900D221C7 /* Catergoary */,
 				0A68AA461ABBFAE2006CA2EF /* KSYVideoDemo */,
+				7CDBE5D11C158EB300D221C7 /* View */,
 				13869D1B1AC3F4570083B670 /* MediaControlViewController */,
 				13869D231AC3F4570083B670 /* VideoViewController */,
 				0A68AA471ABBFAE2006CA2EF /* Supporting Files */,
@@ -333,6 +344,26 @@
 			name = Framework;
 			sourceTree = "<group>";
 		};
+		7CDBE5BD1C157BC900D221C7 /* Catergoary */ = {
+			isa = PBXGroup;
+			children = (
+				7CDBE5D51C15B12100D221C7 /* UIView+BFExtension.h */,
+				7CDBE5D61C15B12100D221C7 /* UIView+BFExtension.m */,
+				7CDBE5BE1C157C0D00D221C7 /* UIViewController+PlayerState.h */,
+				7CDBE5BF1C157C0D00D221C7 /* UIViewController+PlayerState.m */,
+			);
+			path = Catergoary;
+			sourceTree = "<group>";
+		};
+		7CDBE5D11C158EB300D221C7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7CDBE5D21C158F4600D221C7 /* KSYPhoneLivePlayView.h */,
+				7CDBE5D31C158F4600D221C7 /* KSYPhoneLivePlayView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -444,11 +475,14 @@
 			files = (
 				7CDBE5A41C15556B00D221C7 /* KSYPopilarLivePlayVC.m in Sources */,
 				13869D2C1AC3F4570083B670 /* VideoViewController.m in Sources */,
+				7CDBE5D41C158F4600D221C7 /* KSYPhoneLivePlayView.m in Sources */,
 				7CDBE5AD1C15559A00D221C7 /* KSYPhoneLivePlayBackVC.m in Sources */,
 				7CDBE5AA1C15558900D221C7 /* KSYPhoneLivePlayVC.m in Sources */,
 				13869D291AC3F4570083B670 /* MediaControlView.m in Sources */,
 				7CDBE5A71C15557B00D221C7 /* KSYPopilarLivePlayBackVC.m in Sources */,
 				7CD2AD391C0D969A00E6532D /* KSYMainViewController.m in Sources */,
+				7CDBE5D71C15B12100D221C7 /* UIView+BFExtension.m in Sources */,
+				7CDBE5C01C157C0D00D221C7 /* UIViewController+PlayerState.m in Sources */,
 				134F58A41B1D850800126D81 /* MediaVoiceView.m in Sources */,
 				130F72BD1B1317C9004B966B /* ThemeManager.m in Sources */,
 				0A68AA4D1ABBFAE2006CA2EF /* AppDelegate.m in Sources */,
