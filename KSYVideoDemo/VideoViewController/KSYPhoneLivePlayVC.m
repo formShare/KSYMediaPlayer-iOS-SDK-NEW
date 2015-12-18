@@ -9,9 +9,16 @@
 #import "KSYPhoneLivePlayVC.h"
 #import "KSYPhoneLivePlayView.h"
 #import "CommentModel.h"
-@interface KSYPhoneLivePlayVC ()
+
+//  弱引用宏
+#define WeakSelf(VC) __weak VC *weakSelf = self
+
+@interface KSYPhoneLivePlayVC ()<UIAlertViewDelegate>
 {
-    KSYPhoneLivePlayView *_phoneLivePlayVC;
+    KSYPhoneLivePlayView    *_phoneLivePlayVC;
+    NSTimer                 *_commetnTimer;
+    NSTimer                 *_praiseTimer0;
+    NSTimer                 *_praiseTimer1;
 }
 @end
 
@@ -21,28 +28,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    __weak typeof(self) wekSelf = self;
+    WeakSelf(KSYBaseViewController);
+    //模拟观众评论
+    _commetnTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(addNewCommentWith) userInfo:nil repeats:YES];
+    //模拟点赞事件
+    _praiseTimer0 = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(praiseEvent) userInfo:nil repeats:YES];
+    _praiseTimer1 = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(presentEvent) userInfo:nil repeats:YES];
+
     _phoneLivePlayVC = [[KSYPhoneLivePlayView alloc] initWithFrame:self.view.bounds];
     _phoneLivePlayVC.urlString = self.videoUrlString;
+    _phoneLivePlayVC.playState = KSYPhoneLivePlay;
     [_phoneLivePlayVC start];
     _phoneLivePlayVC.liveBroadcastCloseBlock = ^{
         
-        [wekSelf dismissViewControllerAnimated:YES completion:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"确定退出观看？" delegate:weakSelf cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alertView show];
     };
     _phoneLivePlayVC.liveBroadcastReporteBlock = ^{
         NSLog(@"举报");
     };
     [self.view addSubview:_phoneLivePlayVC];
     
-    //模拟点赞事件
-    [NSTimer scheduledTimerWithTimeInterval:0.7 target:self selector:@selector(praiseEvent) userInfo:nil repeats:YES];
-
-    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(presentEvent) userInfo:nil repeats:YES];
-
-    //模拟观众评论
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(addNewCommentWith) userInfo:nil repeats:YES];
-    NSLog(@"%@",timer);
-
 }
 
 
@@ -74,18 +80,22 @@
     [_phoneLivePlayVC addNewCommentWith:model];
 }
 
-- (void)dealloc
-{
-
-}
-
-
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma alertViewDelegate
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        [_commetnTimer invalidate];
+        [_praiseTimer0 invalidate];
+        [_praiseTimer1 invalidate];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+
+    }
+}
 
 @end

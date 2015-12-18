@@ -12,21 +12,25 @@
 #import "CommentModel.h"
 #import "KSYCommentTableView.h"
 #import "KSYSpectatorsTableView.h"
-#define DeviceSizeBounds [UIScreen mainScreen].bounds
+#import "KSYMessageToolBar.h"
+#import "KSYAlertView.h"
 
-@interface KSYPhoneLivePlayView ()
-{
-    UILabel     *_playStateLab;
-    UILabel     *_curentTimeLab;
-    UIButton    *_headBtn;
-    BOOL        _isPlaying;
-    KSYCommentViewList *_commentViewList;
-    KSYCommentTableView *_commetnTableView;
-    KSYSpectatorsTableView *_spectatorsView;
-    UILabel     *_userNumLab;
-    BOOL        _isAdd;
-    UIImageView *_headImageView;
-}
+#define DeviceSizeBounds [UIScreen mainScreen].bounds
+//  弱引用宏
+#define WeakSelf(VC) __weak VC *weakSelf = self
+
+@interface KSYPhoneLivePlayView ()<KSYMediaPlayerDelegate,UIAlertViewDelegate>
+
+
+@property (nonatomic, strong)KSYInteractiveView *interactiveView;
+@property (nonatomic, strong)UIButton           *closeButton;
+@property (nonatomic, strong)UIButton           *reportButton;
+@property (nonatomic, strong)UILabel            *playStateLab;
+@property (nonatomic, strong)UILabel            *curentTimeLab;
+@property (nonatomic, strong)UIButton           *headButton;
+@property (nonatomic, strong)UIImageView        *headImageView;
+@property (nonatomic, strong)KSYAlertView        *alertView;
+
 @end
 
 
@@ -42,7 +46,6 @@
     }
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 
-    _isPlaying = NO;
     KSYPlayer *player = [KSYPlayer sharedKSYPlayer];
     [player startWithMURL:[NSURL URLWithString:self.urlString] withOptions:nil allowLog:NO appIdentifier:@"ksy"];
     player.shouldAutoplay = YES;
@@ -58,101 +61,129 @@
     
     [player setScalingMode:MPMovieScalingModeAspectFit];
 
-    
-    [self initHeadViews];
-    
-    [self initCommentView];
-    
-    [self initSpectatprsView];
 
-    UIButton *praiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    praiseBtn.backgroundColor = [UIColor redColor];
-    praiseBtn.frame = CGRectMake(_spectatorsView.right + 24, _spectatorsView.top+4, 30, 30);
-    [praiseBtn addTarget:self action:@selector(praiseEvent) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:praiseBtn];
+    [self addSubview:self.closeButton];
+    [self addSubview:self.reportButton];
+    [self addSubview:self.playStateLab];
+    [self addSubview:self.curentTimeLab];
+    [self addSubview:self.headButton];
+    [self addSubview:self.headImageView];
+    [self addSubview:self.interactiveView];
+    [self addSubview:self.alertView];
 
-    
-    
+    [self bringSubviewToFront:self.closeButton];
     return YES;
 }
 
-- (void)initHeadViews
+- (KSYInteractiveView *)interactiveView
 {
-    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [closeBtn setFrame:CGRectMake(DeviceSizeBounds.size.width - 60, 10, 40, 30)];
-    [closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
-    closeBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
-    [closeBtn addTarget:self action:@selector(liveBroadcastWillClose) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:closeBtn];
-    
-    UIButton *reportBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [reportBtn setFrame:CGRectMake(DeviceSizeBounds.size.width - 115, 10, 40, 30)];
-    [reportBtn setTitle:@"举报" forState:UIControlStateNormal];
-    reportBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
-    [reportBtn addTarget:self action:@selector(liveBroadcastWillBeReport) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:reportBtn];
-    
-    _playStateLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 75, 20)];
-    _playStateLab.text = @"直播连线中...";
-    _playStateLab.textColor = [UIColor whiteColor];
-    _playStateLab.font = [UIFont systemFontOfSize:12.0];
-    _playStateLab.backgroundColor = [UIColor clearColor];
-    [self addSubview:_playStateLab];
-    
-    _curentTimeLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    _curentTimeLab.textColor = [UIColor whiteColor];
-    _curentTimeLab.font = [UIFont systemFontOfSize:12.0];
-    _curentTimeLab.backgroundColor = [UIColor clearColor];
-    [self addSubview:_curentTimeLab];
-
-    _headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 35, 35)];
-    _headImageView.backgroundColor = [UIColor cyanColor];
-    _headImageView.layer.cornerRadius = 17.5;
-    _headImageView.layer.masksToBounds = YES;
-    _headImageView.userInteractionEnabled = YES;
-    _headImageView.hidden = YES;
-    [self addSubview:_headImageView];
-    
-    _headBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_headBtn setFrame:CGRectMake(15, 15, 35, 35)];
-//    [_headBtn setTitle:@"头像" forState:UIControlStateNormal];
-    _headBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
-    [_headBtn addTarget:self action:@selector(headEvent:) forControlEvents:UIControlEventTouchUpInside];
-    _headBtn.hidden = YES;
-    [self addSubview:_headBtn];
-
+    WeakSelf(KSYPhoneLivePlayView);
+    if (!_interactiveView) {
+        _interactiveView = [[KSYInteractiveView alloc] initWithFrame:CGRectMake(0, 270, self.frame.size.width, self.frame.size.height - 270) playState:self.playState];
+        _interactiveView.alertViewBlock = ^(id obj){
+//            [weakSelf.alertView show];
+            [weakSelf setInfoViewFrame:YES];
+//            [weakSelf shakeToShow:weakSelf.alertView];
+        };
+    }
+    return _interactiveView;
 }
 
-- (void)initCommentView
+- (UIButton *)closeButton
 {
-    _commetnTableView = [[KSYCommentTableView alloc] initWithFrame:CGRectMake(10, DeviceSizeBounds.size.height - 150 - 460, 200, 400)];
-    _commetnTableView.backgroundColor = [UIColor clearColor];
-    [self addSubview:_commetnTableView];
-    
+    if (!_closeButton) {
+        _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_closeButton setFrame:CGRectMake(DeviceSizeBounds.size.width - 60, 10, 40, 30)];
+        [_closeButton setTitle:@"X" forState:UIControlStateNormal];
+        _closeButton.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        [_closeButton addTarget:self action:@selector(liveBroadcastWillClose) forControlEvents:UIControlEventTouchUpInside];
+
+    }
+    return _closeButton;
 }
 
-- (void)initSpectatprsView
+- (UIButton *)reportButton
 {
-    _spectatorsView = [[KSYSpectatorsTableView alloc] initWithFrame:CGRectMake(45, _commetnTableView.bottom + 110, self.bounds.size.width - 45 - 80, 40)];
-    [self addSubview:_spectatorsView];
+    if (!_reportButton) {
+        UIButton *reportBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [reportBtn setFrame:CGRectMake(DeviceSizeBounds.size.width - 115, 10, 40, 30)];
+        [reportBtn setTitle:@"举报" forState:UIControlStateNormal];
+        reportBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        [reportBtn addTarget:self action:@selector(liveBroadcastWillBeReport) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:reportBtn];
+
+    }
+    return _reportButton;
 }
 
+- (UILabel *)playStateLab
+{
+    if (!_playState) {
+        _playStateLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 75, 20)];
+        _playStateLab.text = @"直播连线中...";
+        _playStateLab.textColor = [UIColor whiteColor];
+        _playStateLab.font = [UIFont systemFontOfSize:12.0];
+        _playStateLab.backgroundColor = [UIColor clearColor];
+
+    }
+    return _playStateLab;
+}
+
+- (UILabel *)curentTimeLab
+{
+    if (!_curentTimeLab) {
+        _curentTimeLab = [[UILabel alloc] initWithFrame:CGRectZero];
+        _curentTimeLab.textColor = [UIColor whiteColor];
+        _curentTimeLab.font = [UIFont systemFontOfSize:12.0];
+        _curentTimeLab.backgroundColor = [UIColor clearColor];
+
+    }
+    return _curentTimeLab;
+}
+
+- (UIButton *)headButton
+{
+    if (!_headButton) {
+        _headButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_headButton setFrame:CGRectMake(15, 15, 35, 35)];
+        //    [_headBtn setTitle:@"头像" forState:UIControlStateNormal];
+        _headButton.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        [_headButton addTarget:self action:@selector(headEvent:) forControlEvents:UIControlEventTouchUpInside];
+        _headButton.hidden = YES;
+
+    }
+    return _headButton;
+}
+
+- (UIImageView *)headImageView
+{
+    if (!_headImageView) {
+        _headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 35, 35)];
+        _headImageView.backgroundColor = [UIColor cyanColor];
+        _headImageView.layer.cornerRadius = 17.5;
+        _headImageView.layer.masksToBounds = YES;
+        _headImageView.userInteractionEnabled = YES;
+        _headImageView.hidden = YES;
+
+    }
+    return _headImageView;
+}
+
+- (KSYAlertView *)alertView
+{
+    if (!_alertView) {
+        _alertView = [[KSYAlertView alloc] initWithFrame:CGRectMake(70, 150 ,DeviceSizeBounds.size.width - 140, 430)];
+        _alertView.backgroundColor = [UIColor blackColor];
+        _alertView.alpha = 0.8;
+        _alertView.hidden = YES;
+    }
+    return _alertView;
+}
 
 - (void)addNewCommentWith:(id)object
 {
-    CommentModel *model = object;
-    [_commetnTableView newUserAdd:model];
     
-    if (_isAdd == NO) {
-        _userNumLab = [[UILabel alloc] initWithFrame:CGRectMake(13, _commetnTableView.bottom + 115, 30, 30)];
-        _userNumLab.backgroundColor = [UIColor clearColor];
-        _userNumLab.text = @"200";
-        _userNumLab.font = [UIFont systemFontOfSize:12];
-        _userNumLab.textColor = [UIColor whiteColor];
-        [self addSubview:_userNumLab];
-        _isAdd = YES;
-    }
-
+    [self.interactiveView addNewCommentWith:object];
 
 }
 #pragma mark- KSYMediaPlayerDelegate
@@ -160,10 +191,10 @@
 - (void)mediaPlayerStateChanged:(KSYPlayerState)PlayerState
 {
     if (PlayerState == KSYPlayerStatePlaying) {
-        _headBtn.hidden = NO;
-        _playStateLab.frame = CGRectMake(_headBtn.right + 5, 15, 75, 20);
+        _headButton.hidden = NO;
+        _playStateLab.frame = CGRectMake(_headButton.right + 5, 15, 75, 20);
         _playStateLab.text = @"直播中";
-        _curentTimeLab.frame = CGRectMake(_headBtn.right  +5, _playStateLab.bottom, 70, 20);
+        _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom, 70, 20);
         NSInteger position = (NSInteger)[KSYPlayer sharedKSYPlayer].currentPlaybackTime;
         int iMin  = (int)(position / 60);
         int iSec  = (int)(position % 60);
@@ -174,12 +205,10 @@
 
 #pragma mark- buttonEvent
 
-- (void)praiseEvent
-{
-    [self onPraiseWithSpectatorsInteractiveType:SpectatorsInteractivePraise];
-}
 - (void)liveBroadcastWillClose
 {
+    
+    [self.interactiveView messageToolBarInputResignFirstResponder];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[KSYPlayer sharedKSYPlayer] shutdown];
     if (self.liveBroadcastCloseBlock) {
@@ -200,42 +229,54 @@
 
 }
 
-#pragma 点赞
 - (void)onPraiseWithSpectatorsInteractiveType:(SpectatorsInteractiveType)type
 {
-    UIImageView* flakeView = [[UIImageView alloc] init];
-    if (type == SpectatorsInteractivePresent) {
-        flakeView.backgroundColor = [UIColor orangeColor];
-    }else {
-        flakeView.backgroundColor = [UIColor purpleColor];
+    [self.interactiveView onPraiseWithSpectatorsInteractiveType:type];
+}
 
+#pragma aletView
+
+- (void)setInfoViewFrame:(BOOL)isDown{
+    if(isDown == NO)
+    {
+        [UIView animateWithDuration:0.1
+                              delay:0.0
+                            options:0
+                         animations:^{
+                             [self.alertView setFrame:CGRectMake(100, 0+60, 320, 90)];
+                         }
+                         completion:^(BOOL finished) {
+                             [UIView animateWithDuration:0.1
+                                                   delay:0.0
+                                                 options:UIViewAnimationCurveEaseIn
+                                              animations:^{
+//                                                  [self.alertView setFrame:CGRectMake(0, SCREENHEIGHT, 320, 90)];
+                                              }
+                                              completion:^(BOOL finished) {
+                                              }];
+                         }];
+        
+    }else
+    {
+        [UIView animateWithDuration:0.3
+                              delay:0.0
+                            options:0
+                         animations:^{
+                             [self.alertView setFrame:CGRectMake(70, 250, 0, 0)];
+                         }
+                         completion:^(BOOL finished) {
+                             [UIView animateWithDuration:0.1
+                                                   delay:0.0
+                                                 options:UIViewAnimationCurveEaseInOut
+                                              animations:^{
+                                                  self.alertView.hidden = NO;
+                                                  [self.alertView setFrame:CGRectMake(70, 150 ,DeviceSizeBounds.size.width - 140, 430)];
+                                              }
+                                              completion:^(BOOL finished) {
+                                              }];
+                         }];
     }
-    int startX = round(random() % 100);
-//    int endX = round(random() % 100);
-    double scale = 1 / round(random() % 700) + 1.0;
-    double speed = 1 / round(random() % 900) + 1.0;
-    
-    flakeView.frame = CGRectMake(_spectatorsView.right + 24, _spectatorsView.top+4, 30, 30);
-
-    flakeView.alpha = 1;
-    
-    [self addSubview:flakeView];
-    
-    [UIView beginAnimations:nil context:(__bridge void * _Nullable)(flakeView)];
-    [UIView setAnimationDuration:5 * speed];
-    flakeView.frame = CGRectMake(startX+300, 100, 25.0 * scale, 25.0 * scale);
-
-    [UIView setAnimationDidStopSelector:@selector(onAnimationComplete:finished:context:)];
-    [UIView setAnimationDelegate:self];
-    [UIView commitAnimations];
-    
 }
-- (void)onAnimationComplete:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
-    
-    UIImageView *flakeView = (__bridge UIImageView *)(context);
-    [flakeView removeFromSuperview];
-    
-    
-}
+
 
 @end

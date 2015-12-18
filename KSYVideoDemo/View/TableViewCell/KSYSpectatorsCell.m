@@ -35,6 +35,7 @@
     {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         _headImageViwe = [[UIImageView alloc] init];
+        _headImageViwe.userInteractionEnabled = YES;
         _headImageViwe.layer.cornerRadius = 17.5;
         _headImageViwe.layer.masksToBounds = YES;
         
@@ -52,7 +53,7 @@
 
 - (void)setSpectatorModel:(id)spectatorModel
 {
-    SpectatorModel *model = spectatorModel;
+//    SpectatorModel *model = spectatorModel;
     CGFloat hue = ( arc4random() % 256 / 256.0 );
     CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;
     CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;

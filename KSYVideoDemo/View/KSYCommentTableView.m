@@ -27,14 +27,37 @@
             [_colorArr addObject:@""];
         }
         self.backgroundColor = [UIColor clearColor];
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 200, self.frame.size.width, 300)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.separatorColor = [UIColor clearColor];
+        _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.scrollEnabled = NO;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+
+        [self addSubview:_tableView];
+    }
+    return self;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _colorArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i = 0; i < 7; i++) {
+            [_colorArr addObject:@""];
+        }
+        self.backgroundColor = [UIColor clearColor];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, self.frame.size.width, self.frame.size.height)];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.separatorColor = [UIColor clearColor];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-
+        
         [self addSubview:_tableView];
     }
     return self;

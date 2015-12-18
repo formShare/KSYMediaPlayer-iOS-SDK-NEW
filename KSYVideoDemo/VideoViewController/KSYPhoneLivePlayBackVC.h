@@ -11,4 +11,6 @@
 
 @interface KSYPhoneLivePlayBackVC : KSYBaseViewController
 
+@property (nonatomic, copy)NSString  *videoUrlString;
+
 @end

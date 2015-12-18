@@ -10,6 +10,6 @@
 
 @interface KSYCommentViewList : UIView
 
-- (void)newUserAdd:(id)object;
+//- (void)newUserAdd:(id)object;
 
 @end

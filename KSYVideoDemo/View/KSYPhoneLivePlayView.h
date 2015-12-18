@@ -4,22 +4,15 @@
 //
 //  Created by 崔崔 on 15/12/7.
 //  Copyright © 2015年 kingsoft. All rights reserved.
-//
+//  手机直播视图
 
 #import <UIKit/UIKit.h>
 #import "KSYPlayer.h"
+#import "KSYInteractiveView.h"
 
-typedef enum : NSUInteger {
-    KSYPhoneLivePlay,       //手机直播播放
-    KSYPhoneLivePlayBlock,  //手机直播回放
-} KSYPhoneLivePlayState;
 
-typedef enum : NSUInteger {
-    SpectatorsInteractivePraise = 0,    //点赞
-    SpectatorsInteractivePresent = 1,   //礼物
-} SpectatorsInteractiveType;            //用户互动类型
 
-@interface KSYPhoneLivePlayView : UIView<KSYMediaPlayerDelegate>
+@interface KSYPhoneLivePlayView : UIView
 
 //启动
 - (BOOL)start;

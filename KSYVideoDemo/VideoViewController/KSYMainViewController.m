@@ -152,7 +152,14 @@
             if (indexPath.row == 0) {
                 KSYPhoneLivePlayVC *phoneLivePlayerVC = [KSYPhoneLivePlayVC new];
                 phoneLivePlayerVC.videoUrlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+//                phoneLivePlayerVC.videoUrlString = @"rtmp://test.live.ksyun.com/live/68D478.264";
+
                 [self.navigationController presentViewController:phoneLivePlayerVC animated:YES completion:nil];
+            }else{
+                KSYPhoneLivePlayBackVC *phoneLivePlayBackVC = [KSYPhoneLivePlayBackVC new];
+                phoneLivePlayBackVC.videoUrlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+                [self.navigationController presentViewController:phoneLivePlayBackVC animated:YES completion:nil];
+
             }
         }
             break;
@@ -174,6 +181,8 @@
         default:
             break;
     }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
 }
 

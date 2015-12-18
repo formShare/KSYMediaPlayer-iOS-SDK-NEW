@@ -35,7 +35,7 @@
     if (self) {
         
         self.backgroundColor = [UIColor clearColor];
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         _backGroundView = [[UIView alloc] init];
         [self.contentView addSubview:_backGroundView];
         

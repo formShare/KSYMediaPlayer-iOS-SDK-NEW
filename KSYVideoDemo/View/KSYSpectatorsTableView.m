@@ -41,6 +41,29 @@
     return self;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        _spectatorsArr = [[NSMutableArray alloc] initWithCapacity:0];
+        self.backgroundColor = [UIColor clearColor];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 40, self.frame.size.width)];
+        _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.separatorColor = [UIColor clearColor];
+        _tableView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+        _tableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
+        _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        
+        [self addSubview:_tableView];
+        
+    }
+    return self;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 40;
@@ -59,8 +82,17 @@
         cell = [[KSYSpectatorsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
     }
     cell.backgroundColor = [UIColor clearColor];
-    cell.contentView.transform = CGAffineTransformMakeRotation(M_PI / 2);
+//    cell.contentView.transform = CGAffineTransformMakeRotation(M_PI / 2);
     cell.spectatorModel = @"";
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.specTatorsInfoBlock) {
+//        self.specTatorsInfoBlock(self.spectatorsArr[indexPath.row]);
+        self.specTatorsInfoBlock(@"");
+
+    }
 }
 @end
