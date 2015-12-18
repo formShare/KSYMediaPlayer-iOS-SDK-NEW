@@ -15,6 +15,11 @@
 
 #define kk_KSYM_KEY_STREAMS       @"streams"
 
+// low latency play mode
+#define LOW_LATENCY_NO                     0
+#define LOW_LATENCY_DROP_AUDIO             1    //延迟模式，丢audio
+#define LOW_LATENCY_DROP_AUDIO_VIDEO       2    //延迟模式， 不使用延时模式，2使用AV都丢弃
+
 typedef NS_ENUM(NSInteger, KSYPlayerState)
 {
     KSYPlayerStateError,          //< Player has generated an error
@@ -90,22 +95,25 @@ extern NSString *const KSYMediaPlayerWithError;
 /**
  *  初始化播放器
  *
- *  @param mUrl          视屏url
- *  @param options       
- *  @param isAllow       是否允许日志上传
- *  @param appIdentifier 应用唯一标识，由用户自定义(isAllow = NO，可为空，否则不可空)
+ *  @param url          视屏url
  *
  *  @return 播放器对象
  */
-- (void)startWithMURL:(NSURL *)mUrl
-       withOptions:(KSYFFOptions *)options
-          allowLog:(BOOL)isAllow
-     appIdentifier:(NSString *)appIdentifier;
+- (instancetype)initWithURL:(NSURL *)URL;
+#pragma mark- 用户自定义打点数据
 
-//单例，全局唯一播放器实例
-+ (KSYPlayer *)sharedKSYPlayer;
+- (void)insertOneRecordWithBegainParam:(NSDictionary *)paramDic field:(NSString *)field;
+- (void)insertOneRecordWithEndParam:(NSDictionary *)paramDic field:(NSString *)field;
+- (void)insertOneRecordWithStatusParam:(NSDictionary *)paramDic field:(NSString *)field;
+
+#pragma mark ---mark PlayerControl
+
+// 指定最多下载的片数
+- (void)playerSetRetryCount:(int)retryCount;
+// hls协议一直重试下载下一个片
+- (void)playerSetRetryAlways;
 //启用低延时模式,如果要启用低延时模式，要在play方法之前调用。一般直播时启用，点播不启用。
-- (void)playerSetUseLowLatencyWithBenable:(int)benable maxMs:(int)maxMs minMs:(int)minMs;
+- (void)playerSetUseLowLatencyWithBenable:(int)mode maxMs:(int)maxMs minMs:(int)minMs;
 //启动播放器
 - (void)play;
 //暂停播放器
@@ -141,7 +149,7 @@ extern NSString *const KSYMediaPlayerWithError;
 /**
  *  设置速率快放倍数
  *
- *  @param value 
+ *  @param value
  */
 - (void)setRate:(float)value;
 
@@ -159,14 +167,23 @@ extern NSString *const KSYMediaPlayerWithError;
 - (void)setRelativeFullURLWithSecretKey:(NSString *)secretKey
                        drmRelativeModel:(DrmRelativeModel *)drmRelativeModel;
 
+/**
+ *  开启日志采集 (，播放器初始化之后立即调用，如果不需采集日志可不调用)
+ *
+ *  @param frequency          日志采集的频率，单位秒，如果传0，默认是3600s
+ *  @param appIdentifier      应用唯一标识，由用户自定义,不可空
+ *
+ *  @return 是否开启成功
+ */
+- (BOOL)unsealLogGatherWithFrequency:(NSTimeInterval)frequency appIdentifier:(NSString *)appIdentifier;
 
 #pragma mark- 用户自定义打点数据
 /*
-    不采集日志可以忽略
+ 不采集日志可以忽略
  */
-- (void)insertOneRecordWithBegainParam:(NSDictionary *)paramDic field:(NSString *)field;
-- (void)insertOneRecordWithEndParam:(NSDictionary *)paramDic field:(NSString *)field;
-- (void)insertOneRecordWithStatusParam:(NSDictionary *)paramDic field:(NSString *)field;
+//- (void)insertOneRecordWithBegainParam:(NSDictionary *)paramDic field:(NSString *)field;
+//- (void)insertOneRecordWithEndParam:(NSDictionary *)paramDic field:(NSString *)field;
+//- (void)insertOneRecordWithStatusParam:(NSDictionary *)paramDic field:(NSString *)field;
 
 @end
 
@@ -191,5 +208,6 @@ extern NSString *const KSYMediaPlayerWithError;
 - (void)retiveDrmKey:(NSString *)drmVersion player:(KSYPlayer *)player;
 //buffer的时长
 - (void)mediaPlayerBufferingPosition:(NSInteger)position;
+
 @end
 

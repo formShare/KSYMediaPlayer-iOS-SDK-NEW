@@ -62,33 +62,6 @@
     return self;
 }
 
-//- (instancetype)init
-//{
-//    self = [super init];
-//    if (self) {
-//        _testNum = 200;
-//        self.backgroundColor = [UIColor clearColor];
-//        
-//        if (_gestureRecongizer == nil) {
-//            _gestureRecongizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(messageToolBarInputResignFirstResponder)];
-//            _gestureRecongizer.delegate = self;
-//        }
-//        [self addGestureRecognizer:_gestureRecongizer];
-//        [self addSubview:self.spectatorsTableViews];
-//        [self addSubview:self.commetnTableView];
-//        [self addSubview:self.praiseBtn];
-//        [self addSubview:self.userNumLab];
-////        if (state == KSYPhoneLivePlay) {
-////            [self addSubview:self.messageToolBar];
-////            
-////        }else {
-////            [self addSubview:self.progressToolBar];
-////        }
-//
-//    }
-//    return self;
-//}
-
 - (KSYCommentTableView *)commetnTableView
 {
     if (!_commetnTableView) {

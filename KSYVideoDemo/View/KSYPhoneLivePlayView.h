@@ -9,18 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "KSYPlayer.h"
 #import "KSYInteractiveView.h"
+#import "KSYBasePlayView.h"
 
 
+@interface KSYPhoneLivePlayView : KSYBasePlayView
 
-@interface KSYPhoneLivePlayView : UIView
-
-//启动
-- (BOOL)start;
-
-//视频url
-@property (nonatomic, copy) NSString *urlString;
-//播放类型
-@property (nonatomic, assign) KSYPhoneLivePlayState playState;
+- (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPhoneLivePlayState)playState;
 //关闭时间block
 @property (nonatomic, copy) void (^liveBroadcastCloseBlock)();
 //举报事件block

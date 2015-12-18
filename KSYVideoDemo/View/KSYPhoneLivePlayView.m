@@ -30,49 +30,33 @@
 @property (nonatomic, strong)UIButton           *headButton;
 @property (nonatomic, strong)UIImageView        *headImageView;
 @property (nonatomic, strong)KSYAlertView        *alertView;
+//播放类型
+@property (nonatomic, assign) KSYPhoneLivePlayState playState;
 
 @end
 
 
 @implementation KSYPhoneLivePlayView
 
-
-- (BOOL)start
+- (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPhoneLivePlayState)playState
 {
+    self = [super initWithFrame:frame urlString:urlString];
+    if (self) {
+        
+        self.playState = playState;
+        [self addSubview:self.closeButton];
+        [self addSubview:self.reportButton];
+        [self addSubview:self.playStateLab];
+        [self addSubview:self.curentTimeLab];
+        [self addSubview:self.headButton];
+        [self addSubview:self.headImageView];
+        [self addSubview:self.interactiveView];
+        [self addSubview:self.alertView];
+        
+        [self bringSubviewToFront:self.closeButton];
 
-    if (self.urlString ==nil) {
-        NSLog(@"url can't be nil");
-        return NO;
     }
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
-    KSYPlayer *player = [KSYPlayer sharedKSYPlayer];
-    [player startWithMURL:[NSURL URLWithString:self.urlString] withOptions:nil allowLog:NO appIdentifier:@"ksy"];
-    player.shouldAutoplay = YES;
-    [player prepareToPlay];
-    player.delegate = self;
-    [self addSubview:player.videoView];
-    player.videoView.frame = DeviceSizeBounds;
-    player.videoView.backgroundColor = [UIColor blackColor];
-    
-    
-    //开启低延时模式
-    [player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
-    
-    [player setScalingMode:MPMovieScalingModeAspectFit];
-
-
-    [self addSubview:self.closeButton];
-    [self addSubview:self.reportButton];
-    [self addSubview:self.playStateLab];
-    [self addSubview:self.curentTimeLab];
-    [self addSubview:self.headButton];
-    [self addSubview:self.headImageView];
-    [self addSubview:self.interactiveView];
-    [self addSubview:self.alertView];
-
-    [self bringSubviewToFront:self.closeButton];
-    return YES;
+    return self;
 }
 
 - (KSYInteractiveView *)interactiveView
@@ -81,9 +65,7 @@
     if (!_interactiveView) {
         _interactiveView = [[KSYInteractiveView alloc] initWithFrame:CGRectMake(0, 270, self.frame.size.width, self.frame.size.height - 270) playState:self.playState];
         _interactiveView.alertViewBlock = ^(id obj){
-//            [weakSelf.alertView show];
             [weakSelf setInfoViewFrame:YES];
-//            [weakSelf shakeToShow:weakSelf.alertView];
         };
     }
     return _interactiveView;
@@ -190,17 +172,18 @@
 
 - (void)mediaPlayerStateChanged:(KSYPlayerState)PlayerState
 {
-    if (PlayerState == KSYPlayerStatePlaying) {
-        _headButton.hidden = NO;
-        _playStateLab.frame = CGRectMake(_headButton.right + 5, 15, 75, 20);
-        _playStateLab.text = @"直播中";
-        _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom, 70, 20);
-        NSInteger position = (NSInteger)[KSYPlayer sharedKSYPlayer].currentPlaybackTime;
-        int iMin  = (int)(position / 60);
-        int iSec  = (int)(position % 60);
-        _curentTimeLab.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
-        _headImageView.hidden = NO;
-    }
+    
+//    if (PlayerState == KSYPlayerStatePlaying) {
+//        _headButton.hidden = NO;
+//        _playStateLab.frame = CGRectMake(_headButton.right + 5, 15, 75, 20);
+//        _playStateLab.text = @"直播中";
+//        _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom, 70, 20);
+//        NSInteger position = (NSInteger)[KSYPlayer sharedKSYPlayer].currentPlaybackTime;
+//        int iMin  = (int)(position / 60);
+//        int iSec  = (int)(position % 60);
+//        _curentTimeLab.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
+//        _headImageView.hidden = NO;
+//    }
 }
 
 #pragma mark- buttonEvent
@@ -210,7 +193,7 @@
     
     [self.interactiveView messageToolBarInputResignFirstResponder];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    [[KSYPlayer sharedKSYPlayer] shutdown];
+//    [[KSYPlayer sharedKSYPlayer] shutdown];
     if (self.liveBroadcastCloseBlock) {
         self.liveBroadcastCloseBlock();
     }

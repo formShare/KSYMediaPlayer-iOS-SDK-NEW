@@ -125,30 +125,30 @@
 
 //直播需要要开启低延时模式
 - (void)initPlayerWithLowTimelagType:(BOOL)isLowTimeType {
-    _player = [KSYPlayer sharedKSYPlayer];
-    [_player startWithMURL:_videoUrl withOptions:nil allowLog:NO appIdentifier:@"ksy"];
-    _player.shouldAutoplay = YES;
-    [_player prepareToPlay];
-    [self.view addSubview:_player.videoView];
-    _player.videoView.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
-    _player.videoView.backgroundColor = [UIColor blackColor];
-    
-    _mediaControlViewController = [[MediaControlViewController alloc] init];
-    _mediaControlViewController.delegate = self;
-    [self.view addSubview:_mediaControlViewController.view];
-    [_player setScalingMode:MPMovieScalingModeAspectFit];
-    
-    if (isLowTimeType) {
-        [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
-        
-    }
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-    [self registerApplicationObservers];
+//    _player = [KSYPlayer sharedKSYPlayer];
+//    [_player startWithMURL:_videoUrl withOptions:nil allowLog:NO appIdentifier:@"ksy"];
+//    _player.shouldAutoplay = YES;
+//    [_player prepareToPlay];
+//    [self.view addSubview:_player.videoView];
+//    _player.videoView.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
+//    _player.videoView.backgroundColor = [UIColor blackColor];
+//    
+//    _mediaControlViewController = [[MediaControlViewController alloc] init];
+//    _mediaControlViewController.delegate = self;
+//    [self.view addSubview:_mediaControlViewController.view];
+//    [_player setScalingMode:MPMovieScalingModeAspectFit];
+//    
+//    if (isLowTimeType) {
+//        [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
+//        
+//    }
+//    
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(orientationChanged:)
+//                                                 name:UIDeviceOrientationDidChangeNotification
+//                                               object:nil];
+//    [self registerApplicationObservers];
 }
 
 - (void)clickNativeBtn:(id)sender
@@ -264,32 +264,32 @@
 - (void)applicationDidBecomeActive
 {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (_isRtmp) {
-            _player = [KSYPlayer sharedKSYPlayer];
-            [_player startWithMURL:_videoUrl withOptions:nil allowLog:NO appIdentifier:@"ksy"];
-            _player.shouldAutoplay = YES;
-            [_player prepareToPlay];
-            
-            _player.videoView.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
-            _player.videoView.backgroundColor = [UIColor blackColor];
-            [self.view addSubview:_player.videoView];
-            
-            //            _mediaControlViewController = [[MediaControlViewController alloc] init];
-            //            _mediaControlViewController.delegate = self;
-            [self.view addSubview:_mediaControlViewController.view];
-            [_player setScalingMode:MPMovieScalingModeAspectFit];
-            
-            [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
-            
-        }else {
-            if (![_player isPlaying]) {
-                [self play];
-            }
-            
-        }
-        
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if (_isRtmp) {
+//            _player = [KSYPlayer sharedKSYPlayer];
+//            [_player startWithMURL:_videoUrl withOptions:nil allowLog:NO appIdentifier:@"ksy"];
+//            _player.shouldAutoplay = YES;
+//            [_player prepareToPlay];
+//            
+//            _player.videoView.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
+//            _player.videoView.backgroundColor = [UIColor blackColor];
+//            [self.view addSubview:_player.videoView];
+//            
+//            //            _mediaControlViewController = [[MediaControlViewController alloc] init];
+//            //            _mediaControlViewController.delegate = self;
+//            [self.view addSubview:_mediaControlViewController.view];
+//            [_player setScalingMode:MPMovieScalingModeAspectFit];
+//            
+//            [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
+//            
+//        }else {
+//            if (![_player isPlaying]) {
+//                [self play];
+//            }
+//            
+//        }
+//        
+//    });
 }
 
 - (void)applicationWillResignActive
