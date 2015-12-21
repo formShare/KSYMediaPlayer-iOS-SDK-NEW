@@ -15,11 +15,12 @@
 @interface KSYPhoneLivePlayView : KSYBasePlayView
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPhoneLivePlayState)playState;
-//关闭时间block
+//关闭事件block
 @property (nonatomic, copy) void (^liveBroadcastCloseBlock)();
 //举报事件block
 @property (nonatomic, copy) void (^liveBroadcastReporteBlock)();
-
+//分享事件block
+@property (nonatomic, copy) void (^shareBlock)();
 
 - (void)addNewCommentWith:(id)model;
 //点赞

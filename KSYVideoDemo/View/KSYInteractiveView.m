@@ -97,8 +97,21 @@
 - (KSYMessageToolBar *)messageToolBar
 {
     if (!_messageToolBar) {
+        WeakSelf(KSYInteractiveView);
         _messageToolBar = [[KSYMessageToolBar alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 50, self.bounds.size.width, 40)];
         _messageToolBar.delegate = self;
+        _messageToolBar.userEventBlock = ^(NSInteger index){
+            if (index == 1) {
+               weakSelf.commetnTableView.hidden = YES;
+            }else if(index == 0){
+                weakSelf.commetnTableView.hidden = NO;
+
+            }else if (index == 2){
+                if (weakSelf.shareEventBlock) {
+                    weakSelf.shareEventBlock();
+                }
+            }
+        };
 
     }
     return _messageToolBar;

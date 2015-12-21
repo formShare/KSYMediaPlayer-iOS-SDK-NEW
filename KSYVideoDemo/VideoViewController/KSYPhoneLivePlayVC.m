@@ -44,6 +44,10 @@
     _phoneLivePlayVC.liveBroadcastReporteBlock = ^{
         NSLog(@"举报");
     };
+    _phoneLivePlayVC.shareBlock = ^{
+        NSLog(@"分享");
+    };
+
     [self.view addSubview:_phoneLivePlayVC];
     
 }

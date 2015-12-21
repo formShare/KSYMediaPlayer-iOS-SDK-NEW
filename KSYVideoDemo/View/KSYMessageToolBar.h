@@ -19,6 +19,7 @@
  */
 @property (strong, nonatomic) UITextField *inputTexField;
 
+@property (strong ,nonatomic) void (^userEventBlock)(NSInteger index);
 @end
 
 @protocol KSYMessageToolBarDelegate <NSObject>

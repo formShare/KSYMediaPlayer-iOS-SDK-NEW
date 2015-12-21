@@ -38,11 +38,13 @@
     _praiseTimer1 = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(presentEvent) userInfo:nil repeats:YES];
     
     _phoneLivePlayVC = [[KSYPhoneLivePlayView alloc] initWithFrame:self.view.bounds urlString:self.videoUrlString playState:KSYPhoneLivePlayBack];
-//    [_phoneLivePlayVC start];
     _phoneLivePlayVC.liveBroadcastCloseBlock = ^{
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"确定退出观看？" delegate:weakSelf cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alertView show];
+    };
+    _phoneLivePlayVC.shareBlock = ^{
+        NSLog(@"分享");
     };
     _phoneLivePlayVC.liveBroadcastReporteBlock = ^{
         NSLog(@"举报");

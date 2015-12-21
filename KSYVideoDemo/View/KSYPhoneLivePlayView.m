@@ -67,6 +67,11 @@
         _interactiveView.alertViewBlock = ^(id obj){
             [weakSelf setInfoViewFrame:YES];
         };
+        _interactiveView.shareEventBlock = ^{
+            if (weakSelf.shareBlock) {
+                weakSelf.shareBlock();
+            }
+        };
     }
     return _interactiveView;
 }
@@ -193,7 +198,6 @@
     
     [self.interactiveView messageToolBarInputResignFirstResponder];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-//    [[KSYPlayer sharedKSYPlayer] shutdown];
     if (self.liveBroadcastCloseBlock) {
         self.liveBroadcastCloseBlock();
     }

@@ -80,12 +80,14 @@
     //控制评论
     _controCommentBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 30, 30)];
     _controCommentBtn.backgroundColor = [UIColor yellowColor];
+    _controCommentBtn.tag = 231;
     _controCommentBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [_controCommentBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     //分享
     _shareBtn = [[UIButton alloc] init];
     _shareBtn.backgroundColor = [UIColor blueColor];
+    _shareBtn.tag = 232;
     _shareBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
     [_shareBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -111,7 +113,26 @@
 #pragma mark- buttonAction
 - (void)buttonAction:(UIButton *)button
 {
-    [self.inputTexField resignFirstResponder];
+    if (button.tag == 231) {
+        if (!button.selected) {
+            if (self.userEventBlock) {
+                self.userEventBlock(button.tag - 230);
+            }
+
+        }else {
+            if (self.userEventBlock) {
+                self.userEventBlock(button.tag - 231);
+            }
+
+        }
+        button.selected = !button.selected;
+
+    }else {
+        if (self.userEventBlock) {
+            self.userEventBlock(button.tag - 230);
+        }
+
+    }
 }
 #pragma mark - change frame
 
