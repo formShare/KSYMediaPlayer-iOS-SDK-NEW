@@ -17,7 +17,7 @@
 #import "DrmRelativeModel.h"
 #import <sys/sysctl.h>
 #import <mach/mach.h>
-//#import "KSBarrageView.h"
+#import "KSBarrageView.h"
 
 @interface MediaControlViewController (){
     
@@ -33,7 +33,7 @@
     CGFloat _minMem, _maxMem;
     NSTimer *_timer;
     BOOL     _isEnd;
-//    KSBarrageView *_barrageView;
+    KSBarrageView *_barrageView;
     BOOL fullScreenModeToggled;
 }
 @property (nonatomic, assign) BOOL isOpened;
@@ -87,10 +87,9 @@
     //    [themeManager changeTheme:@"orange"];
     //    [themeManager changeTheme:@"pink"];
     [themeManager changeTheme:@"red"];
-    
 
-//    CGRect mediaControlRect = CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2);
-//    mediaControlView = [[MediaControlView alloc] initWithFrame:mediaControlRect];
+    CGRect mediaControlRect = CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2);
+    mediaControlView = [[MediaControlView alloc] initWithFrame:mediaControlRect];
     self.view = mediaControlView;
     mediaControlView.controller = self;
     
@@ -110,26 +109,7 @@
         [playBtn setImage:pauseImg_n forState:UIControlStateNormal];
         [playBtn setImage:pauseImg_h forState:UIControlStateNormal];
     }
-    
-    //    [self clickFullBtn:nil];
-    
-    // **** 水印
-    //    NSString *strFileName = [[[(VideoViewController *)_delegate videoUrl] absoluteString] lastPathComponent];
-    //    if ([strFileName isEqualToString:@"Phone-h265.480p.20Min.300K.mp4"] == YES) {
-    //        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50, 240, 31)];
-    //        UIImage *img = [UIImage imageNamed:@"phone-h265.480p.300kbps.png"];
-    //        imgView.image = img;
-    //        [self.view addSubview:imgView];
-    //    }
-    //    if ([strFileName isEqualToString:@"Pad-h265.720p.20Min.1M.mp4"] == YES) {
-    //        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 175, 240, 31)];
-    //        UIImage *img = [UIImage imageNamed:@"ipad-h265.720p.1Mbps.png"];
-    //        imgView.image = img;
-    //        [self.view addSubview:imgView];
-    //    }
-    
-    // **** timer
-    //    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showSysInfo) userInfo:nil repeats:YES];
+
 }
 
 - (void)showSysInfo {
@@ -216,24 +196,24 @@
 #pragma mark 添加弹幕(就是对自己身体的控制)
 - (void)addDanmu
 {
-//    _barrageView = [[KSBarrageView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height-60)];
-//    [self.view addSubview:_barrageView];
+    _barrageView = [[KSBarrageView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height-60)];
+    [self.view addSubview:_barrageView];
     //设置弹幕内容
     NSDictionary *dict1=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"djsflkjoiwene",@"content", nil];
     NSDictionary *dict2=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
     NSDictionary *dict3=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"大家好啊啊啊啊啊啊啊啊啊啊啊啊啊",@"content", nil];
     NSDictionary *dict4=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
     NSDictionary *dict5=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"2342sdfsjhd束带结发哈斯",@"content", nil];
-//    _barrageView.dataArray=[NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
-//    [_barrageView setDanmuFont:10];
-//    [_barrageView setDanmuAlpha:0.5];
-//    //开始弹幕
-//    [_barrageView start];
+    _barrageView.dataArray=[NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+    [_barrageView setDanmuFont:10];
+    [_barrageView setDanmuAlpha:0.5];
+    //开始弹幕
+    [_barrageView start];
 }
 #pragma mark 关闭弹幕
 - (void)removeDanmu
 {
-//    [_barrageView removeFromSuperview];
+    [_barrageView removeFromSuperview];
 }
 #pragma mark 点击评论按钮
 -(void)clickCommentBtn:(id)sender
@@ -720,7 +700,7 @@
         toolView.alpha = 1.0;
         qualityView.alpha = 1.0;
         scaleView.alpha = 1.0;
-        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
+        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"lock_open_normal"];
         UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
         [lockBtn setImage:lockOpenImg_n forState:UIControlStateNormal];
         [lockBtn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
@@ -946,7 +926,7 @@
     progressSlider.value = position;
     if (_isCompleted == YES) {
         _isCompleted = NO;
-        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"play_normal"];
         [btn setImage:playImg forState:UIControlStateNormal];
     }
     else {
@@ -982,7 +962,7 @@
     UIImage *pauseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
     UIImage *pauseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_hl"];
     UIImage *playImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
-    UIImage *playImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_hl"];
+    UIImage *playImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"play_hl"];
     if (PlayerState == KSYPlayerStatePlaying) {
         [btn setImage:pauseImg_n forState:UIControlStateNormal];
         [btn setImage:pauseImg_h forState:UIControlStateHighlighted];

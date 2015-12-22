@@ -14,7 +14,6 @@
 //  7.设置弹幕透明度 _danmuView setDanmuAlpha
 
 #import "KSBarrageView.h"
-#import "UIView+Sizes.h"
 #import "KSBarrageItemView.h"
 
 #define ITEMTAG 300

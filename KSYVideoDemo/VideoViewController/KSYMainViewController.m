@@ -138,12 +138,15 @@
         case 0:
         {
             if (indexPath.row == 0) {
-                KSYPopilarLivePlayVC *popilarLivePlayVC = [KSYPopilarLivePlayVC new];
-                [self.navigationController pushViewController:popilarLivePlayVC animated:YES];
-
+                KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
+                [self.navigationController pushViewController:view animated:YES];
+                NSString *path=[NSString stringWithFormat:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
+                view.videoUrl=[NSURL URLWithString:path];
             }else {
-                KSYPopilarLivePlayBackVC *popilarLivePlayBackVC = [KSYPopilarLivePlayBackVC new];
-                [self.navigationController pushViewController:popilarLivePlayBackVC animated:YES];
+                KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
+                NSString *path=[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
+                view.videoUrl=[NSURL URLWithString:path];
+                [self.navigationController pushViewController:view animated:YES];
             }
         }
             break;
@@ -165,12 +168,16 @@
             break;
         case 2:
         {
-
+            KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
+            NSString *path=[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
+            view.videoUrl=[NSURL URLWithString:path];
+            [self.navigationController pushViewController:view animated:YES];
         }
             break;
         case 3:
         {
-
+            KSYShortVideoPlayVC *view=[[KSYShortVideoPlayVC alloc]init];
+            [self.navigationController pushViewController:view animated:YES];
         }
             break;
         case 4:

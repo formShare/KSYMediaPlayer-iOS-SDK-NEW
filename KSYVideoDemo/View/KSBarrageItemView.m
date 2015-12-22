@@ -7,7 +7,6 @@
 //
 
 #import "KSBarrageItemView.h"
-#import "UIView+Sizes.h"
 
 @implementation KSBarrageItemView 
 #pragma mark 在这个方法中初始化弹幕的一切状态

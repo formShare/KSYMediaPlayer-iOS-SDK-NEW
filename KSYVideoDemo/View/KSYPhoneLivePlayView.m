@@ -61,7 +61,7 @@
 
 - (KSYInteractiveView *)interactiveView
 {
-    WeakSelf(KSYPhoneLivePlayView);
+    WeakSelf(KSYPhoneLivePlayView);//循环引用的问题
     if (!_interactiveView) {
         _interactiveView = [[KSYInteractiveView alloc] initWithFrame:CGRectMake(0, 270, self.frame.size.width, self.frame.size.height - 270) playState:self.playState];
         _interactiveView.alertViewBlock = ^(id obj){
@@ -199,7 +199,7 @@
     [self.interactiveView messageToolBarInputResignFirstResponder];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     if (self.liveBroadcastCloseBlock) {
-        self.liveBroadcastCloseBlock();
+        self.liveBroadcastCloseBlock();//这是实现方法
     }
     
 }
