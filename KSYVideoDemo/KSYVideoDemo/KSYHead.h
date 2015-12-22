@@ -12,6 +12,9 @@
 #import "UIView+BFExtension.h"
 #import <KSYMediaPlayer/KSYMediaPlayer.h>
 #import "KSYBasePlayView.h"
+#import "ThemeManager.h"
+#import "MediaVoiceView.h"
+
 //屏幕的宽高
 #define THESCREENWIDTH [UIScreen mainScreen].bounds.size.width
 #define THESCREENHEIGHT [UIScreen mainScreen].bounds.size.height

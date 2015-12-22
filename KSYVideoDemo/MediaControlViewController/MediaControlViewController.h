@@ -43,10 +43,34 @@ typedef enum KSYGestureType KSYGestureType;
 - (void)setVideoQuality:(KSYVideoQuality)videoQuality;
 - (void)setVideoScale:(KSYVideoScale)videoScale;
 - (void)setAudioAmplify:(CGFloat)amplify;
-
+- (void)clickFullBtn;
+- (void)refreshControl;
+- (void)progressDidBegin:(id)sender;
+- (void)progressChanged:(id)sender;
+- (void)progressChangeEnd:(id)sender;
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 @end
 
-@interface MediaControlViewController : UIViewController 
+@interface MediaControlViewController : UIViewController
+
+@property (nonatomic, assign) BOOL isOpened;
+@property (nonatomic, assign) BOOL isActive;
+@property (nonatomic, assign) BOOL isCompleted;
+@property (nonatomic, assign) BOOL isLocked;
+@property (nonatomic, assign) CGPoint startPoint;
+@property (nonatomic, assign) CGFloat curPosition;
+@property (nonatomic, strong) UIView *loadingView;
+@property (nonatomic, strong) UIView *errorView;
+@property (nonatomic, strong) UITableView *episodeTableView;
+@property (nonatomic, assign) NSInteger audioAmplify;
+@property (nonatomic, assign) CGFloat curVoice;
+@property (nonatomic, assign) CGFloat curBrightness;
+@property (nonatomic, assign) KSYGestureType gestureType;
+@property (nonatomic, strong) KSYBasePlayView *phoneLivePlayVC;
+
+
 
 @property (nonatomic, weak) id<KSYMediaPlayDelegate> delegate;
 
@@ -69,5 +93,6 @@ typedef enum KSYGestureType KSYGestureType;
 - (void)clickSoundOff:(UITapGestureRecognizer *)tapGesture;
 - (void)showLoading;
 - (void)reSetLoadingViewFrame;
-
+- (void)hideAllControls;
+- (void)showAllControls;
 @end

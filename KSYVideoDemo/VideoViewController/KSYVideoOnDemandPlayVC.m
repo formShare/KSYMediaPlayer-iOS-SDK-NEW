@@ -94,52 +94,40 @@
 
 #pragma mark 初始化低延时模式
 - (void)initPlayerWithLowTimelagType:(BOOL)isLowTimeType {
-    
+    /**
+     url  视频源地址
+     
+     - returns:
+     */
     
 
     
-    _phoneLivePlayVC = [[KSYBasePlayView alloc] initWithFrame:CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2) urlString:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
+    _phoneLivePlayVC = [[KSYBasePlayView alloc] initWithFrame:CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2) urlString:@"http://121.42.58.232:8980/hls_test/1.m3u8"];
     [self.view addSubview:_phoneLivePlayVC];
-//    //实例化播放器 AMZPlayer是在OC层面封装的一个播放起 而MediaPlayer是ffmpeg提供的播放器
-//    _player = [[KSYMoviePlayerController alloc] initWithContentURL:_videoUrl];
-//    //使能自动播放
-//    _player.shouldAutoplay = YES;
-//    //准备播放
-//    [_player prepareToPlay];
-//    //把播放器视图添加到当前界面上
-//    [self.view addSubview:_player.videoView];
-//    //设置播放器播放视图的大小
-//    _player.videoView.frame = CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2);
-//    self.previousBounds=_player.videoView.bounds;
-//    //设置视图背景颜色
-//    _player.videoView.backgroundColor = [UIColor lightGrayColor];
-//    //初始化控制器（这个控制器用来调用AMZPlayer的接口）
-//    _mediaControlViewController = [[MediaControlViewController alloc] init];
-//    _mediaControlViewController.delegate = self;
-//    _mediaControlViewController.view.frame=CGRectMake(0, 0, _player.videoView.width, _player.videoView.height);
-//    [_player.videoView addSubview:_mediaControlViewController.view];
-//    //self.view添加了两个视图：_player.view (播放界面用于KSYMdiaController进行交互)_mediaControllerViewController.view（用于控的改变）
-//    [_player setScalingMode:MPMovieScalingModeAspectFit];
-//    //如果是低延时模式
-//    if (isLowTimeType) {
-//        [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
-//    }
-//    //添加通知设备方向改变通知
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(orientationChanged:)
-//                                                 name:UIDeviceOrientationDidChangeNotification
-//                                               object:nil];
-//    //注册其他通知
-//    [self registerApplicationObservers];
-//    //添加水平滚动视图
-//    //    [self addToptabControl];
+
+    //设置播放器播放视图的大小
+    //初始化控制器（这个控制器用来调用AMZPlayer的接口）
+    _mediaControlViewController = [[MediaControlViewController alloc] init];
+    _mediaControlViewController.delegate = self;
+    _mediaControlViewController.view.frame=_phoneLivePlayVC.bounds;
+    [_phoneLivePlayVC addSubview:_mediaControlViewController.view];
+    //self.view添加了两个视图：_player.view (播放界面用于KSYMdiaController进行交互)_mediaControllerViewController.view（用于控的改变）
+    [_player setScalingMode:MPMovieScalingModeAspectFit];
+    //添加通知设备方向改变通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+    //注册其他通知
+    [self registerApplicationObservers];
+
     [self addBellowPart];
 }
 #pragma mark 添加下面的内容(就两个字，去做，动手去做)
 - (void)addBellowPart
 {
     CGFloat backgroundViewX=0;
-    CGFloat backgroundViewY=_phoneLivePlayVC.bottom;
+    CGFloat backgroundViewY=_phoneLivePlayVC.bottom+10;
     CGFloat backgroundVieWidth=THESCREENWIDTH;
     CGFloat backgroundViewHeight=_phoneLivePlayVC.width;
     CGRect backgroundViewRect=CGRectMake(backgroundViewX, backgroundViewY, backgroundVieWidth, backgroundViewHeight);
@@ -564,27 +552,38 @@
 #pragma mark - KSYMediaPlayDelegate
 #pragma mark KSYMediaPlayer的代理在ViewController中实现
 - (void)play {
-    [_player play];
+    //在这里进行判断
+    if (_phoneLivePlayVC.player)
+    {
+        [_phoneLivePlayVC.player play];
+    }
 }
 
 - (void)pause {
-    [_player pause];
+    if ([_phoneLivePlayVC.player isPlaying]==YES)
+    {
+         [_phoneLivePlayVC.player pause];
+    }
+   
 }
 
 - (void)stop {
-    [_player stop];
+    if ([_phoneLivePlayVC.player isPlaying]==YES)
+    {
+        [_phoneLivePlayVC.player stop];
+    }
 }
 
 - (BOOL)isPlaying {
-    return [_player isPlaying];
+    return [_phoneLivePlayVC.player isPlaying];
 }
 
 - (void)shutdown {
-    [_phoneLivePlayVC stop];
+    [_phoneLivePlayVC.player stop];
 }
 
 - (void)seekProgress:(CGFloat)position {
-    [_player setCurrentPlaybackTime:position];
+    [_phoneLivePlayVC.player setCurrentPlaybackTime:position];
 }
 
 - (void)setVideoQuality:(KSYVideoQuality)videoQuality {
@@ -627,7 +626,283 @@
 - (void)setCycleplay:(BOOL)isCycleplay {
     
 }
+#pragma mark 点击全屏按钮
+- (void)clickFullBtn{
+    
+    _fullScreenModeToggled=!_fullScreenModeToggled;
+    if (_fullScreenModeToggled) {
+        [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
+        [self launchFullScreen];
+        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
+        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
+        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+    }else{
+        [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
+        [self minimizeVideo];
+        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
+        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+    }
+}
+//手动设置设备方向，这样就能收到转屏事件
+- (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
+{
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
+    {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val = toOrientation;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
+}
+- (void)refreshControl {
+        UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
+        UILabel *endLabel = (UILabel *)[self.view viewWithTag:kProgressMaxLabelTag];
+        UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
+    
+        NSInteger duration =  _phoneLivePlayVC.player.duration;
+        NSLog(@"duration is %@",@(duration));
+    
+        NSInteger position = _phoneLivePlayVC.player.currentPlaybackTime;
+        NSLog(@"position is %@",@(position));
+        int iMin  = (int)(position / 60);
+        int iSec  = (int)(position % 60);
+        startLabel.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
+        if (duration > 0) {
+            int iDuraMin  = (int)(duration / 60);
+            int iDuraSec  = (int)(duration % 3600 % 60);
+            endLabel.text = [NSString stringWithFormat:@"/%02d:%02d", iDuraMin, iDuraSec];
+            progressSlider.value = position;
+            progressSlider.maximumValue = duration;
+        }
+        else {
+            endLabel.text = @"--:--";
+            progressSlider.value = 0.0f;
+            progressSlider.maximumValue = 1.0f;
+        }
+        if ([_phoneLivePlayVC.player isPlaying]==YES) {
+            [self performSelector:@selector(refreshControl) withObject:nil afterDelay:1.0];
+        }
+    
+}
+- (void)progressDidBegin:(id)sender
+{
+    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+    [sender setThumbImage:dotImg forState:UIControlStateNormal];
+    NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
+    if (duration > 0) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
+        if ([_phoneLivePlayVC.player isPlaying] == YES) {
+//            _isActive = NO;
+//            [_phoneLivePlayVC.player pause];
+            UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+            UIButton *btn = (UIButton *)[self.view viewWithTag:kBarPlayBtnTag];
+            [btn setImage:playImg forState:UIControlStateNormal];
+        }
+    }
+}
+- (void)progressChanged:(id)sender {
+    UISlider *slider = (UISlider *)sender;
+//    if (!_phoneLivePlayVC.player.isPlaying) {
+//        progressSlider.value=0.0;
+//        return;
+//    }
+        NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
+        if (duration > 0) {
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
+            UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
+    
+            if ([_phoneLivePlayVC.player isPlaying] == YES) {
+//                _isActive = NO;
+//                [_phoneLivePlayVC.player pause];
+                UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+                UIButton *btn = (UIButton *)[self.view viewWithTag:kBarPlayBtnTag];
+                [btn setImage:playImg forState:UIControlStateNormal];
+            }
+            NSInteger position = slider.value;
+            int iMin  = (int)(position / 60);
+            int iSec  = (int)(position % 60);
+            NSString *strCurTime = [NSString stringWithFormat:@"%02d:%02d/", iMin, iSec];
+            startLabel.text = strCurTime;
+        }
+        else {
+            slider.value = 0.0f;
+//            [self showNotice:@"直播不支持拖拽"];
+        }
+}
+- (void)progressChangeEnd:(id)sender {
+   UISlider *slider = (UISlider *)sender;
+    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+    [slider setThumbImage:dotImg forState:UIControlStateNormal];
+        NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
+        if (duration > 0) {
+            [self seekProgress:slider.value];
+        }
+        else {
+            slider.value = 0.0f;
+            //NSLog(@"###########当前是直播状态无法拖拽进度###########");
+        }
+}
+#pragma mark - Touch event
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//        _mediaControlViewController.isKSYPlayerPling =_phoneLivePlayVC.player.isPlaying;
+        UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
+        _mediaControlViewController.startPoint = [[touches anyObject] locationInView:_mediaControlViewController.view];
+        _mediaControlViewController.curPosition = progressSlider.value;
+        _mediaControlViewController.curBrightness = [[UIScreen mainScreen] brightness];
+        _mediaControlViewController.curVoice = [MPMusicPlayerController applicationMusicPlayer].volume;
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    // **** 锁屏状态下，屏幕禁用
+    if ( _mediaControlViewController.isLocked == YES) {
+        return;
+    }
+    CGPoint curPoint = [[touches anyObject] locationInView: _mediaControlViewController.view];
+    CGFloat deltaX = curPoint.x -  _mediaControlViewController.startPoint.x;
+    CGFloat deltaY = curPoint.y -  _mediaControlViewController.startPoint.y;
+    CGFloat totalWidth =  self.view.frame.size.width;
+    CGFloat totalHeight =  self.view.frame.size.height;
+    if (totalHeight == [[UIScreen mainScreen] bounds].size.height) {
+        totalWidth =  self.view.frame.size.height;
+        totalHeight =  self.view.frame.size.width;
+    }
+        NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
+    //    NSLog(@"durationnnnn is %@",@(duration));
+    
+    if (fabs(deltaX) < fabs(deltaY)) {
+        // **** 亮度
+        if ((curPoint.x < totalWidth / 2) && ( _mediaControlViewController.gestureType == kKSYUnknown ||  _mediaControlViewController.gestureType == kKSYBrightness)) {
+            CGFloat deltaBright = deltaY / totalHeight * 1.0;
+            [[UIScreen mainScreen] setBrightness: _mediaControlViewController.curBrightness - deltaBright];
+            UISlider *brightnessSlider = (UISlider *)[self.view viewWithTag:kBrightnessSliderTag];
+            [brightnessSlider setValue: _mediaControlViewController.curBrightness - deltaBright animated:NO];
+            UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+            [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
+            UIView *brightnessView = [self.view viewWithTag:kBrightnessViewTag];
+            brightnessView.alpha = 1.0;
+             _mediaControlViewController.gestureType = kKSYBrightness;
+        }
+        // **** 声音
+        else if ((curPoint.x > totalWidth / 2) && ( _mediaControlViewController.gestureType == kKSYUnknown ||  _mediaControlViewController.gestureType == kKSYVoice)) {
+            CGFloat deltaVoice = deltaY / totalHeight * 1.0;
+            MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+            CGFloat voiceValue =  _mediaControlViewController.curVoice - deltaVoice;
+            if (voiceValue < 0) {
+                voiceValue = 0;
+            }
+            else if (voiceValue > 1) {
+                voiceValue = 1;
+            }
+            [musicPlayer setVolume:voiceValue];
+            MediaVoiceView *mediaVoiceView = (MediaVoiceView *)[self.view viewWithTag:kMediaVoiceViewTag];
+            [mediaVoiceView setIVoice:voiceValue];
+             _mediaControlViewController.gestureType = kKSYVoice;
+        }
+        return ;
+    }
+        else if (duration > 0 && ( _mediaControlViewController.gestureType == kKSYUnknown ||  _mediaControlViewController.gestureType == kKSYProgress)) {
+    
+            
+            if (fabs(deltaX) > fabs(deltaY)) {
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
+                if ([_phoneLivePlayVC.player isPlaying] == YES) {
+//                    [_mediaControlViewController clickPlayBtn:nil]; // **** 拖拽进度时，暂停播放
+                }
+                _mediaControlViewController.gestureType = kKSYProgress;
+    
+//                [self performSelector:@selector(showORhideProgressView:) withObject:@NO];
+                CGFloat deltaProgress = deltaX / totalWidth * duration;
+                UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
+                UIView *progressView = [self.view viewWithTag:kProgressViewTag];
+                UILabel *progressViewCurLabel = (UILabel *)[self.view viewWithTag:kCurProgressLabelTag];
+                UIImageView *wardImageView = (UIImageView *)[self.view viewWithTag:kWardMarkImgViewTag];
+                UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
+                NSInteger position = _mediaControlViewController.curPosition + deltaProgress;
+                if (position < 0) {
+                    position = 0;
+                }
+                else if (position > duration) {
+                    position = duration;
+                }
+                progressSlider.value = position;
+                int iMin1  = ((int)labs(position) / 60);
+                int iSec1  = ((int)labs(position) % 60);
+                int iMin2  = ((int)fabs(deltaProgress) / 60);
+                int iSec2  = ((int)fabs(deltaProgress) % 60);
+                NSString *strCurTime1 = [NSString stringWithFormat:@"%02d:%02d/", iMin1, iSec1];
+                NSString *strCurTime2 = [NSString stringWithFormat:@"%02d:%02d", iMin2, iSec2];
+                startLabel.text = strCurTime1;
+                if (deltaX > 0) {
+                    strCurTime2 = [@"+" stringByAppendingString:strCurTime2];
+                    UIImage *forwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_forward_normal"];
+                    wardImageView.frame = CGRectMake(progressView.frame.size.width - 30, 15, 20, 20);
+                    wardImageView.image = forwardImg;
+                }
+                else {
+                    strCurTime2 = [@"-" stringByAppendingString:strCurTime2];
+                    UIImage *backwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_backward_normal"];
+                    wardImageView.frame = CGRectMake(10, 15, 20, 20);
+                    wardImageView.image = backwardImg;
+                }
+                progressViewCurLabel.text = strCurTime2;
+                UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+                [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
+            }
+        }
+        else if (duration <= 0 && (_mediaControlViewController.gestureType == kKSYUnknown || _mediaControlViewController.gestureType == kKSYProgress)) {
+//            if (!_isPrepared) {
+//                return;
+//            }
+            NSLog(@"durationnnnn is %@",@(duration));
+    
+//            [self showNotice:@"直播不支持拖拽"];
+        }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (_mediaControlViewController.gestureType == kKSYUnknown) { // **** tap 动作
+        if (_mediaControlViewController.isActive == YES) {
+            [_mediaControlViewController hideAllControls];
+            UITableView *epsTableView=(UITableView *)[self.view viewWithTag:kEpisodeTableViewTag];
+            epsTableView.hidden=YES;
+            UIView *commentView=[self.view viewWithTag:kCommentViewTag];
+            commentView.hidden=YES;
+            UITextField *commentField=(UITextField *)[self.view viewWithTag:kCommentFieldTag];
+            [commentField resignFirstResponder];
+        }
+        else {
+            [_mediaControlViewController showAllControls];
+            UIView *setView=[self.view viewWithTag:kSetViewTag];
+            setView.hidden=YES;
+        }
+    }
+    else if (_mediaControlViewController.gestureType == kKSYProgress) {
+        
+        UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
+        
+        [self seekProgress:progressSlider.value];
+        
+        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+        [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
+    }
+    else if (_mediaControlViewController.gestureType == kKSYBrightness) {
+        UISlider *brightnessSlider = (UISlider *)[self.view viewWithTag:kBrightnessSliderTag];
+        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+        [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
+//        if (_isActive == NO) {
+//            UIView *brightnessView = [self.view viewWithTag:kBrightnessViewTag];
+//            [UIView animateWithDuration:0.3 animations:^{
+//                brightnessView.alpha = 0.0f;
+//            }];
+//        }
+    }
+    _mediaControlViewController.gestureType = kKSYUnknown;
+}
 
 #pragma mark 转到另一个控制器
 -(void)back

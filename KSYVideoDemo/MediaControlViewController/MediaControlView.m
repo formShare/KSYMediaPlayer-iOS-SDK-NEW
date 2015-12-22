@@ -28,7 +28,6 @@
 #import "MediaControlView.h"
 #import "MediaControlDefine.h"
 #import "MediaControlViewController.h"
-#import "ThemeManager.h"
 #import "MediaVoiceView.h"
 #import "KSYBarView.h"
 #import "UIView+BFExtension.h"
@@ -225,7 +224,7 @@
         [fullBtn setImage:fullImg forState:UIControlStateNormal];
         fullBtn.frame = fullBtnRect;
         fullBtn.tag = kFullScreenBtnTag;
-        [fullBtn addTarget:_controller action:@selector(clickFullBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [fullBtn addTarget:_controller action:@selector(clickFullBtn) forControlEvents:UIControlEventTouchUpInside];
         [barView addSubview:fullBtn];
         
         // **** progress view

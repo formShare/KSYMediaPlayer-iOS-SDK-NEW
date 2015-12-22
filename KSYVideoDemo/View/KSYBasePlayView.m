@@ -9,8 +9,6 @@
 #import "KSYBasePlayView.h"
 @interface KSYBasePlayView ()
 
-@property (nonatomic, strong)KSYMoviePlayerController *player;
-@property (nonatomic, strong)NSTimer *timer;
 @end
 
 @implementation KSYBasePlayView
@@ -42,7 +40,7 @@
         
         
         _player.controlStyle = MPMovieControlStyleNone;
-        [_player.view setFrame: frame];  // player's frame must match parent's
+        [_player.view setFrame: self.bounds];  // player's frame must match parent's
         [self addSubview: _player.view];
         self.autoresizesSubviews = TRUE;
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;

@@ -10,6 +10,8 @@
 #import <KSYMediaPlayer/KSYMediaPlayer.h>
 
 @interface KSYBasePlayView : UIView
+@property (nonatomic, strong)KSYMoviePlayerController *player;
+@property (nonatomic, strong)NSTimer *timer;
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString;
 
