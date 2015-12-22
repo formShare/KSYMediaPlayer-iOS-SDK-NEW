@@ -7,7 +7,6 @@
 //
 
 #import "KSYPhoneLivePlayBackVC.h"
-#import "KSYPlayer.h"
 
 #import "KSYPhoneLivePlayView.h"
 #import "CommentModel.h"

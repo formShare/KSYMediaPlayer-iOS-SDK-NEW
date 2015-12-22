@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "VideoViewController.h"
 #import <objc/runtime.h>
 #import "KSYMainViewController.h"
 

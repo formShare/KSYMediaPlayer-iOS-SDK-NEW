@@ -283,7 +283,7 @@
         MediaVoiceView *mediaVoiceView = [[MediaVoiceView alloc] initWithFrame:mediaVoiceRect];
         mediaVoiceView.tag = kMediaVoiceViewTag;
         [mediaVoiceView setFillColor:[[ThemeManager sharedInstance] themeColor]];
-        [mediaVoiceView setIVoice:[MPMusicPlayerController applicationMusicPlayer].volume];
+//        [mediaVoiceView setIVoice:[MPMusicPlayerController applicationMusicPlayer].volume];
         [voiceView addSubview:mediaVoiceView];
         
         CGRect voiceImgViewRect2 = voiceImgViewRect1;//CGRectMake(2, 0, 20, 20);

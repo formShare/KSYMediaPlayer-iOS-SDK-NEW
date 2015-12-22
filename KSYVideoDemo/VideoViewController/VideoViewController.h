@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KSYPlayer.h"
-#import "MediaControlViewController.h"
 
-@interface VideoViewController : UIViewController <KSYMediaPlayDelegate>{
+@interface VideoViewController : UIViewController {
     
     BOOL _pauseInBackground;
 }
@@ -23,7 +21,6 @@
 @property (nonatomic,assign)UIDeviceOrientation beforeOrientation;
 @property (nonatomic,assign)UIDeviceOrientation deviceOrientation;
 
-- (KSYPlayer *)player;
 //- (void)setFullscreen:(BOOL)isFullscreen;
 - (void)launchFullScreen;
 - (void)minimizeVideo;

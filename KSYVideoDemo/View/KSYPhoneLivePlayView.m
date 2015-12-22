@@ -19,7 +19,7 @@
 //  弱引用宏
 #define WeakSelf(VC) __weak VC *weakSelf = self
 
-@interface KSYPhoneLivePlayView ()<KSYMediaPlayerDelegate,UIAlertViewDelegate>
+@interface KSYPhoneLivePlayView ()<UIAlertViewDelegate>
 
 
 @property (nonatomic, strong)KSYInteractiveView *interactiveView;
@@ -173,23 +173,28 @@
     [self.interactiveView addNewCommentWith:object];
 
 }
-#pragma mark- KSYMediaPlayerDelegate
+#pragma mark- KSYMediaPlayerState
 
-- (void)mediaPlayerStateChanged:(KSYPlayerState)PlayerState
+- (void)moviePlayerPlaybackState:(MPMoviePlaybackState)playbackState
 {
-    
-//    if (PlayerState == KSYPlayerStatePlaying) {
-//        _headButton.hidden = NO;
-//        _playStateLab.frame = CGRectMake(_headButton.right + 5, 15, 75, 20);
-//        _playStateLab.text = @"直播中";
-//        _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom, 70, 20);
-//        NSInteger position = (NSInteger)[KSYPlayer sharedKSYPlayer].currentPlaybackTime;
-//        int iMin  = (int)(position / 60);
-//        int iSec  = (int)(position % 60);
-//        _curentTimeLab.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
-//        _headImageView.hidden = NO;
-//    }
+    if (playbackState == MPMoviePlaybackStatePlaying) {
+        _headButton.hidden = NO;
+        _playStateLab.frame = CGRectMake(_headButton.right + 5, 15, 75, 20);
+        _playStateLab.text = @"直播中";
+        _headImageView.hidden = NO;
+    }
 }
+
+- (void)updateCurrentTime
+{
+    _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom+20 , 70, 20);
+    NSInteger position = (NSInteger)self.currentPlaybackTime;
+    int iMin  = (int)(position / 60);
+    int iSec  = (int)(position % 60);
+    _curentTimeLab.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
+
+}
+
 
 #pragma mark- buttonEvent
 
@@ -264,6 +269,5 @@
                          }];
     }
 }
-
 
 @end

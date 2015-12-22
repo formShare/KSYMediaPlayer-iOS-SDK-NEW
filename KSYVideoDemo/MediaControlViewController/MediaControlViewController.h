@@ -29,7 +29,6 @@ typedef enum KSYVideoScale KSYVideoScale;
 typedef enum KSYGestureType KSYGestureType;
 
 #import <UIKit/UIKit.h>
-#import "KSYPlayer.h"
 
 @protocol KSYMediaPlayDelegate <NSObject>
 
@@ -47,7 +46,7 @@ typedef enum KSYGestureType KSYGestureType;
 
 @end
 
-@interface MediaControlViewController : UIViewController <KSYMediaPlayerDelegate>
+@interface MediaControlViewController : UIViewController 
 
 @property (nonatomic, weak) id<KSYMediaPlayDelegate> delegate;
 

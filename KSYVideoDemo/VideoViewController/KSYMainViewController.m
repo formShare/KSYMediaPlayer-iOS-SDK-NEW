@@ -157,7 +157,7 @@
                 [self.navigationController presentViewController:phoneLivePlayerVC animated:YES completion:nil];
             }else{
                 KSYPhoneLivePlayBackVC *phoneLivePlayBackVC = [KSYPhoneLivePlayBackVC new];
-                phoneLivePlayBackVC.videoUrlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+                phoneLivePlayBackVC.videoUrlString = @"http://121.42.58.232:8980/hls_test/1.m3u8";
                 [self.navigationController presentViewController:phoneLivePlayBackVC animated:YES completion:nil];
 
             }

@@ -7,7 +7,6 @@
 //  手机直播视图
 
 #import <UIKit/UIKit.h>
-#import "KSYPlayer.h"
 #import "KSYInteractiveView.h"
 #import "KSYBasePlayView.h"
 
