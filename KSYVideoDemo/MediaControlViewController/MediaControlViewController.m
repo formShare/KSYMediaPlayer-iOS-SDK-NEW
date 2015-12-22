@@ -14,8 +14,11 @@
 #import "MediaVoiceView.h"
 #import <sys/sysctl.h>
 #import <mach/mach.h>
+#import "KSBarrageView.h"
 
 @interface MediaControlViewController (){
+    
+    MediaControlView *mediaControlView;
     BOOL _isKSYPlayerPling;
     UIActivityIndicatorView *_indicatorView;
     UILabel *_indicatorLabel;
@@ -27,8 +30,10 @@
     CGFloat _minMem, _maxMem;
     NSTimer *_timer;
     BOOL     _isEnd;
+    KSBarrageView *_barrageView;
+    BOOL fullScreenModeToggled;
 }
-
+@property (nonatomic, assign) BOOL isOpened;
 @property (nonatomic, assign) BOOL isActive;
 @property (nonatomic, assign) BOOL isCompleted;
 @property (nonatomic, assign) BOOL isLocked;
@@ -36,6 +41,7 @@
 @property (nonatomic, assign) CGFloat curPosition;
 @property (nonatomic, strong) UIView *loadingView;
 @property (nonatomic, strong) UIView *errorView;
+@property (nonatomic, strong) UITableView *episodeTableView;
 @property (nonatomic, assign) NSInteger audioAmplify;
 @property (nonatomic, assign) CGFloat curVoice;
 @property (nonatomic, assign) CGFloat curBrightness;
@@ -66,6 +72,7 @@
     _gestureType = kKSYUnknown;
     _curVideoQuality = kKSYVideoNormal;
     _curVideoScale = kKSYVideo16W9H;
+    fullScreenModeToggled=NO;
     
     _minCPU = 999, _maxCPU = 0;
     _minMem = 999, _maxMem = 0;
@@ -77,10 +84,9 @@
     //    [themeManager changeTheme:@"orange"];
     //    [themeManager changeTheme:@"pink"];
     [themeManager changeTheme:@"red"];
-    
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGRect mediaControlRect = CGRectMake(0, 0, screenRect.size.width, screenRect.size.height / 2);
-    MediaControlView *mediaControlView = [[MediaControlView alloc] initWithFrame:mediaControlRect];
+
+    CGRect mediaControlRect = CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2);
+    mediaControlView = [[MediaControlView alloc] initWithFrame:mediaControlRect];
     self.view = mediaControlView;
     mediaControlView.controller = self;
     
@@ -120,6 +126,15 @@
     
     // **** timer
     //    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showSysInfo) userInfo:nil repeats:YES];
+//    if (!player.shouldAutoplay) {
+//        [playBtn setImage:playImg_n forState:UIControlStateNormal];
+//        [playBtn setImage:playImg_h forState:UIControlStateHighlighted];
+//        
+//    }else{
+//        [playBtn setImage:pauseImg_n forState:UIControlStateNormal];
+//        [playBtn setImage:pauseImg_h forState:UIControlStateNormal];
+//    }
+
 }
 
 - (void)showSysInfo {
@@ -182,7 +197,104 @@
 //    }
     
 }
-
+#pragma mark 点击弹幕按钮
+- (void)clickDanmuBtn:(id)sender
+{
+    _isOpened=!_isOpened;
+    UIButton *danmuBtn=(UIButton *)sender;
+    UIColor *tintColor=[[ThemeManager sharedInstance] themeColor];
+    danmuBtn.layer.borderColor=tintColor.CGColor;
+    [danmuBtn setTitleColor:tintColor forState:UIControlStateNormal];
+    [self performSelector:@selector(showColor:) withObject:sender afterDelay:0.1];
+    if (_isOpened==YES)
+    {
+        [self performSelector:@selector(addDanmu) withObject:nil afterDelay:0.1];
+        [danmuBtn setTitle:@"弹幕开" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self performSelector:@selector(removeDanmu) withObject:nil afterDelay:0.1];
+        [danmuBtn setTitle:@"弹幕关" forState:UIControlStateNormal];
+    }
+    
+}
+#pragma mark 添加弹幕(就是对自己身体的控制)
+- (void)addDanmu
+{
+    _barrageView = [[KSBarrageView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height-60)];
+    [self.view addSubview:_barrageView];
+    //设置弹幕内容
+    NSDictionary *dict1=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"djsflkjoiwene",@"content", nil];
+    NSDictionary *dict2=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
+    NSDictionary *dict3=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"大家好啊啊啊啊啊啊啊啊啊啊啊啊啊",@"content", nil];
+    NSDictionary *dict4=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
+    NSDictionary *dict5=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"2342sdfsjhd束带结发哈斯",@"content", nil];
+    _barrageView.dataArray=[NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+    [_barrageView setDanmuFont:10];
+    [_barrageView setDanmuAlpha:0.5];
+    //开始弹幕
+    [_barrageView start];
+}
+#pragma mark 关闭弹幕
+- (void)removeDanmu
+{
+    [_barrageView removeFromSuperview];
+}
+#pragma mark 点击评论按钮
+-(void)clickCommentBtn:(id)sender
+{
+    UIButton *commentBtn=(UIButton *)sender;
+    UIColor *tintColor=[[ThemeManager sharedInstance] themeColor];
+    commentBtn.layer.borderColor=tintColor.CGColor;
+    [commentBtn setTitleColor:tintColor forState:UIControlStateNormal];
+    [self performSelector:@selector(showColor:) withObject:sender afterDelay:0.1];
+    
+    
+    //获得评论视图
+    UIView *commentView=[self.view viewWithTag:kCommentViewTag];
+    UITextField *commentField=(UITextField *)[self.view viewWithTag:kCommentFieldTag];
+    
+    CGFloat commentViewX=0;
+    CGFloat commentViewY=self.view.frame.size.height/2-70;
+    CGFloat commentVierWidth=self.view.frame.size.width;
+    CGFloat commentViewHeight=40;
+    
+    
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        commentView.frame=CGRectMake(commentViewX, commentViewY, commentVierWidth, commentViewHeight);
+    } completion:^(BOOL finished) {
+        NSLog(@"Animation end.");
+    }];
+    commentView.backgroundColor=[UIColor lightGrayColor];
+    //重置commentFiled的位置和大小
+    commentField.backgroundColor=[UIColor orangeColor];
+    [commentField setFrame:CGRectMake(10, 0, CGRectGetWidth(commentView.frame)-80, CGRectGetHeight(commentView.frame))];
+    [commentField becomeFirstResponder];
+    //重置发送按钮的位置和大小
+    UIButton *sendBtn=(UIButton *)[self.view viewWithTag:kSendBtnTag];
+    [sendBtn setFrame:CGRectMake(CGRectGetMaxX(commentField.frame)+10, 0, 60,  CGRectGetHeight(commentView.frame))];
+    [sendBtn setBackgroundColor:[UIColor greenColor]];
+    [sendBtn addTarget:self action:@selector(clickSendBtn:) forControlEvents:UIControlEventTouchUpInside];
+    commentView.hidden=NO;
+    
+    //隐藏 锁屏 声音 亮度视图
+    UIView *brightnessView=[self.view viewWithTag:kBrightnessViewTag];
+    UIView *lockView=[self.view viewWithTag:kLockViewTag];
+    UIView *voiceView=[self.view viewWithTag:kVoiceViewTag];
+    brightnessView.hidden=YES;
+    lockView.hidden=YES;
+    voiceView.hidden=YES;
+    
+}
+#pragma mark 发送按钮
+- (void)clickSendBtn:(id)sender
+{
+    //将评论视图隐藏
+    UIView *commentView=[self.view viewWithTag:kCommentViewTag];
+    commentView.hidden=YES;
+    UITextField *commentField=(UITextField *)[self.view viewWithTag:kCommentFieldTag];
+    [commentField resignFirstResponder];
+}
 #pragma mark - Actions
 
 - (void)clickPlayBtn:(id)sender
@@ -404,7 +516,7 @@
     musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
     [musicPlayer setVolume:voiceSlider.value];
 }
-
+//全屏按钮
 - (void)clickFullBtn:(id)sender {
     
 //    VideoViewController *videoView = (VideoViewController *)_delegate;
@@ -417,8 +529,45 @@
 //        [videoView launchFullScreen];
 //        videoView.deviceOrientation = UIDeviceOrientationLandscapeLeft;
 //    }
+//    fullScreenModeToggled=!fullScreenModeToggled;
+//    VideoViewController *videoView = (VideoViewController *)_delegate;
+//    if (fullScreenModeToggled) {
+//        [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
+//        [videoView launchFullScreen];
+//        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
+//        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
+//        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+//    }else{
+//        [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
+//        [videoView minimizeVideo];
+//        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
+//        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+//        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+//    }
 }
-
+//手动设置设备方向，这样就能收到转屏事件
+- (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
+{
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
+    {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val = toOrientation;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
+}
+- (void)clickBackBtn:(id)sender
+{
+////    if (self.view.height<SCREENHEIGHT) {
+//        return;
+//    }
+//    else{
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
+}
 - (void)clickScaleBtn:(id)sender {
     UIButton *scaleBtn = (UIButton *)sender;
     UIColor *tintColor = [[ThemeManager sharedInstance] themeColor];
@@ -512,12 +661,51 @@
     [episodeBtn setTitleColor:tintColor forState:UIControlStateNormal];
     [self performSelector:@selector(showColor:) withObject:sender afterDelay:0.1];
     NSLog(@"剧集");
+    if(!_episodeTableView)
+    {
+        CGFloat episodeX=self.view.frame.size.width/2;
+        //得到toolbarView的大小
+        UIView *toolView=[self.view viewWithTag:kToolViewTag];
+        CGFloat episodeY=CGRectGetMaxY(toolView.frame);
+        CGFloat episodeWidth = episodeX;
+        UIView *barView=[self.view viewWithTag:kBarViewtag];
+        CGFloat barViewMinY=CGRectGetMinY(barView.frame);
+        CGFloat episodeHeight = self.view.frame.size.height-episodeY-(self.view.frame.size.height-barViewMinY);
+        CGRect episodeRect = CGRectMake(episodeX, episodeY, episodeWidth, episodeHeight);
+        _episodeTableView=[[UITableView alloc]initWithFrame:episodeRect style:UITableViewStylePlain];
+        _episodeTableView.tag=kEpisodeTableViewTag;
+        [self.view addSubview:_episodeTableView];
+        _episodeTableView.backgroundColor = [UIColor clearColor];
+        _episodeTableView.delegate=self;
+        _episodeTableView.dataSource=self;
+    }
+    else
+    {
+        _episodeTableView.hidden =NO;
+    }
+
 }
 
 - (void)clickSnapBtn:(id)sender {
 //    KSYPlayer *player = [(VideoViewController *)_delegate player];
 //    UIImage *snapImage = [player thumbnailImageAtCurrentTime];
 //    UIImageWriteToSavedPhotosAlbum(snapImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+#pragma mark 点击设置按钮
+-(void)clickSetBtn:(id)sender
+{
+    UIButton *danmuBtn=(UIButton *)sender;
+    UIColor *tintColor=[[ThemeManager sharedInstance] themeColor];
+    danmuBtn.layer.borderColor=tintColor.CGColor;
+    [danmuBtn setTitleColor:tintColor forState:UIControlStateNormal];
+    [self performSelector:@selector(showColor:) withObject:sender afterDelay:0.1];
+    //1.获得通过tag获得seView
+    //2.setView.hidden＝NO;
+    //UIView *setView=(UIView *)()
+    [mediaControlView showSetView];
+    
+    [self hideAllControls];
+    
 }
 
 - (void)clickLockBtn:(id)sender {
@@ -548,7 +736,7 @@
         toolView.alpha = 1.0;
         qualityView.alpha = 1.0;
         scaleView.alpha = 1.0;
-        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
+        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"lock_open_normal"];
         UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
         [lockBtn setImage:lockOpenImg_n forState:UIControlStateNormal];
         [lockBtn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
@@ -729,9 +917,17 @@
     if (_gestureType == kKSYUnknown) { // **** tap 动作
         if (_isActive == YES) {
             [self hideAllControls];
+            UITableView *epsTableView=(UITableView *)[self.view viewWithTag:kEpisodeTableViewTag];
+            epsTableView.hidden=YES;
+            UIView *commentView=[self.view viewWithTag:kCommentViewTag];
+            commentView.hidden=YES;
+            UITextField *commentField=(UITextField *)[self.view viewWithTag:kCommentFieldTag];
+            [commentField resignFirstResponder];
         }
         else {
             [self showAllControls];
+            UIView *setView=[self.view viewWithTag:kSetViewTag];
+            setView.hidden=YES;
         }
     }
     else if (_gestureType == kKSYProgress) {
@@ -766,7 +962,7 @@
     progressSlider.value = position;
     if (_isCompleted == YES) {
         _isCompleted = NO;
-        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"play_normal"];
         [btn setImage:playImg forState:UIControlStateNormal];
     }
     else {
@@ -853,6 +1049,78 @@
 //    }
 //}
 //
+//- (void)mediaPlayerSeekCompleted:(KSYPlayer *)player {
+//    CGFloat position = player.currentPlaybackTime;
+//    [self seekCompletedWithPosition:position];
+//}
+//- (void)mediaPlayerStateChanged:(KSYPlayerState)PlayerState {
+//    
+//    if (PlayerState != KSYPlayerStateError) {
+//        [self removeError];
+//    }
+//    KSYPlayer *player = [(VideoViewController *)_delegate player];
+//    if (PlayerState == KSYPlayerStateInitialized) {
+//        _isPrepared = NO;
+//        [self showLoading];
+//    }else if (PlayerState == KSYPlayerStatePrepared){
+//        [self performSelectorOnMainThread:@selector(removeError) withObject:nil waitUntilDone:NO];
+//        [self performSelectorOnMainThread:@selector(removeLoading) withObject:nil waitUntilDone:NO];
+//    }
+//    UIButton *btn = (UIButton *)[self.view viewWithTag:kBarPlayBtnTag];
+//    UIImage *pauseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
+//    UIImage *pauseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_hl"];
+//    UIImage *playImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+//    UIImage *playImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"play_hl"];
+//    if (PlayerState == KSYPlayerStatePlaying) {
+//        [btn setImage:pauseImg_n forState:UIControlStateNormal];
+//        [btn setImage:pauseImg_h forState:UIControlStateHighlighted];
+//    }else if (PlayerState == KSYPlayerStatePaused || player.state == KSYPlayerStateStopped || player.state == KSYPlayerStateCompleted) {
+//        [btn setImage:playImg_n forState:UIControlStateNormal];
+//        [btn setImage:playImg_h forState:UIControlStateHighlighted];
+//    }
+//    if (PlayerState == KSYPlayerStatePrepared) {
+//        _isPrepared = YES;
+//    }
+//}
+
+
+//- (void)mediaPlayerCompleted:(KSYPlayer *)player {
+//    NSLog(@"播放结束");
+//    _isEnd = YES;
+//    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
+//    
+//    _isCompleted = YES;
+//    //    [_delegate seekProgress:0.0];
+//    if ([(VideoViewController *)_delegate isCycleplay] == YES) {
+//        if (_errorView) {
+//            _errorView.hidden = YES;
+//        }
+//        [_delegate play];
+//        NSLog(@"重新播放");
+//    }
+//    
+//    // **** 结果
+//    [_timer invalidate];
+//}
+
+- (void)mediaPlayerWithError:(NSError *)error {
+    NSLog(@"KSYPlayer play error: %@", error);
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
+    
+    _isEnd = YES;
+    [self showError];
+    [self removeLoading];
+}
+
+//- (void)mediaPlayerBuffing:(KSYBufferingState)bufferingState {
+//    if (bufferingState == KSYPlayerBufferingStart) {
+//        [self showLoading];
+//    }
+//    else {
+//        [self performSelectorOnMainThread:@selector(removeLoading) withObject:nil waitUntilDone:NO];
+//    }
+//}
+
 //- (void)mediaPlayerSeekCompleted:(KSYPlayer *)player {
 //    CGFloat position = player.currentPlaybackTime;
 //    [self seekCompletedWithPosition:position];

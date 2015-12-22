@@ -52,9 +52,11 @@
     if (!themeName || [themeName isEqualToString:@""]) {
         return nil;
     }
-    
+//    /Users/sunjian/Desktop/KSYPlayer/KSYMediaPlayer-iOS-SDK-NEW/
+//    KSYVideoDemo/Resources/blue
     // **** 主题包是否存在
     NSString *strPath = [_strResourcePath stringByAppendingPathComponent:themeName];
+    NSLog(@"%@",strPath);
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:strPath] == YES) {
         _strThemeName = themeName;
@@ -64,7 +66,7 @@
     }
     else {
         NSString *strBundlePath = [[NSBundle mainBundle] resourcePath];
-        strPath = [strBundlePath stringByAppendingPathComponent:@"blue"];
+        NSString *strPath = [strBundlePath stringByAppendingPathComponent:@"blue"];
         _strThemeName = @"blue";
         _strThemePath = strPath;
         _themeColor = KSYBLUE;

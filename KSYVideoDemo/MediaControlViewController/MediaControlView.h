@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) id controller;
 
-- (void)updateSubviewsLocation;
+- (void)updateSubviewsLocation;//更新页面布局
 
+- (void)showSetView;
 @end

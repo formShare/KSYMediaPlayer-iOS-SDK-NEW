@@ -44,5 +44,28 @@
 
 #define kCPULabel               132
 #define kMemLabel               133
+#define kDanmuBtnTag            134
+#define kSetBtnTag              135
+#define kSetViewTag             136
+#define kTitleLabelTag          137
+#define kFontLabelTag           138
+#define kFontSizeSCTag          139
+#define kSpeedLabelTag          140
+#define kSpeedSCTag             141
+#define kAlphaLabelTag          142
+#define kAlphaSCTag             143
+#define kPlaySetLabelTag        144
+#define kUnderLineTag           145
+#define kVoiceSetLabelTag       146
+#define kEpisodeTableViewTag    147
+#define kCommentBtnTag          148
+#define kCommentFieldTag        149
+#define kCommentViewTag         150
+#define kSendBtnTag             151
+#define kTableViewTag           152
+#define kBackgroundViewTag      153
+
+
+
 
 #endif

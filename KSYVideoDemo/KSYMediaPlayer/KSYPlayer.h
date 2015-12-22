@@ -108,7 +108,7 @@ extern NSString *const KSYMediaPlayerWithError;
 
 #pragma mark ---mark PlayerControl
 
-// 指定最多下载的片数
+// 指定最多下载的片数 把你想的东西做出来
 - (void)playerSetRetryCount:(int)retryCount;
 // hls协议一直重试下载下一个片
 - (void)playerSetRetryAlways;
