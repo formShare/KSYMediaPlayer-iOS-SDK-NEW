@@ -7,10 +7,17 @@
 //
 
 #import "KSYBasePlayView.h"
-@interface KSYBasePlayView ()
+#import "Reachability.h"
 
-@property (nonatomic, strong)KSYMoviePlayerController *player;
+@interface KSYBasePlayView ()<UIAlertViewDelegate>
+
 @property (nonatomic, strong)NSTimer *timer;
+@property (nonatomic, assign)BOOL   isLivePlay;
+@property (nonatomic, strong)UIActivityIndicatorView *indicator;
+@property (nonatomic, copy) NSString *urlString;
+@property (nonatomic) Reachability *hostReachability;
+@property (nonatomic) NetworkStatus networkStatus;
+@property (nonatomic) BOOL  isShowAlert;
 @end
 
 @implementation KSYBasePlayView
@@ -19,40 +26,41 @@
 {
     [self stopTimer];
     if (_player) {
-        NSLog(@"player download flow size: %f MB", _player.readSize);
-        NSLog(@"buffer monitor  result: \n   empty count: %d, lasting: %f seconds",
-              (int)_player.bufferEmptyCount,
-              _player.bufferEmptyDuration);
-        
         [_player stop];
         [_player.view removeFromSuperview];
         _player = nil;
     }
     [self releaseObservers];
-    //    [self unregisterApplicationObservers];
+//    [self unregisterApplicationObservers];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        self.urlString = urlString;
         self.backgroundColor = [UIColor blackColor];
-        _player = [[KSYMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:urlString]];
-        
-        
-        _player.controlStyle = MPMovieControlStyleNone;
-        [_player.view setFrame: frame];  // player's frame must match parent's
-        [self addSubview: _player.view];
-        self.autoresizesSubviews = TRUE;
-        _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _player.shouldAutoplay = TRUE;
-        _player.scalingMode = MPMovieScalingModeAspectFit;
-        NSLog(@"ip: %@", [_player serverAddress]);
-        [_player prepareToPlay];
+        if ([urlString hasPrefix:@"http"]) {
+            self.isLivePlay = NO;
+        }else if ([urlString hasPrefix:@"rtmp"]){
+            self.isLivePlay = YES;
+        }
 
+        [self addSubview:self.player.view];
+        [self addSubview:self.indicator];
+        [self.indicator startAnimating];
         [self setupObservers];
         
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+        
+        NSString *remoteHostName = @"www.baidu.com";
+        
+        self.hostReachability = [Reachability reachabilityWithHostName:remoteHostName];
+        [self.hostReachability startNotifier];
+//        [self updateInterfaceWithReachability:self.hostReachability];
+        
+
 
 //        [self registerApplicationObservers];
 
@@ -60,6 +68,35 @@
     return self;
 }
 
+- (KSYMoviePlayerController *)player
+{
+    if (_player == nil) {
+        _player = [[KSYMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:_urlString]];
+        _player.controlStyle = MPMovieControlStyleNone;
+        self.autoresizesSubviews = TRUE;
+        _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _player.shouldAutoplay = TRUE;
+        _player.scalingMode = MPMovieScalingModeAspectFit;
+        if (_networkStatus != ReachableViaWWAN) {
+            [_player prepareToPlay];
+
+        }
+    }
+    return _player;
+}
+- (UIActivityIndicatorView *)indicator
+{
+    if (_indicator == nil) {
+        _indicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
+        _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        _indicator.backgroundColor = [UIColor clearColor];
+        _indicator.layer.cornerRadius = 6;
+        _indicator.layer.masksToBounds = YES;
+        [_indicator setCenter:CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)];
+    }
+    
+    return _indicator;
+}
 #pragma mark- playerControl
 
 - (void)play
@@ -85,6 +122,17 @@
 
 }
 
+- (void)shutDown
+{
+    [self stopTimer];
+    if (_player) {
+        [_player stop];
+        [_player.view removeFromSuperview];
+        _player = nil;
+    }
+    [self releaseObservers];
+
+}
 - (NSTimeInterval)currentPlaybackTime
 {
     if (self.player) {
@@ -111,6 +159,13 @@
 - (void)moviePlayerLoadState:(MPMovieLoadState)loadState
 {
     NSLog(@"player load state: %ld", (long)loadState);
+    
+    if (loadState == MPMovieLoadStateStalled) {
+        [_indicator startAnimating];
+
+    }else {
+        [_indicator stopAnimating];
+    }
 
 }
 
@@ -123,12 +178,27 @@
 - (void)moviePlayerFinishState:(MPMoviePlaybackState)finishState
 {
     NSLog(@"player finish state: %ld", finishState);
+    if (finishState == MPMoviePlaybackStateStopped) {
+        [self stopTimer];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放完成，是否重新播放？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"播放", nil];
+        alertView.tag = 104;
+        [alertView show];
+        _isShowAlert = YES;
+
+    }
 
 }
 
 - (void)moviePlayerFinishReson:(MPMovieFinishReason)finishReson
 {
     NSLog(@"player finish reson is %ld",finishReson);
+    if (finishReson == MPMovieFinishReasonPlaybackError && _isShowAlert == NO) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放错误，是否重试？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重试", nil];
+        alertView.tag = 101;
+        [alertView show];
+        _isShowAlert = YES;
+
+    }
 }
 
 - (void)moviePlayerSeekTo:(NSTimeInterval)position
@@ -160,6 +230,35 @@
 
 }
 
+- (void)timerIsStop:(BOOL)isStop
+{
+    if (isStop) {
+        [_timer setFireDate:[NSDate distantFuture]];
+    }else {
+         [_timer setFireDate:[NSDate date]];
+    }
+}
+
+#pragma mark -alertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    _isShowAlert = NO;
+
+    if (alertView.tag == 101 && buttonIndex != alertView.cancelButtonIndex) {
+            [self shutDown];
+            [self addSubview:self.player.view];
+
+    }else if (alertView.tag == 103 && buttonIndex != alertView.cancelButtonIndex){
+        if ([self.player isPreparedToPlay]) {
+            [self play];
+        }else {
+            [self.player prepareToPlay];
+        }
+        
+    }else if (alertView.tag == 104 && buttonIndex != alertView.cancelButtonIndex){
+        [self play];
+    }
+}
 
 #pragma mark- notify
 -(void)handlePlayerNotify:(NSNotification*)notify
@@ -168,6 +267,7 @@
         return;
     }
     if (MPMediaPlaybackIsPreparedToPlayDidChangeNotification ==  notify.name) {
+        [self.indicator stopAnimating];
         [self startTimer];
     }
     if (MPMoviePlayerPlaybackStateDidChangeNotification ==  notify.name) {
@@ -177,9 +277,6 @@
     if (MPMoviePlayerLoadStateDidChangeNotification ==  notify.name) {
         
         [self moviePlayerLoadState:self.player.loadState];
-        if (MPMovieLoadStateStalled & _player.loadState) {
-
-        }
         
     }
     if (MPMoviePlayerPlaybackDidFinishNotification ==  notify.name) {
@@ -187,13 +284,13 @@
         [self moviePlayerFinishState:self.player.playbackState];
 
         [self moviePlayerReadSize:self.player.readSize];
+        
+//        id aa = [notify userInfo] ;
+        NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+        [self moviePlayerFinishReson:[reason integerValue]];
+
     }
     
-    if (MPMoviePlayerPlaybackDidFinishReasonUserInfoKey == notify.name) {
-        NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-        
-        [self moviePlayerFinishReson:[reason integerValue]];
-    }
 }
 
 
@@ -234,131 +331,72 @@
 }
 
 
-- (void)registerApplicationObservers
+- (void)reachabilityChanged:(NSNotification *)note
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillEnterForeground)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillResignActive)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillTerminate)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
+    Reachability* curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+    [self updateInterfaceWithReachability:curReach];
 }
 
-- (void)unregisterApplicationObservers
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillEnterForegroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidBecomeActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillResignActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidEnterBackgroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillTerminateNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIDeviceOrientationDidChangeNotification
-                                                  object:nil];
-}
 
-- (void)applicationWillEnterForeground
+- (void)updateInterfaceWithReachability:(Reachability *)reachability
 {
-}
-
-- (void)applicationDidBecomeActive
-{
+    NetworkStatus netStatus = [reachability currentReachabilityStatus];
     
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (_isRtmp) {
-//            _player = [KSYPlayer sharedKSYPlayer];
-//            [_player startWithMURL:_videoUrl withOptions:nil allowLog:NO appIdentifier:@"ksy"];
-//            _player.shouldAutoplay = YES;
-//            [_player prepareToPlay];
-//            
-//            _player.videoView.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
-//            _player.videoView.backgroundColor = [UIColor blackColor];
-//            [self.view addSubview:_player.videoView];
-//            
-//            //            _mediaControlViewController = [[MediaControlViewController alloc] init];
-//            //            _mediaControlViewController.delegate = self;
-//            [self.view addSubview:_mediaControlViewController.view];
-//            [_player setScalingMode:MPMovieScalingModeAspectFit];
-//            
-//            [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
-//            
-//        }else {
-//            if (![_player isPlaying]) {
-//                [self play];
-//            }
-//            
-//        }
-//        
-//    });
-}
+    switch (netStatus)
+    {
+        case NotReachable:
+        {
+            if (_networkStatus != NotReachable && _isShowAlert == NO) {
+                [self pause];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络似乎已经断开，请检查网络" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
+                alertView.tag = 102;
+                [alertView show];
+                _isShowAlert = YES;
 
-- (void)applicationWillResignActive
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (_pauseInBackground && [_player isPlaying]) {
-//            if (_isRtmp) {
-//                [_player shutdown];
-//                [_mediaControlViewController.view removeFromSuperview];
-//                
-//            }else {
-//                [self pause];
-//            }
-//        }
-//    });
+            }
+            _networkStatus = NotReachable;
+            break;
+        }
+            
+        case ReachableViaWiFi:
+        {
+            if (_networkStatus != ReachableViaWiFi) {
+                [self play];
+            }
+            _networkStatus = ReachableViaWiFi;
+
+            NSLog(@"wifi");
+
+            
+            break;
+        }
+        case ReachableViaWWAN:
+        {
+            if (_networkStatus != ReachableViaWWAN && _isShowAlert == NO) {
+
+                if ([self.player isPreparedToPlay]) {
+                    [self pause];
+
+                }
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"wifi已经断开，继续播放将产生流量费用，是否继续？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"继续", nil];
+                alertView.tag = 103;
+                [alertView show];
+                _isShowAlert = YES;
+
+            }
+            _networkStatus = ReachableViaWWAN;
+
+            NSLog(@"3G");
+
+            break;
+        }
+        default:
+            break;
+    }
     
-}
-
-- (void)applicationDidEnterBackground
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (_pauseInBackground && [_player isPlaying]) {
-//            if (_isRtmp) {
-//                [_player shutdown];
-//                
-//            }else {
-//                [self pause];
-//            }
-//            
-//        }
-//    });
-}
-
-- (void)applicationWillTerminate
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (_pauseInBackground && [_player isPlaying]) {
-//            if (_isRtmp) {
-//                [_player shutdown];
-//                
-//            }else {
-//                [self pause];
-//            }
-//            
-//        }
-//    });
+    
+    
 }
 
 @end

@@ -621,7 +621,7 @@
         [voiceSlider setMinimumTrackImage:minImg forState:UIControlStateNormal];
         voiceSlider.maximumTrackTintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2];
         [voiceSlider setThumbImage:dotImg forState:UIControlStateNormal];
-//        voiceSlider.value = [MPMusicPlayerController applicationMusicPlayer].volume;
+        voiceSlider.value = [MPMusicPlayerController applicationMusicPlayer].volume;
         voiceSlider.tag = kVoiceSliderTag;
         //        [voiceSlider addTarget:_controller action:@selector(voiceChanged:) forControlEvents:UIControlEventValueChanged];
         //        [voiceSlider addTarget:_controller action:@selector(voiceDidBegin:) forControlEvents:UIControlEventTouchDown];

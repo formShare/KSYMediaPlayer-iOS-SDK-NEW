@@ -120,8 +120,21 @@
 - (KSYProgressToolBar *)progressToolBar
 {
     if (!_progressToolBar) {
+        WeakSelf(KSYInteractiveView);
+
         _progressToolBar = [[KSYProgressToolBar alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 50, self.bounds.size.width, 40)];
+        _progressToolBar.playControlEventBlock = ^(BOOL isStop){
+            if (weakSelf.playEventBlock) {
+                weakSelf.playEventBlock(isStop);
+            }
+        };
+        _progressToolBar.seekToBlock = ^(NSInteger value){
+            if (weakSelf.seekBlock) {
+                weakSelf.seekBlock(value);
+            }
+        };
         
+
     }
     return _progressToolBar;
 }
@@ -172,6 +185,15 @@
     _userNumLab.text = [NSString stringWithFormat:@"%@",@(_testNum)];
 }
 
+- (void)updateProgressWithCurentTime:(NSTimeInterval)time duration:(NSTimeInterval)duration
+{
+    [self.progressToolBar updataSliderWithPosition:time duration:duration];
+}
+
+- (void)playerStop
+{
+    [self.progressToolBar playerStop];
+}
 #pragma mark- buttonEvent
 
 - (void)praiseEvent

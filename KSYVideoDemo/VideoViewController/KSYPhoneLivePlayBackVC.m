@@ -93,7 +93,7 @@
         [_commetnTimer invalidate];
         [_praiseTimer0 invalidate];
         [_praiseTimer1 invalidate];
-        
+        [_phoneLivePlayVC shutDown];
         [self dismissViewControllerAnimated:YES completion:nil];
         
     }

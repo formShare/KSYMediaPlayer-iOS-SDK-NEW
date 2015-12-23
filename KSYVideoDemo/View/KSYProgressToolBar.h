@@ -10,4 +10,9 @@
 
 @interface KSYProgressToolBar : UIView
 
+@property (nonatomic, copy)void (^playControlEventBlock)(BOOL isStop);
+
+@property (nonatomic, copy)void (^seekToBlock)(NSInteger position);
+- (void)updataSliderWithPosition:(NSInteger)position duration:(NSInteger)duration;
+- (void)playerStop;
 @end

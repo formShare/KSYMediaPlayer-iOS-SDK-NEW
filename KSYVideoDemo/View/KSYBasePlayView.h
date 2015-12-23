@@ -19,6 +19,8 @@
 - (void)pause;
 //播放器停止
 - (void)stop;
+//关闭播放器
+- (void)shutDown;
 //当前播放器的状态
 - (void)moviePlayerPlaybackState:(MPMoviePlaybackState)playbackState;
 //当前网络加载情况
@@ -33,6 +35,10 @@
 - (void)moviePlayerSeekTo:(NSTimeInterval)position;
 //更新当前时间
 - (void)updateCurrentTime;
+
+- (void)timerIsStop:(BOOL)isStop;
+@property (nonatomic, strong)KSYMoviePlayerController *player;
+
 @property (nonatomic, assign)NSTimeInterval currentPlaybackTime;
 @property (nonatomic, readonly)NSTimeInterval duration;
 @end

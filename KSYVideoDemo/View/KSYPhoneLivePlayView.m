@@ -72,6 +72,19 @@
                 weakSelf.shareBlock();
             }
         };
+        _interactiveView.playEventBlock = ^(BOOL isStop){
+//            [weakSelf timerIsStop:isStop];
+//
+            if (isStop) {
+                [weakSelf pause];
+            }else {
+                [weakSelf play];
+            }
+        };
+        
+        _interactiveView.seekBlock = ^(float value){
+            [weakSelf moviePlayerSeekTo:value];
+        };
     }
     return _interactiveView;
 }
@@ -105,9 +118,15 @@
 
 - (UILabel *)playStateLab
 {
-    if (!_playState) {
+    if (!_playStateLab) {
         _playStateLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 75, 20)];
-        _playStateLab.text = @"直播连线中...";
+        if (self.playState == KSYPhoneLivePlayBack) {
+            _playStateLab.text = @"直播回放";
+
+        }else {
+            _playStateLab.text = @"直播连线中...";
+
+        }
         _playStateLab.textColor = [UIColor whiteColor];
         _playStateLab.font = [UIFont systemFontOfSize:12.0];
         _playStateLab.backgroundColor = [UIColor clearColor];
@@ -180,18 +199,31 @@
     if (playbackState == MPMoviePlaybackStatePlaying) {
         _headButton.hidden = NO;
         _playStateLab.frame = CGRectMake(_headButton.right + 5, 15, 75, 20);
-        _playStateLab.text = @"直播中";
+        if (self.playState == KSYPhoneLivePlay) {
+            _playStateLab.text = @"直播中";
+
+        }
         _headImageView.hidden = NO;
     }
 }
 
+- (void)moviePlayerFinishState:(MPMoviePlaybackState)finishState
+{
+    [super moviePlayerFinishState:finishState];
+    if (finishState == MPMoviePlaybackStateStopped) {
+        [self.interactiveView playerStop];
+    }
+}
 - (void)updateCurrentTime
 {
-    _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom+20 , 70, 20);
+    _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom , 70, 20);
     NSInteger position = (NSInteger)self.currentPlaybackTime;
     int iMin  = (int)(position / 60);
     int iSec  = (int)(position % 60);
     _curentTimeLab.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
+    if (self.playState == KSYPhoneLivePlayBack) {
+        [self.interactiveView updateProgressWithCurentTime:self.currentPlaybackTime duration:self.duration];
+    }
 
 }
 
