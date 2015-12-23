@@ -10,34 +10,20 @@
 #import "MediaControlViewController.h"
 #import "MediaControlView.h"
 #import "KSBarrageView.h"
-#import "Model1.h"
-#import "KSY1TableViewCell.h"
-#import "Model2.h"
-#import "KSY2TableViewCell.h"
-#import "Model3.h"
-#import "KSY3TableViewCell.h"
 #import "MediaControlDefine.h"
 #import "KSYDefine.h"
+#import "SJSnapeView.h"
+#import "SJNoticeView.h"
+#import "SJDetailView.h"
 
-
-@interface KSYVideoOnDemandPlayVC ()<UITableViewDataSource,UITableViewDelegate>
+@interface KSYVideoOnDemandPlayVC ()
 @property (nonatomic, strong) KSYMoviePlayerController *player;
-@property (nonatomic) CGRect previousBounds;
-@property (nonatomic, strong) UIView *kBackgroundView;//下部视图
-@property (nonatomic, strong) UISegmentedControl *kSegmentedCTL;//分段控制器
-@property (nonatomic, strong) UITableView *kTableView;//表视图
 @property (nonatomic, strong) KSYBasePlayView *phoneLivePlayVC;
 @end
 
 @implementation KSYVideoOnDemandPlayVC{
     //这个控制器调用AMZPlayer的接口
     MediaControlViewController *_mediaControlViewController;
-    BOOL    _isRtmp;     //是否是rtmp直播
-    UIView *_demoView;
-    UITableView *_tableView;
-    NSMutableArray *_models;
-    NSMutableArray *_modelsCells;
-    
 }
 
 - (void)viewDidLoad {
@@ -53,9 +39,8 @@
     _pauseInBackground = YES;
     _motionInterfaceOrientation = UIInterfaceOrientationMaskLandscape;
     self.view.backgroundColor = [UIColor whiteColor];
-    //    NSString *path=[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
-    //    _videoUrl=[NSURL URLWithString:path];
     [self initPlayerWithLowTimelagType:NO];
+    [self addDetailPart];
 }
 #pragma mark 改变导航栏状态
 - (void)changeNavigationStayle
@@ -94,15 +79,8 @@
 
 #pragma mark 初始化低延时模式
 - (void)initPlayerWithLowTimelagType:(BOOL)isLowTimeType {
-    /**
-     url  视频源地址
-     
-     - returns:
-     */
     
-
-    
-    _phoneLivePlayVC = [[KSYBasePlayView alloc] initWithFrame:CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2) urlString:@"http://121.42.58.232:8980/hls_test/1.m3u8"];
+    _phoneLivePlayVC = [[KSYBasePlayView alloc] initWithFrame:CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2) urlString:_videoPath];
     [self.view addSubview:_phoneLivePlayVC];
 
     //设置播放器播放视图的大小
@@ -111,20 +89,13 @@
     _mediaControlViewController.delegate = self;
     _mediaControlViewController.view.frame=_phoneLivePlayVC.bounds;
     [_phoneLivePlayVC addSubview:_mediaControlViewController.view];
-    //self.view添加了两个视图：_player.view (播放界面用于KSYMdiaController进行交互)_mediaControllerViewController.view（用于控的改变）
-    [_player setScalingMode:MPMovieScalingModeAspectFit];
-    //添加通知设备方向改变通知
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+    [_phoneLivePlayVC.player setScalingMode:MPMovieScalingModeAspectFit];
+    
     //注册其他通知
     [self registerApplicationObservers];
-
-    [self addBellowPart];
 }
 #pragma mark 添加下面的内容(就两个字，去做，动手去做)
-- (void)addBellowPart
+- (void)addDetailPart
 {
     CGFloat backgroundViewX=0;
     CGFloat backgroundViewY=_phoneLivePlayVC.bottom+10;
@@ -132,173 +103,17 @@
     CGFloat backgroundViewHeight=_phoneLivePlayVC.width;
     CGRect backgroundViewRect=CGRectMake(backgroundViewX, backgroundViewY, backgroundVieWidth, backgroundViewHeight);
     //在这里初始化
-    self.kBackgroundView=[[UIView alloc]initWithFrame:backgroundViewRect];
-    self.kBackgroundView.tag=kBackgroundViewTag;
-    self.kBackgroundView.backgroundColor=[UIColor whiteColor];
-    [self.view addSubview:self.kBackgroundView];
-    //初始化分段控制器
-    NSArray *segmentedArray=[NSArray arrayWithObjects:@"评论",@"详情",@"推荐", nil];
-    self.kSegmentedCTL=[[UISegmentedControl alloc]initWithItems:segmentedArray];
-    self.kSegmentedCTL.frame=CGRectMake(10, 10, THESCREENWIDTH-20, 30);
-    [self.kBackgroundView addSubview:self.kSegmentedCTL];
-    [self.kSegmentedCTL addTarget:self action:@selector(segmentChange:) forControlEvents:UIControlEventValueChanged];
-    self.kSegmentedCTL.selectedSegmentIndex=0;
-    //添加一个分割线
-    UILabel *lineLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.kSegmentedCTL.frame)+10, THESCREENWIDTH, 1)];
-    lineLabel.backgroundColor=[UIColor blackColor];
-    [self.kBackgroundView addSubview:lineLabel];
-    //初始化表视图 只要你在做你就在想
-    self.kTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(lineLabel.frame)+10, THESCREENWIDTH, THESCREENHEIGHT/2-60) style:UITableViewStylePlain];
-    self.kTableView.userInteractionEnabled=YES;
-    [self.kBackgroundView addSubview:self.kTableView];
-    self.kTableView.delegate=self;
-    self.kTableView.dataSource=self;
-    [self segmentChange:self.kSegmentedCTL];
+    SJDetailView *detailView=[[SJDetailView alloc]initWithFrame:backgroundViewRect];
+    detailView.tag=kDetailViewTag;
+    [self.view addSubview:detailView];
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (self.kSegmentedCTL.selectedSegmentIndex==1)
-    {
-        return 1;
-    }
-    return   _models.count;
-}
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.kSegmentedCTL.selectedSegmentIndex==0)
-    {
-        KSY1TableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY1TableViewCellIdentify"];
-        if (cell==nil)
-        {
-            cell=[[KSY1TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY1TableViewCellIdentify"];
-            UIView* tempView=[[UIView alloc] initWithFrame:cell.frame];
-            tempView.backgroundColor =KSYCOLER(90, 90, 90);
-            cell.backgroundView = tempView;  //更换背景色     不能直接设置backgroundColor
-            UIView* tempView1=[[UIView alloc] initWithFrame:cell.frame];
-            tempView1.backgroundColor = KSYCOLER(100, 100, 100);
-            cell.selectedBackgroundView = tempView1;
-            
-        }
-        Model1 *SKYmodel=_models[indexPath.row];
-        cell.model1=SKYmodel;
-        return cell;
-    }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==1)
-    {
-        KSY2TableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY2TableViewCellIdentify"];
-        if (cell==nil)
-        {
-            cell=[[KSY2TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY2TableViewCellIdentify"];
-        }
-        Model2 *SKYmodel=_models[indexPath.row];
-        cell.model2=SKYmodel;//调用set方法
-        return cell;
-        
-    }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==2)
-    {
-        KSY3TableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY3TableViewCellIdentify"];
-        if (cell==nil)
-        {
-            cell=[[KSY3TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY3TableViewCellIdentify"];
-        }
-        Model3 *SKYmodel=_models[indexPath.row];
-        cell.model3=SKYmodel;//调用set方法
-        return cell;
-        
-    }
-    else
-        return nil;
-}
-#pragma mark tableViewDelegate 表视图代理方法
-#pragma mark 设置行高
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.kSegmentedCTL.selectedSegmentIndex==0)
-    {
-        KSY1TableViewCell *cell=_modelsCells[indexPath.row];
-        cell.model1=_models[indexPath.row];//这里执行set方法
-        return cell.height;
-    }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==1)
-    {
-        KSY2TableViewCell *cell=_modelsCells[indexPath.row];
-        cell.model2=_models[indexPath.row];//这里执行set方法
-        return cell.height;
-    }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==2)
-    {
-        KSY3TableViewCell *cell=_modelsCells[indexPath.row];
-        cell.model3=_models[indexPath.row];//这里执行set方法
-        return cell.height;
-        
-    }
-    else
-        
-        return 0;
-    
-}
-
-#pragma mark 分段控件只发生变化，想是你的本能，重要的是做了啥
-- (void)segmentChange:(UISegmentedControl *)segment
-{
-    //如果是评论，加载评论的数据
-    if(segment.selectedSegmentIndex==0)
-    {
-        //每次进来都要重新刷新数据
-        [_models removeAllObjects];
-        [_modelsCells removeAllObjects];
-        NSString *path=[[NSBundle mainBundle] pathForResource:@"Model1" ofType:@"plist"];
-        NSArray *array=[NSArray arrayWithContentsOfFile:path];
-        _models=[[NSMutableArray alloc]init];
-        _modelsCells=[[NSMutableArray alloc]init];
-        //利用代码块遍历
-        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_models addObject:[Model1 modelWithDictionary:obj]];
-            KSY1TableViewCell *cell=[[KSY1TableViewCell alloc]init];
-            [_modelsCells addObject:cell];
-        }];
-        [self.kTableView reloadData];
-    }
-    //如果是详情，获取详情的数据
-    else if(segment.selectedSegmentIndex==1)
-    {
-        //根据路径获得字典
-        [_models removeAllObjects];
-        [_modelsCells removeAllObjects];
-        NSString *path=[[NSBundle mainBundle]pathForResource:@"Model2" ofType:@"plist"];
-        NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:path];
-        [_models addObject:[Model2 modelWithDictionary:dict]];
-        KSY2TableViewCell *cell=[[KSY2TableViewCell alloc]init];
-        [_modelsCells addObject:cell];
-        //这样做复杂啦换一种方法
-        
-        [self.kTableView reloadData];
-        
-    }
-    //如果是推荐，获取推荐的数据
-    else if(segment.selectedSegmentIndex==2)
-    {
-        [_models removeAllObjects];
-        [_modelsCells removeAllObjects];
-        NSString *path=[[NSBundle mainBundle] pathForResource:@"Model3" ofType:@"plist"];
-        NSArray *array=[NSArray arrayWithContentsOfFile:path];
-        _models=[[NSMutableArray alloc]init];
-        _modelsCells=[[NSMutableArray alloc]init];
-        //利用代码块遍历
-        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_models addObject:[Model3 modelWithDictionary:obj]];
-            KSY3TableViewCell *cell=[[KSY3TableViewCell alloc]init];
-            [_modelsCells addObject:cell];
-        }];
-        [self.kTableView reloadData];
-        
-    }
-}
-
 - (void)registerApplicationObservers
 {
-    
+    //添加通知设备方向改变通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     //应用开始运行
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationDidBecomeActive)
@@ -454,16 +269,16 @@
         self.deviceOrientation = orientation;
         //播放器界面最小化
         [self minimizeVideo];
-        UIView *backgroundView=[self.view viewWithTag:kBackgroundViewTag];
-        backgroundView.hidden=NO;
+        SJDetailView *detailView=(SJDetailView *)[self.view viewWithTag:kDetailViewTag];
+        detailView.hidden=NO;
     }
     else if (orientation == UIDeviceOrientationLandscapeRight||orientation == UIDeviceOrientationLandscapeLeft)
     {
         //同理
         self.deviceOrientation = orientation;
         [self launchFullScreen];
-        UIView *backgroundView=[self.view viewWithTag:kBackgroundViewTag];
-        backgroundView.hidden=YES;
+        SJDetailView *detailView=(SJDetailView *)[self.view viewWithTag:kDetailViewTag];
+        detailView.hidden=YES;
     }
 }
 /**
@@ -545,15 +360,11 @@
     [super didReceiveMemoryWarning];
 }
 
-- (KSYMoviePlayerController *)player {
-    return _player;
-}
-
 #pragma mark - KSYMediaPlayDelegate
 #pragma mark KSYMediaPlayer的代理在ViewController中实现
 - (void)play {
     //在这里进行判断
-    if (_phoneLivePlayVC.player)
+    if (_phoneLivePlayVC.player.isPreparedToPlay)
     {
         [_phoneLivePlayVC.player play];
     }
@@ -562,7 +373,7 @@
 - (void)pause {
     if ([_phoneLivePlayVC.player isPlaying]==YES)
     {
-         [_phoneLivePlayVC.player pause];
+         [_phoneLivePlayVC pause];
     }
    
 }
@@ -570,7 +381,7 @@
 - (void)stop {
     if ([_phoneLivePlayVC.player isPlaying]==YES)
     {
-        [_phoneLivePlayVC.player stop];
+        [_phoneLivePlayVC stop];
     }
 }
 
@@ -579,11 +390,11 @@
 }
 
 - (void)shutdown {
-    [_phoneLivePlayVC.player stop];
+    [_phoneLivePlayVC stop];
 }
 
 - (void)seekProgress:(CGFloat)position {
-    [_phoneLivePlayVC.player setCurrentPlaybackTime:position];
+    [_phoneLivePlayVC moviePlayerSeekTo:position];
 }
 
 - (void)setVideoQuality:(KSYVideoQuality)videoQuality {
@@ -591,7 +402,7 @@
 }
 
 - (void)setVideoScale:(KSYVideoScale)videoScale {
-    CGRect videoRect = [[UIScreen mainScreen] bounds];
+    CGRect videoRect = self.view.frame;
     NSInteger scaleW = 16;
     NSInteger scaleH = 9;
     switch (videoScale) {
@@ -610,11 +421,13 @@
         videoRect.origin.x = 0;
         videoRect.origin.y = (videoRect.size.height - videoRect.size.width * scaleW / scaleH) / 2;
         videoRect.size.height = videoRect.size.width * scaleW / scaleH;
+        
     }
     else {
-        videoRect.origin.x = (videoRect.size.width - videoRect.size.height * scaleH / scaleW) / 2;
+        videoRect.origin.x = (videoRect.size.height - videoRect.size.height * scaleH / scaleW) / 2;
         videoRect.origin.y = 0;
-        videoRect.size.width = videoRect.size.height * scaleH / scaleW;
+        videoRect.size.width = videoRect.size.width * scaleH / scaleW;
+
     }
     _phoneLivePlayVC.frame = videoRect;
 }
@@ -711,7 +524,7 @@
 //        return;
 //    }
         NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
-        if (duration > 0) {
+        if (duration > 0&&_isRtmp==NO) {
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
             UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
     
@@ -730,26 +543,44 @@
         }
         else {
             slider.value = 0.0f;
-//            [self showNotice:@"直播不支持拖拽"];
+            [self showNotice:@"直播不支持拖拽"];
         }
 }
+#pragma mark 显示提示
+- (void)showNotice:(NSString *)strNotice {
+    static BOOL isShowing = NO;
+    if (isShowing == NO) {
+        
+        SJNoticeView *noticeView=[[SJNoticeView alloc]initWithFrame:CGRectMake(0, 0, 150, 30)];
+        noticeView.center = _phoneLivePlayVC.center;
+        noticeView.noticeLabel.text=strNotice;
+        [_phoneLivePlayVC addSubview:noticeView];
+        
+        [UIView animateWithDuration:1.0 animations:^{
+            noticeView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [noticeView removeFromSuperview];
+            isShowing = NO;
+        }];
+    }
+}
+
 - (void)progressChangeEnd:(id)sender {
    UISlider *slider = (UISlider *)sender;
     UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
         NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
-        if (duration > 0) {
+        if (duration > 0&&_isRtmp==NO) {
             [self seekProgress:slider.value];
         }
         else {
             slider.value = 0.0f;
-            //NSLog(@"###########当前是直播状态无法拖拽进度###########");
+            [self showNotice:@"直播不支持拖拽"];
         }
 }
 #pragma mark - Touch event
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//        _mediaControlViewController.isKSYPlayerPling =_phoneLivePlayVC.player.isPlaying;
         UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
         _mediaControlViewController.startPoint = [[touches anyObject] locationInView:_mediaControlViewController.view];
         _mediaControlViewController.curPosition = progressSlider.value;
@@ -805,7 +636,7 @@
         }
         return ;
     }
-        else if (duration > 0 && ( _mediaControlViewController.gestureType == kKSYUnknown ||  _mediaControlViewController.gestureType == kKSYProgress)) {
+        else if (_isRtmp==NO&&duration > 0 && ( _mediaControlViewController.gestureType == kKSYUnknown ||  _mediaControlViewController.gestureType == kKSYProgress)) {
     
             
             if (fabs(deltaX) > fabs(deltaY)) {
@@ -854,13 +685,13 @@
                 [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
             }
         }
-        else if (duration <= 0 && (_mediaControlViewController.gestureType == kKSYUnknown || _mediaControlViewController.gestureType == kKSYProgress)) {
-//            if (!_isPrepared) {
-//                return;
-//            }
+        else if (_isRtmp==YES && (_mediaControlViewController.gestureType == kKSYUnknown || _mediaControlViewController.gestureType == kKSYProgress)) {
+            if (![_phoneLivePlayVC.player isPreparedToPlay]) {
+                return;
+            }
             NSLog(@"durationnnnn is %@",@(duration));
     
-//            [self showNotice:@"直播不支持拖拽"];
+            [self showNotice:@"直播不支持拖拽"];
         }
 }
 
@@ -904,38 +735,47 @@
     _mediaControlViewController.gestureType = kKSYUnknown;
 }
 
-#pragma mark 转到另一个控制器
--(void)back
+- (void)clickSnapBtn:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    UIImage *snapImage = [_phoneLivePlayVC.player thumbnailImageAtCurrentTime];
+    UIImageWriteToSavedPhotosAlbum(snapImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+#pragma mark - Snap delegate
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error == nil) {
+        CGRect noticeRect = CGRectMake(0, 0, 100, 100);
+        SJSnapeView *noticeView = [[SJSnapeView alloc] initWithFrame:noticeRect];
+        noticeView.center = _phoneLivePlayVC.center;
+        [_phoneLivePlayVC addSubview:noticeView];
+        // **** dismiss
+        [UIView animateWithDuration:1.0 animations:^{
+            noticeView.alpha = 0.0f;
+        } completion:^(BOOL finished) {
+            [noticeView removeFromSuperview];
+        }];
+    }
 }
 
 
+#pragma mark 转到另一个控制器
+-(void)back
+{
+    [_phoneLivePlayVC stop];
+    [self unregisterApplicationObservers];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
-#pragma mark - UIInterface layout subviews
+#pragma mark  菜单按钮
+- (void)menu
+{
+    
+}
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-//{
-//    return toInterfaceOrientation == UIInterfaceOrientationMaskLandscapeLeft;
-//}
-//
-//- (BOOL)shouldAutorotate
-//{
-//    return YES;
-//}
-//
-//- (NSUInteger)supportedInterfaceOrientations
-//{
-//    return UIInterfaceOrientationMaskLandscapeLeft;//只支持这一个方向(正常的方向)
-//}
-//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-//{
-//    return UIInterfaceOrientationMaskLandscapeLeft;
-//}
 - (void)dealloc
 {
     [_phoneLivePlayVC stop];
-    
     [self unregisterApplicationObservers];
 }
 

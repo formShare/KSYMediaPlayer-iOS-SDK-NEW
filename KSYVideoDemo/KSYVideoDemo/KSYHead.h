@@ -14,6 +14,12 @@
 #import "KSYBasePlayView.h"
 #import "ThemeManager.h"
 #import "MediaVoiceView.h"
+#import "KSY1TableViewCell.h"
+#import "Model1.h"
+#import "KSY2TableViewCell.h"
+#import "Model2.h"
+#import "KSY3TableViewCell.h"
+#import "Model3.h"
 
 //屏幕的宽高
 #define THESCREENWIDTH [UIScreen mainScreen].bounds.size.width
@@ -37,6 +43,6 @@
 #define kTotalLabelTag              193
 #define kCurrentLabelTag            192
 #define ksyTextFieldTag             191
-
+#define kDetailViewTag              190
 
 #endif /* KSYHead_h */

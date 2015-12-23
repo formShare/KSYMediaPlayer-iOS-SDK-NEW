@@ -162,6 +162,7 @@
 #pragma mark- notify
 -(void)handlePlayerNotify:(NSNotification*)notify
 {
+    
     if (!_player) {
         return;
     }

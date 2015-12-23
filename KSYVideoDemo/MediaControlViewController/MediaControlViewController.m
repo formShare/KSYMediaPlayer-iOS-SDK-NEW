@@ -16,7 +16,8 @@
 #import <mach/mach.h>
 #import "KSBarrageView.h"
 
-@interface MediaControlViewController (){
+@interface MediaControlViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
     
     MediaControlView *mediaControlView;
     BOOL _isKSYPlayerPling;
@@ -514,9 +515,9 @@
         [showScaleBtn setTitle:@"4:3" forState:UIControlStateNormal];
     }
     _curVideoScale = scale;
-    if ([_delegate respondsToSelector:@selector(setVideoScale:)] == YES) {
-        [_delegate setVideoScale:scale];
-    }
+//    if ([_delegate respondsToSelector:@selector(setVideoScale:)] == YES) {
+//        [_delegate setVideoScale:scale];
+//    }
     
     UIView *scaleView = [self.view viewWithTag:kScaleViewTag];
     [UIView animateWithDuration:0.3 animations:^{
@@ -557,11 +558,35 @@
     }
 
 }
-
+#pragma mark 表视图代理
+//返回分区数
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+//返回行数
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 8;
+}
+//返回单元格
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId=@"cell";
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+    if (!cell)
+    {
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.backgroundView.alpha=0.6;
+    }
+    cell.textLabel.text=@"芈月传";
+    return cell;
+}
+#pragma mark 点击抓屏按钮
 - (void)clickSnapBtn:(id)sender {
-//    KSYPlayer *player = [(VideoViewController *)_delegate player];
-//    UIImage *snapImage = [player thumbnailImageAtCurrentTime];
-//    UIImageWriteToSavedPhotosAlbum(snapImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    if ([_delegate respondsToSelector:@selector(clickSnapBtn:)]==YES) {
+        [_delegate clickSnapBtn:sender];
+    }
 }
 #pragma mark 点击设置按钮
 -(void)clickSetBtn:(id)sender
@@ -620,48 +645,6 @@
     [musicPlayer setVolume:0];
     MediaVoiceView *mediaVoiceView = (MediaVoiceView *)[self.view viewWithTag:kMediaVoiceViewTag];
     [mediaVoiceView setIVoice:0];
-}
-
-#pragma mark - Snap delegate
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if (error == nil) {
-        
-        CGRect noticeRect = CGRectMake(0, 0, 100, 100);
-        UIView *noticeView = [[UIView alloc] initWithFrame:noticeRect];
-        noticeView.backgroundColor = [UIColor clearColor];
-        CGPoint center = self.view.center;
-        noticeView.center = CGPointMake(center.y, center.x);
-        [self.view addSubview:noticeView];
-        
-        UIView *noticeBgView = [[UIView alloc] initWithFrame:noticeView.bounds];
-        noticeBgView.backgroundColor = [UIColor blackColor];
-        noticeBgView.alpha = 0.6f;
-        noticeBgView.layer.masksToBounds = YES;
-        noticeBgView.layer.cornerRadius = 3;
-        [noticeView addSubview:noticeBgView];
-        
-        // **** mark
-        CGRect imgRect = CGRectMake(32, 7, 36, 36);
-        UIImageView *completeImgView = [[UIImageView alloc] initWithFrame:imgRect];
-        UIImage *snapCompleteImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_complete_normal"];
-        completeImgView.image = snapCompleteImg;
-        [noticeView addSubview:completeImgView];
-        
-        CGRect labelRect = CGRectMake(0, 57, 100, 36);
-        UILabel *label = [[UILabel alloc] initWithFrame:labelRect];
-        label.text = @"截图成功";
-        label.textColor = [UIColor whiteColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [noticeView addSubview:label];
-        
-        // **** dismiss
-        [UIView animateWithDuration:1.0 animations:^{
-            noticeView.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            [noticeView removeFromSuperview];
-        }];
-    }
 }
 
 #pragma mark - Touch event

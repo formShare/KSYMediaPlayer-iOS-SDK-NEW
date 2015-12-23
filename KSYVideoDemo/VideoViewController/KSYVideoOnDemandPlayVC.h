@@ -15,7 +15,8 @@
     
     BOOL _pauseInBackground;//是否进入后台
 }
-
+@property (nonatomic, assign) BOOL isRtmp;//是否是rtmp直播
+@property (nonatomic,copy) NSString *videoPath;
 @property (nonatomic, strong) NSURL *videoUrl;//视频资源地址
 @property (nonatomic) BOOL isFullScreen;//全屏标志
 @property (nonatomic, assign) BOOL isCycleplay;//循环标志
