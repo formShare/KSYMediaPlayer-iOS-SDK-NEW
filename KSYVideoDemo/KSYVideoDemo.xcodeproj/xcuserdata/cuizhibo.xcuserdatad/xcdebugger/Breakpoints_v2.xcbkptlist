@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "183"
             endingLineNumber = "183"
-            landmarkName = "-moviePlayerFinishState:"
+            landmarkName = "-moviePlayerReadSize:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

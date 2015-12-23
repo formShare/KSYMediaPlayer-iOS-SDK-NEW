@@ -122,7 +122,6 @@
     _player.shouldAutoplay = YES;
     [_player prepareToPlay];
     [self.view addSubview:_player.view];
-    //设置播放器播放视图的大小
     _player.view.frame = CGRectMake(0,64,self.view.width,(self.view.height-64)/2);
     [_player setScalingMode:MPMovieScalingModeAspectFit];
     //如果是低延时模式
@@ -518,7 +517,7 @@
 #pragma mark －导航按钮响应事件
 - (void)back
 {
-//    [_player shutdown];
+    [_player stop];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)menu
@@ -529,7 +528,7 @@
 }
 - (void)theplay
 {
-    if (!isPreperded)
+    if (!_player)
     {
         return;
     }

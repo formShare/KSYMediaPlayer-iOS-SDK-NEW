@@ -16,7 +16,8 @@
 #import <mach/mach.h>
 #import "KSBarrageView.h"
 
-@interface MediaControlViewController (){
+@interface MediaControlViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
     
     MediaControlView *mediaControlView;
     BOOL _isKSYPlayerPling;
@@ -33,24 +34,10 @@
     KSBarrageView *_barrageView;
     BOOL fullScreenModeToggled;
 }
-@property (nonatomic, assign) BOOL isOpened;
-@property (nonatomic, assign) BOOL isActive;
-@property (nonatomic, assign) BOOL isCompleted;
-@property (nonatomic, assign) BOOL isLocked;
-@property (nonatomic, assign) CGPoint startPoint;
-@property (nonatomic, assign) CGFloat curPosition;
-@property (nonatomic, strong) UIView *loadingView;
-@property (nonatomic, strong) UIView *errorView;
-@property (nonatomic, strong) UITableView *episodeTableView;
-@property (nonatomic, assign) NSInteger audioAmplify;
-@property (nonatomic, assign) CGFloat curVoice;
-@property (nonatomic, assign) CGFloat curBrightness;
-@property (nonatomic, assign) KSYGestureType gestureType;
 
 @end
 
 @implementation MediaControlViewController
-
 - (void)dealloc
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
@@ -61,8 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // **** player delegate
-//    KSYPlayer *player = [(VideoViewController *)_delegate player];
-//    player.delegate = self;
     
     _isEnd = NO;
     _isActive = YES;
@@ -166,36 +151,10 @@
 }
 
 - (void)refreshControl {
-//    UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
-//    UILabel *endLabel = (UILabel *)[self.view viewWithTag:kProgressMaxLabelTag];
-//    UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
-//    
-//    NSInteger duration = (NSInteger)[(VideoViewController *)_delegate player].duration;
-//    NSLog(@"duration is %@",@(duration));
-//    NSInteger playableDuration = (NSInteger)[(VideoViewController *)_delegate player].playableDuration;
-//    NSLog(@"playableDuration is %@",@(playableDuration));
-//    
-//    NSInteger position = (NSInteger)[(VideoViewController *)_delegate player].currentPlaybackTime;
-//    NSLog(@"position is %@",@(position));
-//    int iMin  = (int)(position / 60);
-//    int iSec  = (int)(position % 60);
-//    startLabel.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
-//    if (duration > 0) {
-//        int iDuraMin  = (int)(duration / 60);
-//        int iDuraSec  = (int)(duration % 3600 % 60);
-//        endLabel.text = [NSString stringWithFormat:@"/%02d:%02d", iDuraMin, iDuraSec];
-//        progressSlider.value = position;
-//        progressSlider.maximumValue = duration;
-//    }
-//    else {
-//        endLabel.text = @"--:--";
-//        progressSlider.value = 0.0f;
-//        progressSlider.maximumValue = 1.0f;
-//    }
-//    if (_isActive == YES && _isEnd == NO) {
-//        [self performSelector:@selector(refreshControl) withObject:nil afterDelay:1.0];
-//    }
-    
+    if ([_delegate respondsToSelector:@selector(refreshControl)]==YES)
+    {
+        [_delegate refreshControl];
+    }
 }
 #pragma mark 点击弹幕按钮
 - (void)clickDanmuBtn:(id)sender
@@ -299,9 +258,6 @@
 
 - (void)clickPlayBtn:(id)sender
 {
-    if (!_isPrepared) {
-        return;
-    }
     UIButton *btn = (UIButton *)sender;
     UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
     UIImage *paueImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
@@ -422,75 +378,28 @@
     }];
 }
 
-- (void)progressDidBegin:(id)slider
+- (void)progressDidBegin:(id)sender
 {
-//    KSYPlayer *player = [(VideoViewController *)_delegate player];
-//    _isKSYPlayerPling = player.isPlaying;
-//    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
-//    [(UISlider *)slider setThumbImage:dotImg forState:UIControlStateNormal];
-//    NSInteger duration = (NSInteger)[(VideoViewController *)_delegate player].duration;
-//    if (duration > 0) {
-//        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-//        if ([_delegate isPlaying] == YES) {
-//            _isActive = NO;
-//            [_delegate pause];
-//            UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
-//            UIButton *btn = (UIButton *)[self.view viewWithTag:kBarPlayBtnTag];
-//            [btn setImage:playImg forState:UIControlStateNormal];
-//        }
-//    }
+    if ([_delegate respondsToSelector:@selector(progressDidBegin:)]==YES)
+    {
+        [_delegate progressDidBegin:sender];
+    }
 }
 
 - (void)progressChanged:(id)sender {
-    UISlider *slider = (UISlider *)sender;
-    if (!_isPrepared) {
-        slider.value = 0.0f;
-        return;
+
+    if ([_delegate respondsToSelector:@selector(progressChanged:)]==YES)
+    {
+        [_delegate progressChanged:sender];
     }
-//    NSInteger duration = (NSInteger)[(VideoViewController *)_delegate player].duration;
-//    if (duration > 0) {
-//        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-//        UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
-//        UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
-//        
-//        if ([_delegate isPlaying] == YES) {
-//            _isActive = NO;
-//            [_delegate pause];
-//            UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
-//            UIButton *btn = (UIButton *)[self.view viewWithTag:kBarPlayBtnTag];
-//            [btn setImage:playImg forState:UIControlStateNormal];
-//        }
-//        NSInteger position = progressSlider.value;
-//        int iMin  = (int)(position / 60);
-//        int iSec  = (int)(position % 60);
-//        NSString *strCurTime = [NSString stringWithFormat:@"%02d:%02d/", iMin, iSec];
-//        startLabel.text = strCurTime;
-//    }
-//    else {
-//        slider.value = 0.0f;
-//        [self showNotice:@"直播不支持拖拽"];
-//    }
+
 }
 
 - (void)progressChangeEnd:(id)sender {
-    if (!_isPrepared) {
-        return;
-    }
-    
-    UISlider *slider = (UISlider *)sender;
-    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
-    [slider setThumbImage:dotImg forState:UIControlStateNormal];
-//    NSInteger duration = (NSInteger)[(VideoViewController *)_delegate player].duration;
-//    if (duration > 0) {
-//        if ([_delegate respondsToSelector:@selector(seekProgress:)] == YES) {
-//            [_delegate seekProgress:slider.value];
-//        }
-//    }
-//    else {
-//        slider.value = 0.0f;
-//        //NSLog(@"###########当前是直播状态无法拖拽进度###########");
-//    }
-}
+    if ([_delegate respondsToSelector:@selector(progressChangeEnd:)]==YES)
+    {
+        [_delegate progressChangeEnd:sender];
+    }}
 
 - (void)brightnessChanged:(id)sender {
     UISlider *slider = (UISlider *)sender;
@@ -517,46 +426,10 @@
     [musicPlayer setVolume:voiceSlider.value];
 }
 //全屏按钮
-- (void)clickFullBtn:(id)sender {
-    
-//    VideoViewController *videoView = (VideoViewController *)_delegate;
-//    if (videoView.fullScreenModeToggled) {
-//        videoView.beforeOrientation = UIDeviceOrientationPortrait;
-//        [videoView minimizeVideo];
-//        videoView.deviceOrientation = UIDeviceOrientationPortrait;
-//    }else{
-//        videoView.beforeOrientation = UIDeviceOrientationLandscapeLeft;
-//        [videoView launchFullScreen];
-//        videoView.deviceOrientation = UIDeviceOrientationLandscapeLeft;
-//    }
-//    fullScreenModeToggled=!fullScreenModeToggled;
-//    VideoViewController *videoView = (VideoViewController *)_delegate;
-//    if (fullScreenModeToggled) {
-//        [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
-//        [videoView launchFullScreen];
-//        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
-//        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
-//        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
-//    }else{
-//        [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
-//        [videoView minimizeVideo];
-//        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
-//        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
-//        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
-//    }
-}
-//手动设置设备方向，这样就能收到转屏事件
-- (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
-{
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
+- (void)clickFullBtn {
+    if ([_delegate respondsToSelector:@selector(clickFullBtn)]==YES)
     {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val = toOrientation;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
+        [_delegate clickFullBtn];
     }
 }
 - (void)clickBackBtn:(id)sender
@@ -642,9 +515,9 @@
         [showScaleBtn setTitle:@"4:3" forState:UIControlStateNormal];
     }
     _curVideoScale = scale;
-    if ([_delegate respondsToSelector:@selector(setVideoScale:)] == YES) {
-        [_delegate setVideoScale:scale];
-    }
+//    if ([_delegate respondsToSelector:@selector(setVideoScale:)] == YES) {
+//        [_delegate setVideoScale:scale];
+//    }
     
     UIView *scaleView = [self.view viewWithTag:kScaleViewTag];
     [UIView animateWithDuration:0.3 animations:^{
@@ -685,11 +558,35 @@
     }
 
 }
-
+#pragma mark 表视图代理
+//返回分区数
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+//返回行数
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 8;
+}
+//返回单元格
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId=@"cell";
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+    if (!cell)
+    {
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.backgroundView.alpha=0.6;
+    }
+    cell.textLabel.text=@"芈月传";
+    return cell;
+}
+#pragma mark 点击抓屏按钮
 - (void)clickSnapBtn:(id)sender {
-//    KSYPlayer *player = [(VideoViewController *)_delegate player];
-//    UIImage *snapImage = [player thumbnailImageAtCurrentTime];
-//    UIImageWriteToSavedPhotosAlbum(snapImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    if ([_delegate respondsToSelector:@selector(clickSnapBtn:)]==YES) {
+        [_delegate clickSnapBtn:sender];
+    }
 }
 #pragma mark 点击设置按钮
 -(void)clickSetBtn:(id)sender
@@ -736,7 +633,7 @@
         toolView.alpha = 1.0;
         qualityView.alpha = 1.0;
         scaleView.alpha = 1.0;
-        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"lock_open_normal"];
+        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
         UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
         [lockBtn setImage:lockOpenImg_n forState:UIControlStateNormal];
         [lockBtn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
@@ -750,210 +647,24 @@
     [mediaVoiceView setIVoice:0];
 }
 
-#pragma mark - Snap delegate
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if (error == nil) {
-        
-        CGRect noticeRect = CGRectMake(0, 0, 100, 100);
-        UIView *noticeView = [[UIView alloc] initWithFrame:noticeRect];
-        noticeView.backgroundColor = [UIColor clearColor];
-        CGPoint center = self.view.center;
-        noticeView.center = CGPointMake(center.y, center.x);
-        [self.view addSubview:noticeView];
-        
-        UIView *noticeBgView = [[UIView alloc] initWithFrame:noticeView.bounds];
-        noticeBgView.backgroundColor = [UIColor blackColor];
-        noticeBgView.alpha = 0.6f;
-        noticeBgView.layer.masksToBounds = YES;
-        noticeBgView.layer.cornerRadius = 3;
-        [noticeView addSubview:noticeBgView];
-        
-        // **** mark
-        CGRect imgRect = CGRectMake(32, 7, 36, 36);
-        UIImageView *completeImgView = [[UIImageView alloc] initWithFrame:imgRect];
-        UIImage *snapCompleteImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_complete_normal"];
-        completeImgView.image = snapCompleteImg;
-        [noticeView addSubview:completeImgView];
-        
-        CGRect labelRect = CGRectMake(0, 57, 100, 36);
-        UILabel *label = [[UILabel alloc] initWithFrame:labelRect];
-        label.text = @"截图成功";
-        label.textColor = [UIColor whiteColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [noticeView addSubview:label];
-        
-        // **** dismiss
-        [UIView animateWithDuration:1.0 animations:^{
-            noticeView.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            [noticeView removeFromSuperview];
-        }];
-    }
-}
-
 #pragma mark - Touch event
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    KSYPlayer *player = [(VideoViewController *)_delegate player];
-//    _isKSYPlayerPling = player.isPlaying;
-//    UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
-//    _startPoint = [[touches anyObject] locationInView:self.view];
-//    _curPosition = progressSlider.value;
-//    _curBrightness = [[UIScreen mainScreen] brightness];
-//    _curVoice = [MPMusicPlayerController applicationMusicPlayer].volume;
+    if ([_delegate respondsToSelector:@selector(touchesBegan:withEvent:)]==YES) {
+        [_delegate touchesBegan:touches withEvent:event];
+    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    // **** 锁屏状态下，屏幕禁用
-    if (_isLocked == YES) {
-        return;
+    if ([_delegate respondsToSelector:@selector(touchesMoved:withEvent:)]==YES) {
+        [_delegate touchesMoved:touches withEvent:event];
     }
-    CGPoint curPoint = [[touches anyObject] locationInView:self.view];
-    CGFloat deltaX = curPoint.x - _startPoint.x;
-    CGFloat deltaY = curPoint.y - _startPoint.y;
-    CGFloat totalWidth = self.view.frame.size.width;
-    CGFloat totalHeight = self.view.frame.size.height;
-    if (totalHeight == [[UIScreen mainScreen] bounds].size.height) {
-        totalWidth = self.view.frame.size.height;
-        totalHeight = self.view.frame.size.width;
-    }
-//    NSInteger duration = (NSInteger)[(VideoViewController *)_delegate player].duration;
-//    NSLog(@"durationnnnn is %@",@(duration));
-    
-    if (fabs(deltaX) < fabs(deltaY)) {
-        // **** 亮度
-        if ((curPoint.x < totalWidth / 2) && (_gestureType == kKSYUnknown || _gestureType == kKSYBrightness)) {
-            CGFloat deltaBright = deltaY / totalHeight * 1.0;
-            [[UIScreen mainScreen] setBrightness:_curBrightness - deltaBright];
-            UISlider *brightnessSlider = (UISlider *)[self.view viewWithTag:kBrightnessSliderTag];
-            [brightnessSlider setValue:_curBrightness - deltaBright animated:NO];
-            UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
-            [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
-            UIView *brightnessView = [self.view viewWithTag:kBrightnessViewTag];
-            brightnessView.alpha = 1.0;
-            _gestureType = kKSYBrightness;
-        }
-        // **** 声音
-        else if (_gestureType == kKSYUnknown || _gestureType == kKSYVoice) {
-            CGFloat deltaVoice = deltaY / totalHeight * 1.0;
-            MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-            CGFloat voiceValue = _curVoice - deltaVoice;
-            if (voiceValue < 0) {
-                voiceValue = 0;
-            }
-            else if (voiceValue > 1) {
-                voiceValue = 1;
-            }
-            [musicPlayer setVolume:voiceValue];
-            MediaVoiceView *mediaVoiceView = (MediaVoiceView *)[self.view viewWithTag:kMediaVoiceViewTag];
-            [mediaVoiceView setIVoice:voiceValue];
-            _gestureType = kKSYVoice;
-        }
-        return ;
-    }
-//    else if (duration > 0 && (_gestureType == kKSYUnknown || _gestureType == kKSYProgress)) {
-//        
-//        if (!_isPrepared) {
-//            return;
-//        }
-//        if (fabs(deltaX) > fabs(deltaY)) {
-//            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-//            if ([_delegate isPlaying] == YES) {
-//                [self clickPlayBtn:nil]; // **** 拖拽进度时，暂停播放
-//            }
-//            _gestureType = kKSYProgress;
-//            
-//            [self performSelector:@selector(showORhideProgressView:) withObject:@NO];
-//            CGFloat deltaProgress = deltaX / totalWidth * duration;
-//            UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
-//            UIView *progressView = [self.view viewWithTag:kProgressViewTag];
-//            UILabel *progressViewCurLabel = (UILabel *)[self.view viewWithTag:kCurProgressLabelTag];
-//            UIImageView *wardImageView = (UIImageView *)[self.view viewWithTag:kWardMarkImgViewTag];
-//            UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
-//            NSInteger position = _curPosition + deltaProgress;
-//            if (position < 0) {
-//                position = 0;
-//            }
-//            else if (position > duration) {
-//                position = duration;
-//            }
-//            progressSlider.value = position;
-//            int iMin1  = ((int)labs(position) / 60);
-//            int iSec1  = ((int)labs(position) % 60);
-//            int iMin2  = ((int)fabs(deltaProgress) / 60);
-//            int iSec2  = ((int)fabs(deltaProgress) % 60);
-//            NSString *strCurTime1 = [NSString stringWithFormat:@"%02d:%02d/", iMin1, iSec1];
-//            NSString *strCurTime2 = [NSString stringWithFormat:@"%02d:%02d", iMin2, iSec2];
-//            startLabel.text = strCurTime1;
-//            if (deltaX > 0) {
-//                strCurTime2 = [@"+" stringByAppendingString:strCurTime2];
-//                UIImage *forwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_forward_normal"];
-//                wardImageView.frame = CGRectMake(progressView.frame.size.width - 30, 15, 20, 20);
-//                wardImageView.image = forwardImg;
-//            }
-//            else {
-//                strCurTime2 = [@"-" stringByAppendingString:strCurTime2];
-//                UIImage *backwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_backward_normal"];
-//                wardImageView.frame = CGRectMake(10, 15, 20, 20);
-//                wardImageView.image = backwardImg;
-//            }
-//            progressViewCurLabel.text = strCurTime2;
-//            UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
-//            [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
-//        }
-//    }
-//    else if (duration <= 0 && (_gestureType == kKSYUnknown || _gestureType == kKSYProgress)) {
-//        if (!_isPrepared) {
-//            return;
-//        }
-//        NSLog(@"durationnnnn is %@",@(duration));
-//        
-//        [self showNotice:@"直播不支持拖拽"];
-//    }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (_gestureType == kKSYUnknown) { // **** tap 动作
-        if (_isActive == YES) {
-            [self hideAllControls];
-            UITableView *epsTableView=(UITableView *)[self.view viewWithTag:kEpisodeTableViewTag];
-            epsTableView.hidden=YES;
-            UIView *commentView=[self.view viewWithTag:kCommentViewTag];
-            commentView.hidden=YES;
-            UITextField *commentField=(UITextField *)[self.view viewWithTag:kCommentFieldTag];
-            [commentField resignFirstResponder];
-        }
-        else {
-            [self showAllControls];
-            UIView *setView=[self.view viewWithTag:kSetViewTag];
-            setView.hidden=YES;
-        }
+    if ([_delegate respondsToSelector:@selector(touchesEnded:withEvent:)]==YES) {
+        [_delegate touchesEnded:touches withEvent:event];
     }
-    else if (_gestureType == kKSYProgress) {
-        if (!_isPrepared) {
-            return;
-        }
-        
-        UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kProgressSliderTag];
-        if ([_delegate respondsToSelector:@selector(seekProgress:)] == YES) {
-            [_delegate seekProgress:progressSlider.value];
-        }
-        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
-        [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
-    }
-    else if (_gestureType == kKSYBrightness) {
-        UISlider *brightnessSlider = (UISlider *)[self.view viewWithTag:kBrightnessSliderTag];
-        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
-        [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
-        if (_isActive == NO) {
-            UIView *brightnessView = [self.view viewWithTag:kBrightnessViewTag];
-            [UIView animateWithDuration:0.3 animations:^{
-                brightnessView.alpha = 0.0f;
-            }];
-        }
-    }
-    _gestureType = kKSYUnknown;
 }
 
 - (void)seekCompletedWithPosition:(CGFloat)position {
@@ -1306,24 +1017,6 @@
 }
 
 int count = 0;
-
-//- (void)retiveDrmKey:(NSString *)drmVersion player:(KSYPlayer *)player
-//{
-//    DrmRelativeModel *relativeModle = [DrmRelativeModel new];
-//    relativeModle.kscDrmHost = @"115.231.96.89:80";
-//    relativeModle.customName = @"service";
-//    relativeModle.drmMethod = @"GetCek";
-//    relativeModle.expire = @"1710333224";
-//    relativeModle.nonce = @"12341234";
-//    relativeModle.accessKeyId = @"2HITWMQXL2VBB3XMAEHQ";
-//    //    relativeModle.signature = @"5iZ1rTfBjF/9v3U0k/1Pezx98RE=";
-//    relativeModle.cekVersion = drmVersion;
-//    
-//    [player setRelativeFullURLWithSecretKey:@"ilZQ9p/NHAK1dOYA/dTKKeIqT/t67rO6V2PrXUNr" drmRelativeModel:relativeModle];
-//    //    [player setRelativeFullURLWithAccessKey:@"2HITWMQXL2VBB3XMAEHQ" secretKey:@"ilZQ9p/NHAK1dOYA/dTKKeIqT/t67rO6V2PrXUNr" drmRelativeModel:relativeModle];
-//    //    [player setDrmKey:@"72" cek:@"123a9bd9af2aa4f85d84099d9e6b6be3"];
-//    count++;
-//}
 
 // 获取当前任务所占用的内存（单位：MB）
 - (double)usedMemory

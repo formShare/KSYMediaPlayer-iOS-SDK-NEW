@@ -59,6 +59,11 @@
 		7CDBE5EA1C17D7E100D221C7 /* KSYSpectatorsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5E91C17D7E100D221C7 /* KSYSpectatorsTableView.m */; };
 		7CDBE5ED1C17DF9B00D221C7 /* KSYSpectatorsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5EC1C17DF9B00D221C7 /* KSYSpectatorsCell.m */; };
 		7CDBE5F01C18005000D221C7 /* SpectatorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBE5EF1C18005000D221C7 /* SpectatorModel.m */; };
+		E3236FEC1C2A7D8600CB6B99 /* SJDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FEB1C2A7D8600CB6B99 /* SJDetailView.m */; };
+		E341BB8B1C2A690300E4A4A4 /* SJSnapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */; };
+		E341BB8F1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB8E1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m */; };
+		E341BB921C2A6D3400E4A4A4 /* SJCtrBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB911C2A6D3400E4A4A4 /* SJCtrBarView.m */; };
+		E341BB951C2A723100E4A4A4 /* SJNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB941C2A723100E4A4A4 /* SJNoticeView.m */; };
 		E37D16111C2819750009715A /* Model1.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D160C1C2819750009715A /* Model1.m */; };
 		E37D16121C2819750009715A /* Model2.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D160E1C2819750009715A /* Model2.m */; };
 		E37D16131C2819750009715A /* Model3.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16101C2819750009715A /* Model3.m */; };
@@ -189,6 +194,16 @@
 		7CDBE5EC1C17DF9B00D221C7 /* KSYSpectatorsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYSpectatorsCell.m; sourceTree = "<group>"; };
 		7CDBE5EE1C18005000D221C7 /* SpectatorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectatorModel.h; sourceTree = "<group>"; };
 		7CDBE5EF1C18005000D221C7 /* SpectatorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectatorModel.m; sourceTree = "<group>"; };
+		E3236FEA1C2A7D8600CB6B99 /* SJDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDetailView.h; sourceTree = "<group>"; };
+		E3236FEB1C2A7D8600CB6B99 /* SJDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDetailView.m; sourceTree = "<group>"; };
+		E341BB891C2A690300E4A4A4 /* SJSnapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJSnapeView.h; path = SJView/SJSnapeView.h; sourceTree = "<group>"; };
+		E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJSnapeView.m; path = SJView/SJSnapeView.m; sourceTree = "<group>"; };
+		E341BB8D1C2A6D0200E4A4A4 /* SJLiveCtrBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJLiveCtrBarView.h; path = SJView/SJLiveCtrBarView.h; sourceTree = "<group>"; };
+		E341BB8E1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJLiveCtrBarView.m; path = SJView/SJLiveCtrBarView.m; sourceTree = "<group>"; };
+		E341BB901C2A6D3400E4A4A4 /* SJCtrBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJCtrBarView.h; path = SJView/SJCtrBarView.h; sourceTree = "<group>"; };
+		E341BB911C2A6D3400E4A4A4 /* SJCtrBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJCtrBarView.m; path = SJView/SJCtrBarView.m; sourceTree = "<group>"; };
+		E341BB931C2A723100E4A4A4 /* SJNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJNoticeView.h; path = SJView/SJNoticeView.h; sourceTree = "<group>"; };
+		E341BB941C2A723100E4A4A4 /* SJNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJNoticeView.m; path = SJView/SJNoticeView.m; sourceTree = "<group>"; };
 		E37D160B1C2819750009715A /* Model1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model1.h; sourceTree = "<group>"; };
 		E37D160C1C2819750009715A /* Model1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model1.m; sourceTree = "<group>"; };
 		E37D160D1C2819750009715A /* Model2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model2.h; sourceTree = "<group>"; };
@@ -442,6 +457,7 @@
 		7CDBE5D11C158EB300D221C7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E341BB8C1C2A691300E4A4A4 /* SJVIEW */,
 				E37D16331C285BA70009715A /* KSBarrageItemView.h */,
 				E37D16341C285BA70009715A /* KSBarrageItemView.m */,
 				E37D16351C285BA70009715A /* KSBarrageView.h */,
@@ -501,6 +517,23 @@
 				7CDBE5EC1C17DF9B00D221C7 /* KSYSpectatorsCell.m */,
 			);
 			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		E341BB8C1C2A691300E4A4A4 /* SJVIEW */ = {
+			isa = PBXGroup;
+			children = (
+				E341BB891C2A690300E4A4A4 /* SJSnapeView.h */,
+				E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */,
+				E341BB8D1C2A6D0200E4A4A4 /* SJLiveCtrBarView.h */,
+				E341BB8E1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m */,
+				E341BB901C2A6D3400E4A4A4 /* SJCtrBarView.h */,
+				E341BB911C2A6D3400E4A4A4 /* SJCtrBarView.m */,
+				E341BB931C2A723100E4A4A4 /* SJNoticeView.h */,
+				E341BB941C2A723100E4A4A4 /* SJNoticeView.m */,
+				E3236FEA1C2A7D8600CB6B99 /* SJDetailView.h */,
+				E3236FEB1C2A7D8600CB6B99 /* SJDetailView.m */,
+			);
+			name = SJVIEW;
 			sourceTree = "<group>";
 		};
 		E37D161E1C284FBC0009715A /* New Group */ = {
@@ -577,7 +610,7 @@
 				TargetAttributes = {
 					0A68AA431ABBFAE2006CA2EF = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = R5WW6M762K;
+						DevelopmentTeam = HFUZX7Q4Y8;
 					};
 					0A68AA5C1ABBFAE3006CA2EF = {
 						CreatedOnToolsVersion = 6.2;
@@ -660,6 +693,7 @@
 				7CCEAE251C23D7E3009E2F89 /* KSYBasePlayView.m in Sources */,
 				7CDBE5A71C15557B00D221C7 /* KSYPopilarLivePlayBackVC.m in Sources */,
 				7CD2AD391C0D969A00E6532D /* KSYMainViewController.m in Sources */,
+				E3236FEC1C2A7D8600CB6B99 /* SJDetailView.m in Sources */,
 				7CDBE5D71C15B12100D221C7 /* UIView+BFExtension.m in Sources */,
 				7CB994F41C28016100E86919 /* KSYBarView.m in Sources */,
 				7CDBE5C01C157C0D00D221C7 /* UIViewController+PlayerState.m in Sources */,
@@ -667,6 +701,8 @@
 				7CCEAE221C23B632009E2F89 /* NSObject+PlayerControl.m in Sources */,
 				E37D16121C2819750009715A /* Model2.m in Sources */,
 				7C43B9C41C18317100AB8402 /* CommentModel.m in Sources */,
+				E341BB921C2A6D3400E4A4A4 /* SJCtrBarView.m in Sources */,
+				E341BB8B1C2A690300E4A4A4 /* SJSnapeView.m in Sources */,
 				7CDBE5E51C16E02700D221C7 /* KSYCommentCell.m in Sources */,
 				0A68AA4D1ABBFAE2006CA2EF /* AppDelegate.m in Sources */,
 				0A68AA4A1ABBFAE2006CA2EF /* main.m in Sources */,
@@ -677,6 +713,7 @@
 				7CDBE5ED1C17DF9B00D221C7 /* KSYSpectatorsCell.m in Sources */,
 				E37D161C1C2819C20009715A /* KSY3TableViewCell.m in Sources */,
 				E37D16111C2819750009715A /* Model1.m in Sources */,
+				E341BB951C2A723100E4A4A4 /* SJNoticeView.m in Sources */,
 				7C5CA4DC1C2193BB003A92A8 /* UIColor+ColorExtension.m in Sources */,
 				7CDBE5B31C1555B800D221C7 /* KSYShortVideoPlayVC.m in Sources */,
 				7C43BB991C19853200AB8402 /* KSYInteractiveView.m in Sources */,
@@ -687,6 +724,7 @@
 				E37D16381C285BA70009715A /* KSBarrageView.m in Sources */,
 				E37D161B1C2819C20009715A /* KSY2TableViewCell.m in Sources */,
 				7CDBE5B01C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m in Sources */,
+				E341BB8F1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m in Sources */,
 				7CDBE5EA1C17D7E100D221C7 /* KSYSpectatorsTableView.m in Sources */,
 				E37D161A1C2819C20009715A /* KSY1TableViewCell.m in Sources */,
 			);
@@ -836,7 +874,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: zhibo cui (3LK9B55BG9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 海彬 郭 (D6DRR5Z3C4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: zhibo cui (3LK9B55BG9)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -140,13 +140,13 @@
             if (indexPath.row == 0) {
                 KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
                 [self.navigationController pushViewController:view animated:YES];
-                NSString *path=[NSString stringWithFormat:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
-                view.videoUrl=[NSURL URLWithString:path];
+                view.videoPath=[NSString stringWithFormat:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
+                view.isRtmp=YES;
             }else {
                 KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
-                NSString *path=[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
-                view.videoUrl=[NSURL URLWithString:path];
+                view.videoPath =[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
                 [self.navigationController pushViewController:view animated:YES];
+                view.isRtmp=NO;
             }
         }
             break;
@@ -169,9 +169,9 @@
         case 2:
         {
             KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
-            NSString *path=[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
-            view.videoUrl=[NSURL URLWithString:path];
+            view.videoPath=[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
             [self.navigationController pushViewController:view animated:YES];
+            view.isRtmp=NO;
         }
             break;
         case 3:

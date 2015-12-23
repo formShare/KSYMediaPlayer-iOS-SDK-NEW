@@ -45,6 +45,18 @@
         }else if ([urlString hasPrefix:@"rtmp"]){
             self.isLivePlay = YES;
         }
+        _player = [[KSYMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:urlString]];
+        
+        
+        _player.controlStyle = MPMovieControlStyleNone;
+        [_player.view setFrame: self.bounds];  // player's frame must match parent's
+        [self addSubview: _player.view];
+        self.autoresizesSubviews = TRUE;
+        _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _player.shouldAutoplay = TRUE;
+        _player.scalingMode = MPMovieScalingModeAspectFit;
+        NSLog(@"ip: %@", [_player serverAddress]);
+        [_player prepareToPlay];
 
         [self addSubview:self.player.view];
         [self addSubview:self.indicator];
@@ -263,6 +275,7 @@
 #pragma mark- notify
 -(void)handlePlayerNotify:(NSNotification*)notify
 {
+    
     if (!_player) {
         return;
     }
