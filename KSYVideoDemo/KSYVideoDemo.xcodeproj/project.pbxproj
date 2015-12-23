@@ -128,7 +128,6 @@
 		1327D3961ACD377F0042A834 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1327D3971ACD377F0042A834 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		13E586121B5F8FD20068F75F /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
-		7C05363C1C2A8F6500A4210F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7C2902DA1C116FC100F95AF3 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		7C43B9C21C18317100AB8402 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		7C43B9C31C18317100AB8402 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
@@ -277,7 +276,6 @@
 		0A68AA3B1ABBFAE2006CA2EF = {
 			isa = PBXGroup;
 			children = (
-				7C05363C1C2A8F6500A4210F /* SystemConfiguration.framework */,
 				7CB994E61C27F96700E86919 /* VideoToolbox.framework */,
 				7CB994E41C27F81A00E86919 /* KSYMediaPlayer.framework */,
 				7C2902DA1C116FC100F95AF3 /* CoreTelephony.framework */,
