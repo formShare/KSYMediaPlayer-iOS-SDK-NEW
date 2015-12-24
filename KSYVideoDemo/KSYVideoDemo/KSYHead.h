@@ -33,16 +33,16 @@
 
 
 
-#define kShortPlayBtnTag            200
-#define kTextFieldTag               199
-#define kCommentViewTag             198
-#define kPlaySliderTag              197
-#define kShortIndicatorViewTag      196
-#define kShortIndicatorLabelTag     195
-#define kShortErrorLabelTag         194
-#define kTotalLabelTag              193
-#define kCurrentLabelTag            192
-#define ksyTextFieldTag             191
-#define kDetailViewTag              190
+#define kShortPlayBtnTag            400
+#define kTextFieldTag               401
+#define kCommentViewTag             402
+#define kPlaySliderTag              403
+#define kShortIndicatorViewTag      404
+#define kShortIndicatorLabelTag     405
+#define kShortErrorLabelTag         406
+#define kTotalLabelTag              407
+#define kCurrentLabelTag            408
+#define ksyTextFieldTag             409
+#define kDetailViewTag              410
 
 #endif /* KSYHead_h */

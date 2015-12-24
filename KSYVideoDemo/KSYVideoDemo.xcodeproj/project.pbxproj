@@ -62,6 +62,8 @@
 		E3236FEC1C2A7D8600CB6B99 /* SJDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FEB1C2A7D8600CB6B99 /* SJDetailView.m */; };
 		E3236FF21C2B85DE00CB6B99 /* KSYVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FF11C2B85DE00CB6B99 /* KSYVideoPlayerView.m */; };
 		E3236FF51C2B9EFF00CB6B99 /* KSYTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FF41C2B9EFF00CB6B99 /* KSYTopView.m */; };
+		E3236FF81C2BA4EA00CB6B99 /* KSYBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FF71C2BA4EA00CB6B99 /* KSYBottomView.m */; };
+		E3236FFE1C2BC05800CB6B99 /* KSYCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FFD1C2BC05800CB6B99 /* KSYCommentView.m */; };
 		E341BB8B1C2A690300E4A4A4 /* SJSnapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */; };
 		E341BB8F1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB8E1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m */; };
 		E341BB921C2A6D3400E4A4A4 /* SJCtrBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB911C2A6D3400E4A4A4 /* SJCtrBarView.m */; };
@@ -201,6 +203,10 @@
 		E3236FF11C2B85DE00CB6B99 /* KSYVideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSYVideoPlayerView.m; path = SJView/KSYVideoPlayerView.m; sourceTree = "<group>"; };
 		E3236FF31C2B9EFF00CB6B99 /* KSYTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYTopView.h; sourceTree = "<group>"; };
 		E3236FF41C2B9EFF00CB6B99 /* KSYTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYTopView.m; sourceTree = "<group>"; };
+		E3236FF61C2BA4EA00CB6B99 /* KSYBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSYBottomView.h; path = SJView/KSYBottomView.h; sourceTree = "<group>"; };
+		E3236FF71C2BA4EA00CB6B99 /* KSYBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSYBottomView.m; path = SJView/KSYBottomView.m; sourceTree = "<group>"; };
+		E3236FFC1C2BC05800CB6B99 /* KSYCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSYCommentView.h; path = SJView/KSYCommentView.h; sourceTree = "<group>"; };
+		E3236FFD1C2BC05800CB6B99 /* KSYCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSYCommentView.m; path = SJView/KSYCommentView.m; sourceTree = "<group>"; };
 		E341BB891C2A690300E4A4A4 /* SJSnapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJSnapeView.h; path = SJView/SJSnapeView.h; sourceTree = "<group>"; };
 		E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJSnapeView.m; path = SJView/SJSnapeView.m; sourceTree = "<group>"; };
 		E341BB8D1C2A6D0200E4A4A4 /* SJLiveCtrBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJLiveCtrBarView.h; path = SJView/SJLiveCtrBarView.h; sourceTree = "<group>"; };
@@ -540,6 +546,10 @@
 				E3236FF11C2B85DE00CB6B99 /* KSYVideoPlayerView.m */,
 				E3236FF31C2B9EFF00CB6B99 /* KSYTopView.h */,
 				E3236FF41C2B9EFF00CB6B99 /* KSYTopView.m */,
+				E3236FF61C2BA4EA00CB6B99 /* KSYBottomView.h */,
+				E3236FF71C2BA4EA00CB6B99 /* KSYBottomView.m */,
+				E3236FFC1C2BC05800CB6B99 /* KSYCommentView.h */,
+				E3236FFD1C2BC05800CB6B99 /* KSYCommentView.m */,
 			);
 			name = SJVIEW;
 			sourceTree = "<group>";
@@ -707,6 +717,7 @@
 				7CB994F41C28016100E86919 /* KSYBarView.m in Sources */,
 				7CDBE5C01C157C0D00D221C7 /* UIViewController+PlayerState.m in Sources */,
 				7C5CA4D91C21638A003A92A8 /* KSYAlertView.m in Sources */,
+				E3236FFE1C2BC05800CB6B99 /* KSYCommentView.m in Sources */,
 				7CCEAE221C23B632009E2F89 /* NSObject+PlayerControl.m in Sources */,
 				E37D16121C2819750009715A /* Model2.m in Sources */,
 				7C43B9C41C18317100AB8402 /* CommentModel.m in Sources */,
@@ -736,6 +747,7 @@
 				7CDBE5B01C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m in Sources */,
 				E341BB8F1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m in Sources */,
 				7CDBE5EA1C17D7E100D221C7 /* KSYSpectatorsTableView.m in Sources */,
+				E3236FF81C2BA4EA00CB6B99 /* KSYBottomView.m in Sources */,
 				E37D161A1C2819C20009715A /* KSY1TableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,5 +10,5 @@
 #import "KSYBaseViewController.h"
 
 @interface KSYShortVideoPlayVC : KSYBaseViewController
-
+@property (nonatomic,copy) NSString *videoPath;
 @end

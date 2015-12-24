@@ -17,7 +17,6 @@
 #import "SJDetailView.h"
 
 @interface KSYVideoOnDemandPlayVC ()
-@property (nonatomic, strong) KSYMoviePlayerController *player;
 @property (nonatomic, strong) KSYBasePlayView *phoneLivePlayVC;
 @end
 
@@ -127,54 +126,31 @@
 
 - (void)orientationChanged:(NSNotification *)notification
 {
-    //获得当前设备的方向
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    //如果当前方向是竖直方向
     if (orientation == UIDeviceOrientationPortrait)
     {
-        //那么设备方向就变为竖直方向
         self.deviceOrientation = orientation;
-        //播放器界面最小化
         [self minimizeVideo];
         SJDetailView *detailView=(SJDetailView *)[self.view viewWithTag:kDetailViewTag];
         detailView.hidden=NO;
+        [self FullBtnImage];
+        
     }
     else if (orientation == UIDeviceOrientationLandscapeRight||orientation == UIDeviceOrientationLandscapeLeft)
     {
-        //同理
         self.deviceOrientation = orientation;
         [self launchFullScreen];
         SJDetailView *detailView=(SJDetailView *)[self.view viewWithTag:kDetailViewTag];
         detailView.hidden=YES;
+        [self unFullBtnImage];
     }
 }
-/**
- *  全屏显示
- */
+#pragma mark 全屏显示
 - (void)launchFullScreen
 {
-    
-    [self launchFullScreenWhileUnAlwaysFullscreen];
-    
-}
-/**
- *  播放界面最小化
- */
-- (void)minimizeVideo
-{
-    [self minimizeVideoWhileUnAlwaysFullScreen];
-}
-
-#pragma mark 当全屏按钮被点击后视频变为全屏
-- (void)launchFullScreenWhileUnAlwaysFullscreen
-{
-    //得到设备当前的方向
     UIDeviceOrientation  orientation=[[UIDevice currentDevice] orientation];
-    //当设备的方向是横屏时
     if (orientation == UIDeviceOrientationLandscapeRight) {
-        //如果不是IOS8时
         if (!KSYSYS_OS_IOS8) {
-            //将状态栏改变为水平方向
             [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
         }
         else {
@@ -198,11 +174,9 @@
     mediaControlView.bounds =_phoneLivePlayVC.bounds;
     [(MediaControlView *)_mediaControlViewController.view updateSubviewsLocation];
 }
-/**
- *  不总是全屏时的全屏
- */
-- (void)minimizeVideoWhileUnAlwaysFullScreen{
-    
+#pragma mark 窗口最小化
+- (void)minimizeVideo
+{
     //导航栏不隐藏
     self.navigationController.navigationBar.hidden = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO
@@ -212,9 +186,7 @@
     MediaControlView *mediaControlView = (MediaControlView *)(_mediaControlViewController.view);
     mediaControlView.frame = _phoneLivePlayVC.bounds;
     [(MediaControlView *)_mediaControlViewController.view updateSubviewsLocation];
-    
 }
-
 
 
 - (void)getVideoState
@@ -228,7 +200,6 @@
 }
 
 #pragma mark - KSYMediaPlayDelegate
-#pragma mark KSYMediaPlayer的代理在ViewController中实现
 - (void)play {
     //在这里进行判断
     if (_phoneLivePlayVC.player.isPreparedToPlay)
@@ -313,18 +284,27 @@
     if (_fullScreenModeToggled) {
         [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
         [self launchFullScreen];
-        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
-        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
-        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+        [self unFullBtnImage];
     }else{
         [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
         [self minimizeVideo];
-        UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
-        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
-        [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+        [self FullBtnImage];
     }
 }
-//手动设置设备方向，这样就能收到转屏事件
+#pragma mark changeFullBtn
+- (void)FullBtnImage
+{
+    UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
+    UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+    [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+}
+- (void)unFullBtnImage
+{
+    UIButton *fullBtn=(UIButton *)[self.view viewWithTag:kFullScreenBtnTag];
+    UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
+    [fullBtn setImage:unFullImg forState:UIControlStateNormal];
+}
+#pragma mark 手动设置设备方向
 - (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
 {
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
@@ -419,7 +399,7 @@
     if (isShowing == NO) {
         
         SJNoticeView *noticeView=[[SJNoticeView alloc]initWithFrame:CGRectMake(0, 0, 150, 30)];
-        noticeView.center = _phoneLivePlayVC.center;
+        noticeView.center = CGPointMake(_phoneLivePlayVC.size.width/2, _phoneLivePlayVC.size.height/2);
         noticeView.noticeLabel.text=strNotice;
         [_phoneLivePlayVC addSubview:noticeView];
         

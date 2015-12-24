@@ -142,6 +142,7 @@
                 [self.navigationController pushViewController:view animated:YES];
                 view.videoPath=[NSString stringWithFormat:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
                 view.isRtmp=YES;
+               
             }else {
                 KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
                 view.videoPath =[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
@@ -182,7 +183,8 @@
             break;
         case 4:
         {
-
+            KSYPopilarLivePlayVC *view=[[KSYPopilarLivePlayVC alloc]init];
+            [self.navigationController pushViewController:view animated:YES];
         }
             break;
         default:

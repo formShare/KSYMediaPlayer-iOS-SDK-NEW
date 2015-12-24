@@ -19,8 +19,6 @@
 
 @interface KSYShortVideoPlayVC ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
-    KSYMoviePlayerController *_player;
-    NSURL *videoUrl;
     //播放器状态
     BOOL isAutoPlay;        //是否自动播放
     BOOL isPlaying;         //是否正在播放
@@ -35,6 +33,7 @@
     NSMutableArray *_models;
     NSMutableArray *_modelsCells;
 }
+@property (nonatomic, strong) KSYBasePlayView *phoneLivePlayVC;
 @property (nonatomic, strong) UIView * kShortBackgroundView;
 @property (nonatomic, strong) UISegmentedControl * kShortSegmentedCTL;
 @property (nonatomic, strong) UITableView * kShortTableView;
@@ -57,9 +56,6 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     //修改导航栏模式
     [self changeNavigationStayle];
-    //设置视频地址
-    NSString *path=[[NSBundle mainBundle]pathForResource:@"a" ofType:@"mp4"];
-    videoUrl=[NSURL URLWithString:path];
     //初始化播放器
     [self initPlayerWithLowTimelagType:NO];
     //添加顶部视图
@@ -117,17 +113,9 @@
     isCyclePlay=NO;
     pauseInBackground=YES;
     _gestureType= kKSYUnknown;
-    _player = [[KSYMoviePlayerController alloc] initWithContentURL:videoUrl];
-//    _player.delegate=self;
-    _player.shouldAutoplay = YES;
-    [_player prepareToPlay];
-    [self.view addSubview:_player.view];
-    _player.view.frame = CGRectMake(0,64,self.view.width,(self.view.height-64)/2);
-    [_player setScalingMode:MPMovieScalingModeAspectFit];
-    //如果是低延时模式
-//    if (isLowTimeType) {
-//        [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
-//    }
+    _videoPath=[NSString stringWithFormat:@"http://121.42.58.232:8980/hls_test/1.m3u8"];
+    _phoneLivePlayVC = [[KSYBasePlayView alloc] initWithFrame:CGRectMake(0,64,self.view.width,(self.view.bottom-64)/2) urlString:_videoPath];
+    [self.view addSubview:_phoneLivePlayVC];
     //注册其他通知
     [self registerApplicationObservers];
     
@@ -135,8 +123,8 @@
 #pragma mark 添加顶部视图
 - (void)addShortTopView
 {
-    self.kShortTopView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, _player.view.width, 40)];
-    [_player.view addSubview:self.kShortTopView];
+    self.kShortTopView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
+    [_phoneLivePlayVC addSubview:self.kShortTopView];
     self.kShortTopView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage.png"]];
     self.kShortTopView.hidden=YES;
     //用户名和关注按钮
@@ -167,8 +155,8 @@
 #pragma mark 添加底部视图
 - (void)addShortBottomView
 {
-    self.kShortBottomView=[[UIView alloc]initWithFrame:CGRectMake(0, _player.view.height-40, _player.view.width, 40)];
-    [_player.view addSubview:self.kShortBottomView];
+    self.kShortBottomView=[[UIView alloc]initWithFrame:CGRectMake(0, _phoneLivePlayVC.height-40, _phoneLivePlayVC.width, 40)];
+    [_phoneLivePlayVC addSubview:self.kShortBottomView];
     self.kShortBottomView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage.png"]];
     self.kShortBottomView.hidden=YES;
     //播放按钮 播放时间 进度条 总时间
@@ -265,9 +253,9 @@
 - (void)addBellowPart
 {
     CGFloat backgroundViewX=0;
-    CGFloat backgroundViewY=_player.view.bottom;
-    CGFloat backgroundVieWidth=_player.view.width;
-    CGFloat backgroundViewHeight=THESCREENHEIGHT-_player.view.bottom;
+    CGFloat backgroundViewY=_phoneLivePlayVC.bottom;
+    CGFloat backgroundVieWidth=_phoneLivePlayVC.width;
+    CGFloat backgroundViewHeight=THESCREENHEIGHT-_phoneLivePlayVC.bottom;
     CGRect backgroundViewRect=CGRectMake(backgroundViewX, backgroundViewY, backgroundVieWidth, backgroundViewHeight);
     //在这里初始化
     self.kShortBackgroundView=[[UIView alloc]initWithFrame:backgroundViewRect];
@@ -406,30 +394,30 @@
 - (void)applicationDidBecomeActive
 {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //如果是直播的话
-        if (isRtmp) {
-            _player.shouldAutoplay = YES;
-            //播放器准备播放
-            [_player prepareToPlay];
-            //设置播放器的播放界面
-            _player.view.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
-            [self.view addSubview:_player.view];
-            //添加水平滚动视图
-            //            [self addToptabControl];
-            //viewController的视图中有两个视图（1、AMZPlayer的view 2、mediaControllerViewController的view）
-            [_player setScalingMode:MPMovieScalingModeAspectFit];
-            
-            
-            
-        }else {//如果不是直播
-            if (![_player isPlaying]) {
-                [_player play];
-            }
-            
-        }
-        
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        //如果是直播的话
+//        if (isRtmp) {
+//            _player.shouldAutoplay = YES;
+//            //播放器准备播放
+//            [_player prepareToPlay];
+//            //设置播放器的播放界面
+//            _player.view.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
+//            [self.view addSubview:_player.view];
+//            //添加水平滚动视图
+//            //            [self addToptabControl];
+//            //viewController的视图中有两个视图（1、AMZPlayer的view 2、mediaControllerViewController的view）
+//            [_player setScalingMode:MPMovieScalingModeAspectFit];
+//            
+//            
+//            
+//        }else {//如果不是直播
+//            if (![_player isPlaying]) {
+//                [_player play];
+//            }
+//            
+//        }
+//        
+//    });
     
 }
 /**
@@ -514,12 +502,7 @@
     }
 }
 
-#pragma mark －导航按钮响应事件
-- (void)back
-{
-    [_player stop];
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 - (void)menu
 {
     //弹框
@@ -528,15 +511,15 @@
 }
 - (void)theplay
 {
-    if (!_player)
+    if (!_phoneLivePlayVC)
     {
         return;
     }
-    if ([_player isPlaying]==NO){
-        [_player play];
+    if ([_phoneLivePlayVC.player isPlaying]==NO){
+        [_phoneLivePlayVC play];
     }
     else{
-        [_player pause];
+        [_phoneLivePlayVC pause];
     }
 }
 
@@ -631,10 +614,10 @@
     else {
         
         if (isKSYPlayerPling) {
-            [_player play];
+            [_phoneLivePlayVC play];
         }else{
             isKSYPlayerPling = NO;
-            [_player pause];
+            [_phoneLivePlayVC pause];
         }
         isActive = YES;
         [self refreshControl];
@@ -646,10 +629,10 @@
     UILabel *kTotalLabel = (UILabel *)[self.view viewWithTag:kTotalLabelTag];
     UISlider *kPlaySlider = (UISlider *)[self.view viewWithTag:kPlaySliderTag];
     
-    NSInteger duration = (NSInteger)_player.duration;
+    NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
     //    NSInteger playableDuration = (NSInteger)_player.playableDuration;//获得可以播放时间
     
-    NSInteger position = (NSInteger)_player.currentPlaybackTime;
+    NSInteger position = (NSInteger)_phoneLivePlayVC.player.currentPlaybackTime;
     
     int iMin  = (int)(position / 60);
     int iSec  = (int)(position % 60);
@@ -685,9 +668,9 @@
 #pragma mark 显示加载视图
 - (void)kShortShowLoading {
     if (_kShortLodingView == nil) {
-        _kShortLodingView = [[UIView alloc] initWithFrame:_player.view.bounds];
+        _kShortLodingView = [[UIView alloc] initWithFrame:_phoneLivePlayVC.bounds];
         _kShortLodingView.backgroundColor = [UIColor clearColor];
-        [_player.view addSubview:_kShortLodingView];
+        [_phoneLivePlayVC addSubview:_kShortLodingView];
         
         // **** activity
         UIActivityIndicatorView *kShortIndicatorView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -711,9 +694,9 @@
 #pragma mark 显示加载视图
 - (void)kShortShowError {
     if (_kShortErrorView == nil) {
-        _kShortErrorView = [[UIView alloc] initWithFrame:_player.view.bounds];
+        _kShortErrorView = [[UIView alloc] initWithFrame:_phoneLivePlayVC.bounds];
         _kShortErrorView.backgroundColor = [UIColor clearColor];
-        [_player.view addSubview:_kShortErrorView];
+        [_phoneLivePlayVC addSubview:_kShortErrorView];
         
         // **** indicator
         CGRect labelRect = CGRectMake(0,_kShortErrorView.center.y-25,_kShortErrorView.width, 50);
@@ -732,14 +715,14 @@
 - (void)reSetLoadingViewFrame
 {
     if (!_kShortLodingView.hidden) {
-        _kShortLodingView.frame = _player.view.bounds;
+        _kShortLodingView.frame =_phoneLivePlayVC.bounds;
         UIActivityIndicatorView *kShortIndicatorView = (UIActivityIndicatorView *)[_kShortLodingView viewWithTag:kShortIndicatorViewTag];
         kShortIndicatorView.center = CGPointMake(_kShortLodingView.center.x, _kShortLodingView.center.y - 10);
         UILabel *kShortIndicatorLabel = (UILabel *)[_kShortLodingView viewWithTag:kShortIndicatorLabelTag];
         kShortIndicatorLabel.center = CGPointMake(_kShortLodingView.center.x, _kShortLodingView.center.y + 20);
     }
     if (!_kShortErrorView.hidden) {
-        _kShortErrorView.frame = _player.view.bounds;
+        _kShortErrorView.frame = _phoneLivePlayVC.bounds;
         UILabel *kShortIndicatorLabel = (UILabel *)[_kShortErrorView viewWithTag:kShortErrorLabelTag];
         kShortIndicatorLabel.center = CGPointMake(_kShortErrorView.center.x, _kShortErrorView.center.y);
     }
@@ -747,7 +730,7 @@
 #pragma mark - Touch event
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    isKSYPlayerPling = _player.isPlaying;
+    isKSYPlayerPling = _phoneLivePlayVC.player.isPlaying;
     UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kPlaySliderTag];
     _startPoint = [[touches anyObject] locationInView:self.view];
     _curPosition = progressSlider.value;
@@ -758,27 +741,27 @@
     CGPoint curPoint = [[touches anyObject] locationInView:self.view];
     CGFloat deltaX = curPoint.x - _startPoint.x;
     CGFloat deltaY = curPoint.y - _startPoint.y;
-    NSInteger duration = (NSInteger)_player.duration;
+    NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
     
     if (fabs(deltaX) < fabs(deltaY)) {//如果是纵向滑动
         return ;
     }
-    else if (curPoint.y>64&&curPoint.y<_player.view.bottom&&duration > 0 && (_gestureType == kKSYUnknown || _gestureType == kKSYProgress)) {
+    else if (curPoint.y>64&&curPoint.y<_phoneLivePlayVC.bottom&&duration > 0 && (_gestureType == kKSYUnknown || _gestureType == kKSYProgress)) {
         
         if (!isPreperded) {
             return;
         }
         if (fabs(deltaX) > fabs(deltaY)) {
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-            if ([_player isPlaying] == YES) {
-                [_player pause]; // **** 拖拽进度时，暂停播放
+            if ([_phoneLivePlayVC.player isPlaying] == YES) {
+                [_phoneLivePlayVC pause]; // **** 拖拽进度时，暂停播放
             }
             _gestureType = kKSYProgress;
             
             //            [self performSelector:@selector(showORhideProgressView:) withObject:@NO];
             UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kPlaySliderTag];
             UILabel *startLabel = (UILabel *)[self.view viewWithTag:kCurrentLabelTag];
-            CGFloat totalWidth=_player.view.width;
+            CGFloat totalWidth=_phoneLivePlayVC.width;
             CGFloat deltaProgress = deltaX / totalWidth * duration;
             NSInteger position = _curPosition + deltaProgress;
             if (position < 0) {
@@ -825,7 +808,7 @@
         }
         
         UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kPlaySliderTag];
-        [_player setCurrentPlaybackTime:progressSlider.value];
+        [_phoneLivePlayVC setCurrentPlaybackTime:progressSlider.value];
         UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
         [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
     }
@@ -857,15 +840,15 @@
 #pragma mark 进度条开始
 - (void)progressDidBegin:(id)slider
 {
-    isKSYPlayerPling = _player.isPlaying;
+    isKSYPlayerPling = _phoneLivePlayVC.player.isPlaying;
     UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
     [(UISlider *)slider setThumbImage:dotImg forState:UIControlStateNormal];
-    NSInteger duration =_player.duration;
+    NSInteger duration =_phoneLivePlayVC.player.duration;
     if (duration > 0) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-        if ([_player isPlaying] == YES) {
+        if ([_phoneLivePlayVC.player isPlaying] == YES) {
             isActive = NO;
-            [_player pause];
+            [_phoneLivePlayVC pause];
             UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
             UIButton *btn = (UIButton *)[self.view viewWithTag:kShortPlayBtnTag];
             [btn setImage:playImg forState:UIControlStateNormal];
@@ -879,15 +862,15 @@
         slider.value = 0.0f;
         return;
     }
-    NSInteger duration = (NSInteger)_player.duration;
+    NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
     if (duration > 0) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
         UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kPlaySliderTag];
         UILabel *startLabel = (UILabel *)[self.view viewWithTag:kCurrentLabelTag];
         
-        if ([_player isPlaying] == YES) {
+        if ([_phoneLivePlayVC.player isPlaying] == YES) {
             isActive = NO;
-            [_player pause];
+            [_phoneLivePlayVC pause];
             UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
             UIButton *btn = (UIButton *)[self.view viewWithTag:kShortPlayBtnTag];
             [btn setImage:playImg forState:UIControlStateNormal];
@@ -912,10 +895,10 @@
     UISlider *slider = (UISlider *)sender;
     UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
-    NSInteger duration = (NSInteger)_player.duration;
+    NSInteger duration = (NSInteger)_phoneLivePlayVC.player.duration;
     if (duration > 0) {
         
-        [_player setCurrentPlaybackTime: slider.value];
+        [_phoneLivePlayVC.player setCurrentPlaybackTime: slider.value];
         
     }
     else {
@@ -923,15 +906,23 @@
         //NSLog(@"###########当前是直播状态无法拖拽进度###########");
     }
 }
+#pragma mark －导航按钮响应事件
+
+#pragma mark 转到另一个控制器
+-(void)back
+{
+    [_phoneLivePlayVC.player stop];
+    [_phoneLivePlayVC removeFromSuperview];
+    [self.navigationController popViewControllerAnimated:YES];
+    //修改状态栏颜色
+    self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
+}
+
+
 - (void)dealloc
 {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-    
-    isEnd = YES;
-    
-    [_player stop];
     [self unregisterApplicationObservers];
-    
 }
+
 
 @end

@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <KSYMediaPlayer/KSYMediaPlayer.h>
-
+#import "Reachability.h"
 @interface KSYBasePlayView : UIView
+
+@property (nonatomic, strong)NSTimer *timer;
+@property (nonatomic, assign)BOOL   isLivePlay;
+@property (nonatomic, strong)UIActivityIndicatorView *indicator;
+@property (nonatomic, copy) NSString *urlString;
+@property (nonatomic) Reachability *hostReachability;
+@property (nonatomic) NetworkStatus networkStatus;
+@property (nonatomic) BOOL  isShowAlert;
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString;
 

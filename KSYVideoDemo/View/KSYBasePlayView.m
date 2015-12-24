@@ -7,17 +7,11 @@
 //
 
 #import "KSYBasePlayView.h"
-#import "Reachability.h"
+
 
 @interface KSYBasePlayView ()<UIAlertViewDelegate>
 
-@property (nonatomic, strong)NSTimer *timer;
-@property (nonatomic, assign)BOOL   isLivePlay;
-@property (nonatomic, strong)UIActivityIndicatorView *indicator;
-@property (nonatomic, copy) NSString *urlString;
-@property (nonatomic) Reachability *hostReachability;
-@property (nonatomic) NetworkStatus networkStatus;
-@property (nonatomic) BOOL  isShowAlert;
+
 @end
 
 @implementation KSYBasePlayView

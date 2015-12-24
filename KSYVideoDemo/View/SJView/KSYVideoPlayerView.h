@@ -15,13 +15,5 @@ typedef enum : NSUInteger {
 @interface KSYVideoPlayerView : KSYBasePlayView
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState;
-//关闭事件block
-@property (nonatomic, copy) void (^liveBroadcastCloseBlock)();//设置声明方法
-//举报事件block
-@property (nonatomic, copy) void (^liveBroadcastReporteBlock)();
-//分享事件block
-@property (nonatomic, copy) void (^shareBlock)();
-
-- (void)addNewCommentWith:(id)model;
 
 @end
