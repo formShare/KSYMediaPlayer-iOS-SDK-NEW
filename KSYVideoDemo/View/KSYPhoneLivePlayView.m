@@ -82,9 +82,11 @@
             }
         };
         
-        _interactiveView.seekBlock = ^(float value){
+        _interactiveView.seekBlock = ^(double value){
             [weakSelf moviePlayerSeekTo:value];
+            [weakSelf play];
         };
+        
     }
     return _interactiveView;
 }
@@ -216,6 +218,7 @@
 }
 - (void)updateCurrentTime
 {
+    [super updateCurrentTime];
     _curentTimeLab.frame = CGRectMake(_headButton.right  +5, _playStateLab.bottom , 70, 20);
     NSInteger position = (NSInteger)self.currentPlaybackTime;
     int iMin  = (int)(position / 60);

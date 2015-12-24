@@ -12,7 +12,7 @@
 
 @property (nonatomic, copy)void (^playControlEventBlock)(BOOL isStop);
 
-@property (nonatomic, copy)void (^seekToBlock)(NSInteger position);
+@property (nonatomic, copy)void (^seekToBlock)(double position);
 - (void)updataSliderWithPosition:(NSInteger)position duration:(NSInteger)duration;
 - (void)playerStop;
 @end
