@@ -8,18 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol KSYBottomViewDelegate <NSObject>
-
-- (void)progressDidBegin:(id)sender;
-- (void)progressChanged:(id)sender;
-- (void)progressChangeEnd:(id)sender;
-- (void)playBtnClick;
-
-@end
-
-
 @interface KSYBottomView : UIView
 
-@property (nonatomic, weak) id<KSYBottomViewDelegate>delegate;
+
+@property (nonatomic, retain) void (^progressDidBegin)(UISlider *slider);
+@property (nonatomic, retain) void (^progressChanged)(UISlider *slider);
+@property (nonatomic, retain) void (^progressChangeEnd)(UISlider *slider);
+@property (nonatomic, retain) void (^BtnClick)();
 
 @end

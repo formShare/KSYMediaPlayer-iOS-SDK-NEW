@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface KSYCommentView : UIView
-
+@property (nonatomic, copy) void (^textFieldDidBeginEditing)();
+@property (nonatomic, copy) void (^send)();
 @end

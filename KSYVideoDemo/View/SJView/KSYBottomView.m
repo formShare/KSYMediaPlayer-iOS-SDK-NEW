@@ -31,6 +31,7 @@
     kShortPlayBtn.alpha = 0.6;
     UIImage *pauseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
     UIImage *pauseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_hl"];
+    [kShortPlayBtn setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
     [kShortPlayBtn setImage:pauseImg_n forState:UIControlStateNormal];
     [kShortPlayBtn setImage:pauseImg_h forState:UIControlStateHighlighted];
     kShortPlayBtn.frame = CGRectMake(10, 5, 30, 30);
@@ -45,11 +46,12 @@
     [self addSubview:kCurrentLabel];
     kCurrentLabel.textColor=[UIColor whiteColor];
     kCurrentLabel.text=@"00:00";
+    kCurrentLabel.textColor=[UIColor whiteColor];
     kCurrentLabel.textAlignment = NSTextAlignmentRight;
     kCurrentLabel.tag=kCurrentLabelTag;
     kCurrentLabel.font = [UIFont boldSystemFontOfSize:13];
-    UIColor *tintColor = [[ThemeManager sharedInstance] themeColor];
-    kCurrentLabel.textColor = tintColor;
+//    UIColor *tintColor = [[ThemeManager sharedInstance] themeColor];
+//    kCurrentLabel.textColor = tintColor;
     
     
     //进度条
@@ -79,33 +81,33 @@
     
 }
 
-- (void)progressDidBegin:(id)sender
+- (void)progressDidBegin:(UISlider *)slider
 {
-    if ([_delegate respondsToSelector:@selector(progressDidBegin:)]==YES)
+    if (self.progressDidBegin)
     {
-        [_delegate progressDidBegin:sender];
+        self.progressDidBegin(slider);
     }
 }
 
-- (void)progressChanged:(id)sender {
+- (void)progressChanged:(UISlider *)slider {
     
-    if ([_delegate respondsToSelector:@selector(progressChanged:)]==YES)
+    if (self.progressChanged)
     {
-        [_delegate progressChanged:sender];
+        self.progressChanged(slider);
     }
     
 }
 
-- (void)progressChangeEnd:(id)sender {
-    if ([_delegate respondsToSelector:@selector(progressChangeEnd:)]==YES)
+- (void)progressChangeEnd:(UISlider *)slider {
+    if(self.progressChangeEnd)
     {
-        [_delegate progressChangeEnd:sender];
+        self.progressChangeEnd(slider);
     }
 }
 - (void)playBtnClick
 {
-    if ([_delegate respondsToSelector:@selector(playBtnClick)]==YES) {
-        [_delegate playBtnClick];
+    if (self.BtnClick) {
+        self.BtnClick();
     }
 }
 

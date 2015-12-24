@@ -6,27 +6,7 @@
 //  Copyright (c) 2015年 KSY. All rights reserved.
 //
 
-enum KSYVideoQuality {
-    kKSYVideoNormal = 0, // **** default
-    kKSYVideoHight,
-    kKSYVideoSuper,
-};
 
-enum KSYVideoScale {
-    kKSYVideo16W9H = 0, // **** default
-    kKSYVideo4W3H,
-};
-
-enum KSYGestureType {
-    kKSYUnknown = 0,
-    kKSYBrightness,
-    kKSYVoice,
-    kKSYProgress,
-};
-
-typedef enum KSYVideoQuality KSYVideoQuality;
-typedef enum KSYVideoScale KSYVideoScale;
-typedef enum KSYGestureType KSYGestureType;
 
 #import <UIKit/UIKit.h>
 

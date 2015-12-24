@@ -43,7 +43,6 @@
 
         [self addSubview:self.player.view];
         [self addSubview:self.indicator];
-        [self.indicator startAnimating];
         [self setupObservers];
         
         
@@ -57,10 +56,18 @@
         
 
 
-//        [self registerApplicationObservers];
 
     }
     return self;
+}
+
+- (void)setIsBackGroundReleasePlayer:(BOOL)isBackGroundReleasePlayer
+{
+    if (isBackGroundReleasePlayer == YES) {
+        [self registerApplicationObservers];
+        
+    }
+
 }
 
 - (KSYMoviePlayerController *)player
@@ -75,6 +82,7 @@
         _player.scalingMode = MPMovieScalingModeAspectFit;
         if (_networkStatus != ReachableViaWWAN) {
             [_player prepareToPlay];
+            [self.indicator startAnimating];
 
         }
     }
@@ -89,6 +97,7 @@
         _indicator.layer.cornerRadius = 6;
         _indicator.layer.masksToBounds = YES;
         [_indicator setCenter:CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)];
+
     }
     
     return _indicator;
@@ -288,7 +297,6 @@
 
         [self moviePlayerReadSize:self.player.readSize];
         
-//        id aa = [notify userInfo] ;
         NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
         [self moviePlayerFinishReson:[reason integerValue]];
 
@@ -401,5 +409,96 @@
     
     
 }
+
+
+- (void)registerApplicationObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillTerminate)
+                                                 name:UIApplicationWillTerminateNotification
+                                               object:nil];
+}
+
+- (void)unregisterApplicationObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillEnterForegroundNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillResignActiveNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidEnterBackgroundNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillTerminateNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIDeviceOrientationDidChangeNotification
+                                                  object:nil];
+}
+
+- (void)applicationWillEnterForeground
+{
+}
+
+- (void)applicationDidBecomeActive
+{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.isLivePlay) {
+            [self addSubview:self.player.view];
+            [self sendSubviewToBack:self.player.view];
+            [self setupObservers];
+
+        }
+        
+    });
+}
+
+- (void)applicationWillResignActive
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.player isPlaying] && self.isLivePlay) {
+            [self shutDown];
+
+        }
+    });
+    
+}
+
+- (void)applicationDidEnterBackground
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+    });
+}
+
+- (void)applicationWillTerminate
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+    });
+}
+
 
 @end

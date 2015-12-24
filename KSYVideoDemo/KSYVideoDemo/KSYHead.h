@@ -21,6 +21,33 @@
 #import "KSY3TableViewCell.h"
 #import "Model3.h"
 
+
+
+enum KSYVideoQuality {
+    kKSYVideoNormal = 0, // **** default
+    kKSYVideoHight,
+    kKSYVideoSuper,
+};
+
+enum KSYVideoScale {
+    kKSYVideo16W9H = 0, // **** default
+    kKSYVideo4W3H,
+};
+
+enum KSYGestureType {
+    kKSYUnknown = 0,
+    kKSYBrightness,
+    kKSYVoice,
+    kKSYProgress,
+};
+
+typedef enum KSYVideoQuality KSYVideoQuality;
+typedef enum KSYVideoScale KSYVideoScale;
+typedef enum KSYGestureType KSYGestureType;
+
+//  弱引用宏
+#define WeakSelf(VC) __weak VC *weakSelf = self
+
 //屏幕的宽高
 #define THESCREENWIDTH [UIScreen mainScreen].bounds.size.width
 #define THESCREENHEIGHT [UIScreen mainScreen].bounds.size.height
@@ -33,16 +60,16 @@
 
 
 
-#define kShortPlayBtnTag            400
-#define kTextFieldTag               401
-#define kCommentViewTag             402
-#define kPlaySliderTag              403
-#define kShortIndicatorViewTag      404
-#define kShortIndicatorLabelTag     405
-#define kShortErrorLabelTag         406
-#define kTotalLabelTag              407
-#define kCurrentLabelTag            408
-#define ksyTextFieldTag             409
-#define kDetailViewTag              410
+#define kShortPlayBtnTag            160
+#define kTextFieldTag               161
+#define kCommentViewTag             162
+#define kPlaySliderTag              163
+#define kShortIndicatorViewTag      164
+#define kShortIndicatorLabelTag     165
+#define kShortErrorLabelTag         166
+#define kTotalLabelTag              167
+#define kCurrentLabelTag            168
+#define ksyTextFieldTag             169
+#define kDetailViewTag              170
 
 #endif /* KSYHead_h */

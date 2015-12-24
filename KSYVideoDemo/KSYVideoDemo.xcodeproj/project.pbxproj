@@ -65,8 +65,6 @@
 		E3236FF81C2BA4EA00CB6B99 /* KSYBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FF71C2BA4EA00CB6B99 /* KSYBottomView.m */; };
 		E3236FFE1C2BC05800CB6B99 /* KSYCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3236FFD1C2BC05800CB6B99 /* KSYCommentView.m */; };
 		E341BB8B1C2A690300E4A4A4 /* SJSnapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */; };
-		E341BB8F1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB8E1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m */; };
-		E341BB921C2A6D3400E4A4A4 /* SJCtrBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB911C2A6D3400E4A4A4 /* SJCtrBarView.m */; };
 		E341BB951C2A723100E4A4A4 /* SJNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E341BB941C2A723100E4A4A4 /* SJNoticeView.m */; };
 		E37D16111C2819750009715A /* Model1.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D160C1C2819750009715A /* Model1.m */; };
 		E37D16121C2819750009715A /* Model2.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D160E1C2819750009715A /* Model2.m */; };
@@ -209,10 +207,6 @@
 		E3236FFD1C2BC05800CB6B99 /* KSYCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSYCommentView.m; path = SJView/KSYCommentView.m; sourceTree = "<group>"; };
 		E341BB891C2A690300E4A4A4 /* SJSnapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJSnapeView.h; path = SJView/SJSnapeView.h; sourceTree = "<group>"; };
 		E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJSnapeView.m; path = SJView/SJSnapeView.m; sourceTree = "<group>"; };
-		E341BB8D1C2A6D0200E4A4A4 /* SJLiveCtrBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJLiveCtrBarView.h; path = SJView/SJLiveCtrBarView.h; sourceTree = "<group>"; };
-		E341BB8E1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJLiveCtrBarView.m; path = SJView/SJLiveCtrBarView.m; sourceTree = "<group>"; };
-		E341BB901C2A6D3400E4A4A4 /* SJCtrBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJCtrBarView.h; path = SJView/SJCtrBarView.h; sourceTree = "<group>"; };
-		E341BB911C2A6D3400E4A4A4 /* SJCtrBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJCtrBarView.m; path = SJView/SJCtrBarView.m; sourceTree = "<group>"; };
 		E341BB931C2A723100E4A4A4 /* SJNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SJNoticeView.h; path = SJView/SJNoticeView.h; sourceTree = "<group>"; };
 		E341BB941C2A723100E4A4A4 /* SJNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SJNoticeView.m; path = SJView/SJNoticeView.m; sourceTree = "<group>"; };
 		E37D160B1C2819750009715A /* Model1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model1.h; sourceTree = "<group>"; };
@@ -468,10 +462,6 @@
 			isa = PBXGroup;
 			children = (
 				E341BB8C1C2A691300E4A4A4 /* SJVIEW */,
-				E37D16331C285BA70009715A /* KSBarrageItemView.h */,
-				E37D16341C285BA70009715A /* KSBarrageItemView.m */,
-				E37D16351C285BA70009715A /* KSBarrageView.h */,
-				E37D16361C285BA70009715A /* KSBarrageView.m */,
 				7CDBE5E21C16DD6600D221C7 /* TableViewCell */,
 				7CCEAE231C23D7E3009E2F89 /* KSYBasePlayView.h */,
 				7CCEAE241C23D7E3009E2F89 /* KSYBasePlayView.m */,
@@ -534,10 +524,6 @@
 			children = (
 				E341BB891C2A690300E4A4A4 /* SJSnapeView.h */,
 				E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */,
-				E341BB8D1C2A6D0200E4A4A4 /* SJLiveCtrBarView.h */,
-				E341BB8E1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m */,
-				E341BB901C2A6D3400E4A4A4 /* SJCtrBarView.h */,
-				E341BB911C2A6D3400E4A4A4 /* SJCtrBarView.m */,
 				E341BB931C2A723100E4A4A4 /* SJNoticeView.h */,
 				E341BB941C2A723100E4A4A4 /* SJNoticeView.m */,
 				E3236FEA1C2A7D8600CB6B99 /* SJDetailView.h */,
@@ -550,6 +536,10 @@
 				E3236FF71C2BA4EA00CB6B99 /* KSYBottomView.m */,
 				E3236FFC1C2BC05800CB6B99 /* KSYCommentView.h */,
 				E3236FFD1C2BC05800CB6B99 /* KSYCommentView.m */,
+				E37D16331C285BA70009715A /* KSBarrageItemView.h */,
+				E37D16341C285BA70009715A /* KSBarrageItemView.m */,
+				E37D16351C285BA70009715A /* KSBarrageView.h */,
+				E37D16361C285BA70009715A /* KSBarrageView.m */,
 			);
 			name = SJVIEW;
 			sourceTree = "<group>";
@@ -721,7 +711,6 @@
 				7CCEAE221C23B632009E2F89 /* NSObject+PlayerControl.m in Sources */,
 				E37D16121C2819750009715A /* Model2.m in Sources */,
 				7C43B9C41C18317100AB8402 /* CommentModel.m in Sources */,
-				E341BB921C2A6D3400E4A4A4 /* SJCtrBarView.m in Sources */,
 				E341BB8B1C2A690300E4A4A4 /* SJSnapeView.m in Sources */,
 				E3236FF21C2B85DE00CB6B99 /* KSYVideoPlayerView.m in Sources */,
 				7CDBE5E51C16E02700D221C7 /* KSYCommentCell.m in Sources */,
@@ -745,7 +734,6 @@
 				E37D16381C285BA70009715A /* KSBarrageView.m in Sources */,
 				E37D161B1C2819C20009715A /* KSY2TableViewCell.m in Sources */,
 				7CDBE5B01C1555A900D221C7 /* KSYVideoOnDemandPlayVC.m in Sources */,
-				E341BB8F1C2A6D0200E4A4A4 /* SJLiveCtrBarView.m in Sources */,
 				7CDBE5EA1C17D7E100D221C7 /* KSYSpectatorsTableView.m in Sources */,
 				E3236FF81C2BA4EA00CB6B99 /* KSYBottomView.m in Sources */,
 				E37D161A1C2819C20009715A /* KSY1TableViewCell.m in Sources */,
@@ -864,8 +852,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: zhibo cui (3LK9B55BG9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: zhibo cui (3LK9B55BG9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 2262018106@qq.com (E7BPGE8QRJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -882,7 +870,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ksy.AMZPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksy.Player;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -896,8 +884,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: zhibo cui (3LK9B55BG9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: zhibo cui (3LK9B55BG9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 2262018106@qq.com (E7BPGE8QRJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -914,7 +902,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ksy.AMZPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksy.Player;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

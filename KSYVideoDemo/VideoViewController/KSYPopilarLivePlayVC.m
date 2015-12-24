@@ -26,7 +26,7 @@
     //修改导航栏模式
     [self changeNavigationStayle];
     //初始化视图
-    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:@"rtmp://live.hkstv.hk.lxdns.com/live/hks" playState:KSYPopularLivePlay];
+    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"] playState:KSYPopularLivePlay];
     [self.view addSubview:ksyPoularLiveView];
     
 }

@@ -49,11 +49,15 @@
 }
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    
+    if (self.textFieldDidBeginEditing) {
+        self.textFieldDidBeginEditing();
+    }
 }
 - (void)sendComment
 {
-    
+    if (self.send) {
+        self.send();
+    }
 }
 
 @end

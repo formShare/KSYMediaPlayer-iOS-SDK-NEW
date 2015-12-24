@@ -15,10 +15,11 @@
 #import "KSY3TableViewCell.h"
 #import "ThemeManager.h"
 #import "MediaControlViewController.h"
-
+#import "KSYVideoPlayerView.h"
 
 @interface KSYShortVideoPlayVC ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
+    KSYVideoPlayerView *ksyPoularLiveView;
     //播放器状态
     BOOL isAutoPlay;        //是否自动播放
     BOOL isPlaying;         //是否正在播放
@@ -50,24 +51,39 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //1.设置导航栏颜色
+    self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
+    //2.设置状态栏颜色
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     //1.设置导航栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
     //2.设置状态栏颜色
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     //修改导航栏模式
     [self changeNavigationStayle];
-    //初始化播放器
-    [self initPlayerWithLowTimelagType:NO];
-    //添加顶部视图
-    [self addShortTopView];
-    //添加底部视图
-    [self addShortBottomView];
-    //添加水平滚动视图
-    [self addBellowPart];
-    //添加评论
-    [self addCommtentView];
-    //刷新视图
-    [self refreshControl];
+    //初始化视图
+    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"] playState:KSYPopularLivePlay];
+    [self.view addSubview:ksyPoularLiveView];
+
+    
+    
+    
+    
+//    //修改导航栏模式
+//    [self changeNavigationStayle];
+//    //初始化播放器
+//    [self initPlayerWithLowTimelagType:NO];
+//    //添加顶部视图
+//    [self addShortTopView];
+//    //添加底部视图
+//    [self addShortBottomView];
+//    //添加水平滚动视图
+//    [self addBellowPart];
+//    //添加评论
+//    [self addCommtentView];
+//    //刷新视图
+//    [self refreshControl];
 }
 
 #pragma mark 改变导航栏状态
@@ -232,6 +248,10 @@
             CGFloat kCommentViewY=self.view.bottom/2-50;
             kCommentView.frame=CGRectMake(0,  kCommentViewY, self.view.width, 40);
         }
+        else
+        {
+            
+        }
         
     } completion:^(BOOL finished) {
         NSLog(@"Animation Over!");
@@ -342,138 +362,18 @@
                                              selector:@selector(orientationChanged:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-    //应用开始运行
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-    //应用将要重新开始
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillResignActive)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    //应用进入后台
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    //应用将要关闭
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillTerminate)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
 }
 /**
  *  移除通知
  */
 - (void)unregisterApplicationObservers
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillEnterForegroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidBecomeActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillResignActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidEnterBackgroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillTerminateNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
+        [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIDeviceOrientationDidChangeNotification
                                                   object:nil];
 }
 
-/**
- *  应用启动
- */
-- (void)applicationDidBecomeActive
-{
-    
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        //如果是直播的话
-//        if (isRtmp) {
-//            _player.shouldAutoplay = YES;
-//            //播放器准备播放
-//            [_player prepareToPlay];
-//            //设置播放器的播放界面
-//            _player.view.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
-//            [self.view addSubview:_player.view];
-//            //添加水平滚动视图
-//            //            [self addToptabControl];
-//            //viewController的视图中有两个视图（1、AMZPlayer的view 2、mediaControllerViewController的view）
-//            [_player setScalingMode:MPMovieScalingModeAspectFit];
-//            
-//            
-//            
-//        }else {//如果不是直播
-//            if (![_player isPlaying]) {
-//                [_player play];
-//            }
-//            
-//        }
-//        
-//    });
-    
-}
-/**
- *  应用将要关闭
- */
-- (void)applicationWillResignActive
-{
-//    //获得主线程
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        //如果应用在后台并且在播放
-//        if (pauseInBackground && [_player isPlaying]) {
-//            //如果是直播
-//            if (isRtmp) {
-//                //播放器关闭
-//                [_player shutdown];
-//            }else {
-//                [_player pause];
-//            }
-//        }
-//    });
-    
-}
-/**
- *  应用已经进入后台
- */
-- (void)applicationDidEnterBackground
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (pauseInBackground && [_player isPlaying]) {
-//            if (isRtmp) {
-//                [_player shutdown];//移除
-//                
-//            }else {
-//                [_player pause];//暂停
-//            }
-//            
-//        }
-//    });
-}
-/**
- *  应用将要关闭
- */
-- (void)applicationWillTerminate
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (pauseInBackground && [_player isPlaying]) {
-//            if (isRtmp) {
-//                [_player shutdown];
-//                
-//            }else {
-//                [_player pause];
-//            }
-//            
-//        }
-//    });
-}
+
 /**
  *  设备方向发生改变
  */
@@ -527,81 +427,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - KSYMediaPlayerDelegate
-
-//- (void)mediaPlayerStateChanged:(KSYPlayerState)PlayerState {
-//    
-//    if (PlayerState != KSYPlayerStateError) {
-//        [self kShortRemoveError];
-//    }
-//    if (PlayerState == KSYPlayerStateInitialized) {
-//        isPreperded = NO;
-//        [self kShortShowLoading];
-//    }else if (PlayerState == KSYPlayerStatePrepared){
-//        [self performSelectorOnMainThread:@selector(kShortRemoveError) withObject:nil waitUntilDone:NO];
-//        [self performSelectorOnMainThread:@selector(kShortRemoveLoading) withObject:nil waitUntilDone:NO];
-//    }
-//    UIButton *btn = (UIButton *)[self.view viewWithTag:kShortPlayBtnTag];
-//    UIImage *pauseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
-//    UIImage *pauseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_hl"];
-//    UIImage *playImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
-//    UIImage *playImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_hl"];
-//    if (PlayerState == KSYPlayerStatePlaying) {
-//        [btn setImage:pauseImg_n forState:UIControlStateNormal];
-//        [btn setImage:pauseImg_h forState:UIControlStateHighlighted];
-//    }else if (PlayerState == KSYPlayerStatePaused || _player.state == KSYPlayerStateStopped || _player.state == KSYPlayerStateCompleted) {
-//        [btn setImage:playImg_n forState:UIControlStateNormal];
-//        [btn setImage:playImg_h forState:UIControlStateHighlighted];
-//    }
-//    if (PlayerState == KSYPlayerStatePrepared) {
-//        isPreperded = YES;
-//    }
-//}
-
-
-
-
-//- (void)mediaPlayerCompleted:(KSYPlayer *)player {
-//    NSLog(@"播放结束");
-//    isEnd = YES;
-//    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-//    
-//    isCompleted = YES;
-//    //    [_delegate seekProgress:0.0];
-//    if (isCyclePlay == YES) {
-//        if (_kShortErrorView) {
-//            _kShortErrorView.hidden = YES;
-//        }
-//        [player play];
-//        NSLog(@"重新播放");
-//    }
-//    
-//    // **** 结果
-//    //    [_timer invalidate];
-//}
-
-- (void)mediaPlayerWithError:(NSError *)error {
-    NSLog(@"KSYPlayer play error: %@", error);
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-    
-    isEnd = YES;
-    [self kShortShowError];
-    [self kShortRemoveLoading];
-}
-
-//- (void)mediaPlayerBuffing:(KSYBufferingState)bufferingState {
-//    if (bufferingState == KSYPlayerBufferingStart) {
-//        [self kShortShowLoading];
-//    }
-//    else {
-//        [self performSelectorOnMainThread:@selector(kShortRemoveLoading) withObject:nil waitUntilDone:NO];
-//    }
-//}
-//
-//- (void)mediaPlayerSeekCompleted:(KSYPlayer *)player {
-//    CGFloat position = player.currentPlaybackTime;
-//    [self seekCompletedWithPosition:position];
-//}
 - (void)seekCompletedWithPosition:(CGFloat)position {
     UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kPlaySliderTag];
     UIButton *btn = (UIButton *)[self.view viewWithTag:kShortPlayBtnTag];
@@ -753,12 +578,7 @@
         }
         if (fabs(deltaX) > fabs(deltaY)) {
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshControl) object:nil];
-            if ([_phoneLivePlayVC.player isPlaying] == YES) {
-                [_phoneLivePlayVC pause]; // **** 拖拽进度时，暂停播放
-            }
             _gestureType = kKSYProgress;
-            
-            //            [self performSelector:@selector(showORhideProgressView:) withObject:@NO];
             UISlider *progressSlider = (UISlider *)[self.view viewWithTag:kPlaySliderTag];
             UILabel *startLabel = (UILabel *)[self.view viewWithTag:kCurrentLabelTag];
             CGFloat totalWidth=_phoneLivePlayVC.width;
@@ -773,8 +593,6 @@
             progressSlider.value = position;
             int iMin1  = ((int)labs(position) / 60);
             int iSec1  = ((int)labs(position) % 60);
-            int iMin2  = ((int)fabs(deltaProgress) / 60);
-            int iSec2  = ((int)fabs(deltaProgress) % 60);
             NSString *strCurTime1 = [NSString stringWithFormat:@"%02d:%02d", iMin1, iSec1];
             startLabel.text = strCurTime1;
             UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
@@ -909,10 +727,9 @@
 #pragma mark －导航按钮响应事件
 
 #pragma mark 转到另一个控制器
--(void)back
+- (void)back
 {
-    [_phoneLivePlayVC.player stop];
-    [_phoneLivePlayVC removeFromSuperview];
+    [ksyPoularLiveView shutDown];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];

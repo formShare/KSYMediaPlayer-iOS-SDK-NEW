@@ -40,6 +40,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self initPlayerWithLowTimelagType:NO];
     [self addDetailPart];
+    [self performSelector:@selector(refreshControl) withObject:nil afterDelay:1.0];
 }
 #pragma mark 改变导航栏状态
 - (void)changeNavigationStayle
@@ -93,6 +94,7 @@
     //注册其他通知
     [self registerApplicationObservers];
 }
+
 #pragma mark 添加下面的内容
 - (void)addDetailPart
 {
@@ -318,6 +320,7 @@
         [invocation invoke];
     }
 }
+
 - (void)refreshControl {
         UILabel *startLabel = (UILabel *)[self.view viewWithTag:kProgressCurLabelTag];
         UILabel *endLabel = (UILabel *)[self.view viewWithTag:kProgressMaxLabelTag];
@@ -348,6 +351,7 @@
         }
     
 }
+
 - (void)progressDidBegin:(id)sender
 {
     UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
@@ -609,7 +613,7 @@
 #pragma mark 转到另一个控制器
 -(void)back
 {
-    [_phoneLivePlayVC shutDown];
+    [_phoneLivePlayVC.player stop];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];

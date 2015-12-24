@@ -12,6 +12,7 @@ typedef enum : NSUInteger {
 
 #import "KSYBasePlayView.h"
 
+
 @interface KSYVideoPlayerView : KSYBasePlayView
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState;
