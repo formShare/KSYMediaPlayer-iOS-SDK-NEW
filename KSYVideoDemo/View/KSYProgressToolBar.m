@@ -148,14 +148,19 @@
 }
 - (void)progressChanged:(UISlider *)slider
 {
-    if (self.seekToBlock) {
-        self.seekToBlock(slider.value);
-    }
+    int iDuraMin  = (int)(self.slider.maximumValue / 60);
+    int iDuraSec  = (int)((int)self.slider.maximumValue % 3600 % 60);
+    
+    int iPosMin  = (int)(self.slider.value / 60);
+    int iPosSec  = (int)((int)self.slider.value % 3600 % 60);
+    
+    _timeLabel.text = [NSString stringWithFormat:@"%02d:%02d / %02d:%02d ",iPosMin,iPosSec, iDuraMin, iDuraSec];
 }
 - (void)progressChangeEnd:(UISlider *)slider
 {
-    if (self.playControlEventBlock) {
-        self.playControlEventBlock(NO);
+    
+    if (self.seekToBlock) {
+        self.seekToBlock(slider.value);
     }
 }
 @end

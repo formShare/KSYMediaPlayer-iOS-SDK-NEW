@@ -101,6 +101,12 @@
 }
 #pragma mark- playerControl
 
+- (void)replay
+{
+    [self play];
+    [self startTimer];
+
+}
 - (void)play
 {
     if (self.player) {
@@ -258,7 +264,7 @@
         }
         
     }else if (alertView.tag == 104 && buttonIndex != alertView.cancelButtonIndex){
-        [self play];
+        [self replay];
     }
 }
 

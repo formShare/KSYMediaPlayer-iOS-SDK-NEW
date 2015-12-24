@@ -17,6 +17,28 @@
 
 @implementation AppDelegate
 
+- (void)redirectNSlogToDocumentFolder
+
+{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    
+    NSString *fileName = [NSString stringWithFormat:@"NSLog.txt"];
+    
+    NSString *logFilePath = [documentDirectory stringByAppendingPathComponent:fileName];
+    
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+    
+    [defaultManager removeItemAtPath:logFilePath error:nil];
+    
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stdout);
+    
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stderr);
+    
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     application.statusBarOrientation = UIInterfaceOrientationPortrait;
@@ -25,6 +47,7 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+//    [self redirectNSlogToDocumentFolder];
     return YES;
 }
 

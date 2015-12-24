@@ -128,7 +128,7 @@
                 weakSelf.playEventBlock(isStop);
             }
         };
-        _progressToolBar.seekToBlock = ^(NSInteger value){
+        _progressToolBar.seekToBlock = ^(double value){
             if (weakSelf.seekBlock) {
                 weakSelf.seekBlock(value);
             }

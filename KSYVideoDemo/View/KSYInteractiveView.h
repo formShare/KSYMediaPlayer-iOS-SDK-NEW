@@ -23,7 +23,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy)void (^alertViewBlock)(id obj);
 @property (nonatomic, copy)void (^shareEventBlock)();
 @property (nonatomic, copy)void (^playEventBlock)(BOOL isStop);
-@property (nonatomic, copy)void (^seekBlock)(float position);
+@property (nonatomic, copy)void (^seekBlock)(double position);
 - (instancetype)initWithFrame:(CGRect)frame playState:(KSYPhoneLivePlayState)state;
 //添加一条新评论
 - (void)addNewCommentWith:(id)object;
