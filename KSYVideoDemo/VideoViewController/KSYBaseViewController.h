@@ -10,4 +10,7 @@
 
 @interface KSYBaseViewController : UIViewController
 
+@property (nonatomic, assign)BOOL   isReleasePlayer;
+@property (nonatomic, copy)NSString  *videoUrlString;
+
 @end

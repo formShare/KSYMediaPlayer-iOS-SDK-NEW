@@ -12,5 +12,4 @@
 
 @interface KSYPhoneLivePlayVC : KSYBaseViewController
 
-@property (nonatomic, copy)NSString  *videoUrlString;
 @end
