@@ -94,7 +94,7 @@
     //注册其他通知
     [self registerApplicationObservers];
 }
-#pragma mark 添加下面的内容(就两个字，去做，动手去做)
+#pragma mark 添加下面的内容
 - (void)addDetailPart
 {
     CGFloat backgroundViewX=0;
@@ -114,26 +114,6 @@
                                              selector:@selector(orientationChanged:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-    //应用开始运行
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-    //应用将要重新开始
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillResignActive)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    //应用进入后台
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    //应用将要关闭
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillTerminate)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
 }
 /**
  *  移除通知
@@ -141,123 +121,10 @@
 - (void)unregisterApplicationObservers
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillEnterForegroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidBecomeActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillResignActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidEnterBackgroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillTerminateNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIDeviceOrientationDidChangeNotification
                                                   object:nil];
 }
 
-/**
- *  应用启动
- */
-- (void)applicationDidBecomeActive
-{
-    
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        //如果是直播的话
-//        if (_isRtmp) {
-//            //取得AMZPlyer播放器单例（单例模式）
-//            _player.shouldAutoplay = YES;
-//            //播放器准备播放
-//            [_player prepareToPlay];
-//            //设置播放器的播放界面
-//            _player.videoView.frame = CGRectMake(CGRectGetMinX(self.view.frame), CGRectGetMinY(self.view.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)/2);
-//            _player.videoView.backgroundColor = [UIColor lightGrayColor];
-//            [self.view addSubview:_player.videoView];
-//            [self.view addSubview:_mediaControlViewController.view];
-//            //添加水平滚动视图
-//            //            [self addToptabControl];
-//            //viewController的视图中有两个视图（1、AMZPlayer的view 2、mediaControllerViewController的view）
-//            [_player setScalingMode:MPMovieScalingModeAspectFit];
-//            
-//            [_player playerSetUseLowLatencyWithBenable:1 maxMs:3000 minMs:500];
-//            
-//            
-//        }else {//如果不是直播
-//            if (![_player isPlaying]) {
-//                [self play];
-//            }
-//            
-//        }
-//        
-//    });
-    
-}
-/**
- *  应用将要关闭
- */
-- (void)applicationWillResignActive
-{
-//    //获得主线程
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        //如果应用在后台并且在播放
-//        if (_pauseInBackground && [_player isPlaying]) {
-//            //如果是直播
-//            if (_isRtmp) {
-//                //播放器关闭
-//                [_player shutdown];
-//                //将mediaControllerViewController的视图从当前视图中移除
-//                [_mediaControlViewController.view removeFromSuperview];
-//                
-//            }else {
-//                [self pause];
-//            }
-//        }
-//    });
-//    
-}
-/**
- *  应用已经进入后台
- */
-- (void)applicationDidEnterBackground
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (_pauseInBackground && [_player isPlaying]) {
-//            if (_isRtmp) {
-//                [_player shutdown];
-//                
-//            }else {
-//                [self pause];
-//            }
-//            
-//        }
-//    });
-}
-/**
- *  应用将要关闭
- */
-- (void)applicationWillTerminate
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (_pauseInBackground && [_player isPlaying]) {
-//            if (_isRtmp) {
-//                [_player shutdown];
-//                
-//            }else {
-//                [self pause];
-//            }
-//            
-//        }
-//    });
-}
-/**
- *  设备的方向发生改变（最重要的是你做了啥，做了几遍）其他的都不重要
- *
- *  @param notification 设备的方向
- */
 - (void)orientationChanged:(NSNotification *)notification
 {
     //获得当前设备的方向
@@ -484,7 +351,7 @@
         int iMin  = (int)(position / 60);
         int iSec  = (int)(position % 60);
         startLabel.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
-        if (duration > 0) {
+        if (!_isRtmp) {
             int iDuraMin  = (int)(duration / 60);
             int iDuraSec  = (int)(duration % 3600 % 60);
             endLabel.text = [NSString stringWithFormat:@"/%02d:%02d", iDuraMin, iDuraSec];
@@ -762,9 +629,10 @@
 #pragma mark 转到另一个控制器
 -(void)back
 {
-    [_phoneLivePlayVC stop];
-    [self unregisterApplicationObservers];
+    [_phoneLivePlayVC shutDown];
     [self.navigationController popViewControllerAnimated:YES];
+    //修改状态栏颜色
+    self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }
 
 #pragma mark  菜单按钮
@@ -775,7 +643,6 @@
 
 - (void)dealloc
 {
-    [_phoneLivePlayVC stop];
     [self unregisterApplicationObservers];
 }
 
