@@ -31,6 +31,7 @@
         _player = nil;
     }
     [self releaseObservers];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 //    [self unregisterApplicationObservers];
 }
 
