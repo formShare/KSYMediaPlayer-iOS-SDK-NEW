@@ -46,7 +46,7 @@
         [self addBottomView];
         [self addDetailView];
         [self addCommentView];
-//        [self refreshControl];
+        [self registerApplicationObservers];
     }
     return self;
 }
@@ -72,8 +72,8 @@
     bottomView.progressChangeEnd=^(UISlider *slider){
         [weakSelf progChangeEnd:slider];
     };
-    bottomView.BtnClick=^{
-        [weakSelf BtnClick];
+    bottomView.BtnClick=^(UIButton *btn){
+        [weakSelf BtnClick:btn];
     };
     [self addSubview:bottomView];
 }
@@ -134,7 +134,7 @@
         
     [self.player setCurrentPlaybackTime: slider.value];
 }
-- (void)BtnClick
+- (void)BtnClick:(UIButton *)btn
 {
     if (!self)
     {
@@ -142,9 +142,11 @@
     }
     if ([self.player isPlaying]==NO){
         [self play];
+        [btn setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
     }
     else{
         [self pause];
+        [btn setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
     }
 
 }
@@ -366,7 +368,6 @@
 }
 - (void)resetTextFrame
 {
-
     UITextField *textField=(UITextField *)[self viewWithTag:kTextFieldTag];
     [textField resignFirstResponder];
     //执行动画

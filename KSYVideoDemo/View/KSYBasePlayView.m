@@ -304,7 +304,7 @@
     
 }
 
-
+//播放器状态通知
 - (void)setupObservers
 {
     [[NSNotificationCenter defaultCenter]addObserver:self
@@ -410,7 +410,7 @@
     
 }
 
-
+//应用状态通知
 - (void)registerApplicationObservers
 {
     [[NSNotificationCenter defaultCenter] addObserver:self

@@ -11,9 +11,9 @@
 @interface KSYBottomView : UIView
 
 
-@property (nonatomic, retain) void (^progressDidBegin)(UISlider *slider);
-@property (nonatomic, retain) void (^progressChanged)(UISlider *slider);
-@property (nonatomic, retain) void (^progressChangeEnd)(UISlider *slider);
-@property (nonatomic, retain) void (^BtnClick)();
+@property (nonatomic, copy) void (^progressDidBegin)(UISlider *slider);
+@property (nonatomic, copy) void (^progressChanged)(UISlider *slider);
+@property (nonatomic, copy) void (^progressChangeEnd)(UISlider *slider);
+@property (nonatomic, copy) void (^BtnClick)(UIButton *btn);
 
 @end

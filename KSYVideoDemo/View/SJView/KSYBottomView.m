@@ -35,7 +35,7 @@
     [kShortPlayBtn setImage:pauseImg_n forState:UIControlStateNormal];
     [kShortPlayBtn setImage:pauseImg_h forState:UIControlStateHighlighted];
     kShortPlayBtn.frame = CGRectMake(10, 5, 30, 30);
-    [kShortPlayBtn addTarget:self action:@selector(playBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [kShortPlayBtn addTarget:self action:@selector(playBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:kShortPlayBtn];
     kShortPlayBtn.tag=kShortPlayBtnTag;
 
@@ -104,10 +104,10 @@
         self.progressChangeEnd(slider);
     }
 }
-- (void)playBtnClick
+- (void)playBtnClick:(UIButton *)btn
 {
     if (self.BtnClick) {
-        self.BtnClick();
+        self.BtnClick(btn);
     }
 }
 

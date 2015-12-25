@@ -399,6 +399,7 @@
         bgToolView.tag = kToolBgViewTag;
         bgToolView.alpha = 0.6;
         [toolView addSubview:bgToolView];
+        toolView.hidden=YES;
         
         
         //返回按钮
@@ -697,6 +698,7 @@
         lockView.hidden = YES;
         commentView.hidden=YES;
         backgroundView.hidden=NO;
+        toolView.hidden=YES;
     }
     else {
         
