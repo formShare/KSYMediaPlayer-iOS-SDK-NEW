@@ -5,25 +5,7 @@
 //  Created by Blues on 15/3/24.
 //  Copyright (c) 2015年 KSY. All rights reserved.
 //
-#define TEXTCOLOR1 ([UIColor colorWithRed:207.0/255.0 green:206.0/255.0 blue:203.0/255.0 alpha:1.0])
-#define TEXTCOLOR2 ([UIColor colorWithRed:237.0/255.0 green:236.0/255.0 blue:234.0/255.0 alpha:1.0])
-#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
-#define kTopBarHeight 40
-#define kBottomBarHeight 58
-#define kCoverBarHeight 140
-#define kCoverBarLeftMargin 20
-#define kCoverBarRightMargin 20
-#define kCoverBarTopMargin 48
-#define kCoverBarBottomMargin 42
-#define kCoverLockViewLeftMargin 68
-#define kCoverLockViewBgWidth 40
-#define kCoverLockWidth 30
-#define kCoverBarWidth 25
-#define kProgressViewWidth 150
-#define kLandscapeSpacing 10
-#define kVertialSpacing 20
-#define kBigFont 18
-#define kSmallFont 16
+
 
 #import "MediaControlView.h"
 #import "MediaControlDefine.h"
@@ -342,7 +324,7 @@
         [lockBtn addTarget:_controller action:@selector(clickLockBtn:) forControlEvents:UIControlEventTouchUpInside];
         [lockView addSubview:lockBtn];
         
-        // **** voice view 动手去做
+        // **** voice view 
         // 声音视图
         CGRect voiceRect = CGRectMake(size.width - kCoverBarWidth - kCoverBarRightMargin, size.height / 4, kCoverBarWidth, size.height / 2);
         UIView *voiceView = [[UIView alloc] initWithFrame:voiceRect];
@@ -374,7 +356,7 @@
         MediaVoiceView *mediaVoiceView = [[MediaVoiceView alloc] initWithFrame:mediaVoiceRect];
         mediaVoiceView.tag = kMediaVoiceViewTag;
         [mediaVoiceView setFillColor:[[ThemeManager sharedInstance] themeColor]];
-//        [mediaVoiceView setIVoice:[MPMusicPlayerController applicationMusicPlayer].volume];
+        [mediaVoiceView setIVoice:[MPMusicPlayerController applicationMusicPlayer].volume];
         [voiceView addSubview:mediaVoiceView];
         
         //最大声音视图

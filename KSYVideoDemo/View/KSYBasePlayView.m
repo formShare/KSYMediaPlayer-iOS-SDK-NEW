@@ -295,7 +295,7 @@
         
         [self moviePlayerFinishState:self.player.playbackState];
 
-        [self moviePlayerReadSize:self.player.readSize];
+//        [self moviePlayerReadSize:self.player.readSize];
         
         NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
         [self moviePlayerFinishReson:[reason integerValue]];

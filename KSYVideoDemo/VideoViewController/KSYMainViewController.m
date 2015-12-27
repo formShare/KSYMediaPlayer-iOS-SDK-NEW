@@ -185,16 +185,12 @@
         case 0:
         {
             if (indexPath.row == 0) {
-                KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
+                KSYPopilarLivePlayVC *view=[[KSYPopilarLivePlayVC alloc]init];
                 [self.navigationController pushViewController:view animated:YES];
-                view.videoPath=_rtmpTextF.text;
-                view.isRtmp=YES;
                
             }else {
-                KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
-                view.videoPath =[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
+                KSYPopilarLivePlayBackVC *view=[[KSYPopilarLivePlayBackVC alloc]init];
                 [self.navigationController pushViewController:view animated:YES];
-                view.isRtmp=NO;
             }
         }
             break;

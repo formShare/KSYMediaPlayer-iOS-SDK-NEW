@@ -11,21 +11,38 @@
 #import "SJNoticeView.h"
 #import "SJDetailView.h"
 #import "KSYBottomView.h"
+#import "KSYBottomView2.h"
 #import "KSYCommentView.h"
+#import "KSYBrightnessView.h"
+#import "KSYVoiceView.h"
+#import "KSYProgressView.h"
+#import "KSYLockView.h"
+#import "KSYToolView.h"
+#import "KSYSetView.h"
 
 @interface KSYVideoPlayerView ()
 {
     KSYTopView *topView;
     KSYBottomView *bottomView;
-    SJDetailView *detailView;
-    KSYCommentView *commtenView;
+    KSYBrightnessView *kBrightnessView;
+    KSYVoiceView *kVoiceView;
+    KSYProgressView *kProgressView;
+    KSYLockView *kLockView;
+    KSYToolView *kToolView;
+    KSYSetView *kSetView;
     BOOL isActive;
+    BOOL isLock;
 }
 //播放类型
 @property (nonatomic, assign) KSYPopularLivePlayState playState;
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, assign) CGFloat curPosition;
-@property (nonatomic, assign) KSYGestureType gestureType;
+@property (nonatomic, assign) CGFloat curVoice;
+@property (nonatomic, assign) CGFloat curBrightness;
+@property (nonatomic, assign) CGRect kPreviousSelfFrame;
+@property (nonatomic, assign) CGRect kPreviousPlayViewFrame;
+@property (nonatomic, assign) BOOL isLocked;
+@property (nonatomic, assign) BOOL fullScreenModeToggled;
 @end
 
 
@@ -39,30 +56,75 @@
     //重置播放界面的大小
     self = [super initWithFrame:frame urlString:urlString];//初始化父视图的(frame、url)
     if (self) {
-        self.player.view.frame=CGRectMake(0, 0, self.width, self.height/2);
-        self.indicator.center=self.player.view.center;
-        self.playState = playState;
+        _playState=playState;
+        isLock=NO;
+        self.kPreviousSelfFrame=self.frame;
+        self.kPreviousPlayViewFrame=self.player.view.frame;
         [self addTopView];
         [self addBottomView];
-        [self addDetailView];
-        [self addCommentView];
+        [self addBrightnessVIew];
+        [self addVoiceView];
         [self registerApplicationObservers];
+        [self addProgressView];
+        [self addLockBtn];
+        [self performSelector:@selector(hiddenAllControls) withObject:nil afterDelay:3.0];
     }
     return self;
 }
-
+#pragma mark 添加设置视图
+- (void)addSetView
+{
+    if (!kSetView) {
+        kSetView=[[KSYSetView alloc]initWithFrame:CGRectMake(self.width/2, 0, self.width/2, self.height)];
+        kSetView.hidden=YES;
+    }
+    [self addSubview:kSetView];
+}
+#pragma mark 添加工具视图
+- (KSYToolView *)kToolView
+{
+    WeakSelf(KSYVideoPlayerView);
+    if (!kToolView)
+    {
+        kToolView=[[KSYToolView alloc]initWithFrame:CGRectMake(0, 0, self.width, 50)];
+        kToolView.hidden=YES;
+        kToolView.showSetView=^(UIButton *btn){
+            [weakSelf showSetView:(btn)];
+        };
+    }
+    return kToolView;
+}
+#pragma mark 添加锁屏按钮
+- (void)addLockBtn
+{
+    WeakSelf(KSYVideoPlayerView);
+    kLockView=[[KSYLockView alloc]initWithFrame:CGRectMake(kCoverLockViewLeftMargin, (self.width - self.width / 6) / 2, self.width / 6, self.width / 6)];
+    kLockView.kLockViewBtn=^(UIButton *btn){
+        [weakSelf lockBtn:btn];
+    };
+    kLockView.hidden=YES;
+    [self addSubview:kLockView];
+}
+#pragma mark 添加进度指示
+- (void)addProgressView
+{
+    kProgressView=[[KSYProgressView alloc]initWithFrame:CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50)];
+    kProgressView.hidden=YES;
+    [self addSubview:kProgressView];
+}
 #pragma mark 添加顶部视图
 - (void)addTopView
 {
-    topView=[[KSYTopView alloc]initWithFrame:CGRectMake(0, 0, self.width, 44)];
-
+    topView=[[KSYTopView alloc]initWithFrame:CGRectMake(0, 0, self.width, 40)];
+    topView.hidden=NO;
     [self addSubview:topView];
 }
 #pragma mark 添加底部视图
 - (void)addBottomView
 {
+        
     WeakSelf(KSYVideoPlayerView);
-    bottomView=[[KSYBottomView alloc]initWithFrame:CGRectMake(0, self.height/2-44, self.width, 44)];
+    bottomView=[[KSYBottomView alloc]initWithFrame:CGRectMake(0, self.height/2-40, self.width, 40) PlayState:_playState];
     bottomView.progressDidBegin=^(UISlider *slider){
         [weakSelf progDidBegin:slider];
     };
@@ -75,35 +137,60 @@
     bottomView.BtnClick=^(UIButton *btn){
         [weakSelf BtnClick:btn];
     };
-    [self addSubview:bottomView];
+    bottomView.FullBtnClick=^(UIButton *btn){
+        [weakSelf Fullclick:(btn)];
+    };
+
+    [self addSubview: bottomView];
 }
-#pragma mark 添加详细视图
-- (void)addDetailView
-{
-    detailView=[[SJDetailView alloc]initWithFrame:CGRectMake(0, self.height/2, self.width, self.height/2)];
-    [self addSubview:detailView];
-}
-#pragma mark 添加底部评论视图
-- (void)addCommentView
+#pragma mark 添加亮度视图
+- (void)addBrightnessVIew
 {
     WeakSelf(KSYVideoPlayerView);
-    commtenView=[[KSYCommentView alloc]initWithFrame:CGRectMake(0, self.height-40, self.width, 40)];
-    commtenView.textFieldDidBeginEditing=^{
-        [weakSelf changeTextFrame];
+    kBrightnessView=[[KSYBrightnessView alloc]initWithFrame:CGRectMake(kCoverBarLeftMargin, THESCREENWIDTH / 4, kCoverBarWidth, THESCREENWIDTH / 2)];
+    kBrightnessView.brightDidBegin=^(UISlider *slider){
+        [weakSelf brightnessDidBegin:slider];
     };
-    commtenView.send=^{
-        [weakSelf resetTextFrame];
+    kBrightnessView.brightChanged=^(UISlider *slider){
+        [weakSelf brightnessChanged:slider];
     };
-    [self addSubview:commtenView];
+    kBrightnessView.brightChangeEnd=^(UISlider *slider){
+        [weakSelf brightnessChangeEnd:slider];
+    };
+    kBrightnessView.hidden=YES;
+    [self addSubview:kBrightnessView];
 }
-#pragma mark -KSYBottomViewDelegate
+#pragma mark 添加声音视图
+- (void)addVoiceView
+{
+    kVoiceView=[[KSYVoiceView alloc]initWithFrame:CGRectMake(THESCREENHEIGHT - kCoverBarWidth - kCoverBarRightMargin, THESCREENWIDTH / 4, kCoverBarWidth, THESCREENWIDTH / 2)];
+    kVoiceView.hidden=YES;
+    [self addSubview:kVoiceView];
+}
+#pragma mark -亮度调节
+- (void)brightnessDidBegin:(UISlider *)slider {
+    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+    [slider setThumbImage:dotImg forState:UIControlStateNormal];
+}
+- (void)brightnessChanged:(UISlider *)slider {
+    [[UIScreen mainScreen] setBrightness:slider.value];
+}
+- (void)brightnessChangeEnd:(UISlider *)slider {
+    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+    [slider setThumbImage:dotImg forState:UIControlStateNormal];
+}
+
+#pragma mark -滚动条
 - (void)progDidBegin:(UISlider *)slider
 {
     UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
-    UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
-    UIButton *btn = (UIButton *)[self viewWithTag:kShortPlayBtnTag];
-    [btn setImage:playImg forState:UIControlStateNormal];
+    if ([self.player isPlaying]==YES) {
+        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+        UIButton *btn = (UIButton *)[self viewWithTag:kBarPlayBtnTag];
+        [btn setImage:playImg forState:UIControlStateNormal];
+    }
+    
 }
 -(void)progChanged:(UISlider *)slider
 {
@@ -111,11 +198,8 @@
         slider.value = 0.0f;
         return;
     }
-    UISlider *progressSlider = (UISlider *)[self viewWithTag:kPlaySliderTag];
-    UILabel *startLabel = (UILabel *)[self viewWithTag:kCurrentLabelTag];
-    UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
-    UIButton *btn = (UIButton *)[self viewWithTag:kShortPlayBtnTag];
-    [btn setImage:playImg forState:UIControlStateNormal];
+    UISlider *progressSlider = (UISlider *)[self viewWithTag:kProgressSliderTag];
+    UILabel *startLabel = (UILabel *)[self viewWithTag:kProgressCurLabelTag];
     NSInteger position = progressSlider.value;
     int iMin  = (int)(position / 60);
     int iSec  = (int)(position % 60);
@@ -131,7 +215,12 @@
     }
     UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
-        
+    if ([self.player isPlaying]==YES) {
+        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
+        UIButton *btn = (UIButton *)[self viewWithTag:kBarPlayBtnTag];
+        [btn setImage:playImg forState:UIControlStateNormal];
+    }
+
     [self.player setCurrentPlaybackTime: slider.value];
 }
 - (void)BtnClick:(UIButton *)btn
@@ -142,41 +231,36 @@
     }
     if ([self.player isPlaying]==NO){
         [self play];
-        [btn setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+        UIImage *pauseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
+        [btn setImage:pauseImg_n forState:UIControlStateNormal];
     }
     else{
         [self pause];
-        [btn setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+        UIImage *playImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+       [btn setImage:playImg_n forState:UIControlStateNormal];
     }
 
 }
-#pragma mark 显示提示
-- (void)showNotice:(NSString *)strNotice {
-    static BOOL isShowing = NO;
-    if (isShowing == NO) {
-        
-        SJNoticeView *noticeView=[[SJNoticeView alloc]initWithFrame:CGRectMake(0, 0, 150, 30)];
-        //和player.view没有关系
-        CGFloat centerX=self.width/2;
-        CGFloat centerY=self.height/2;
-        CGPoint centerPoint=CGPointMake(centerX, centerY);
-        noticeView.center = centerPoint;
-        noticeView.noticeLabel.text=strNotice;
-        [self.player.view addSubview:noticeView];
-        
-        [UIView animateWithDuration:1.0 animations:^{
-            noticeView.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            [noticeView removeFromSuperview];
-            isShowing = NO;
-        }];
+-(void)Fullclick:(UIButton *)btn
+{
+    _fullScreenModeToggled=!_fullScreenModeToggled;
+    if (_fullScreenModeToggled) {
+        [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
+        [self lunchFullScreen];
+        UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
+        [btn setImage:fullImg forState:UIControlStateNormal];
+    }else{
+        [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
+        [self minFullScreen];
+        UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+        [btn setImage:fullImg forState:UIControlStateNormal];
     }
 }
 
 - (void)updateCurrentTime{
-    UILabel *kCurrentLabe = (UILabel *)[self viewWithTag:kCurrentLabelTag];
-    UILabel *kTotalLabel = (UILabel *)[self viewWithTag:kTotalLabelTag];
-    UISlider *kPlaySlider = (UISlider *)[self viewWithTag:kPlaySliderTag];
+    UILabel *kCurrentLabe = (UILabel *)[self viewWithTag:kProgressCurLabelTag];
+    UILabel *kTotalLabel = (UILabel *)[self viewWithTag:kProgressMaxLabelTag];
+    UISlider *kPlaySlider = (UISlider *)[self viewWithTag:kProgressSliderTag];
     NSInteger duration = self.player.duration;
     NSInteger position = self.player.currentPlaybackTime;
     
@@ -191,42 +275,43 @@
     kPlaySlider.value = position;
     kPlaySlider.maximumValue = duration;
 }
+- (void)lockBtn:(UIButton *)btn
+{
+    isLock=!isLock;
+    if (isLock==YES) {
+        kBrightnessView.hidden=YES;
+        kVoiceView.hidden=YES;
+        bottomView.hidden=YES;
+        kToolView.hidden=YES;
+        UIImage *lockCloseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_normal"];
+        UIImage *lockCloseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_hl"];
+        [btn setImage:lockCloseImg_n forState:UIControlStateNormal];
+        [btn setImage:lockCloseImg_h forState:UIControlStateHighlighted];
+        
+    }
+    else{
+        kBrightnessView.hidden=NO;
+        kVoiceView.hidden=NO;
+        bottomView.hidden=NO;
+        kToolView.hidden=NO;
+        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
+        UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
+        [btn setImage:lockOpenImg_n forState:UIControlStateNormal];
+        [btn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
 
-#pragma mark 刷新播放时间
-- (void)refreshControl {
-    
-    UILabel *kCurrentLabe = (UILabel *)[self viewWithTag:kCurrentLabelTag];
-    UILabel *kTotalLabel = (UILabel *)[self viewWithTag:kTotalLabelTag];
-    UISlider *kPlaySlider = (UISlider *)[self viewWithTag:kPlaySliderTag];
-    
-    NSInteger duration = self.player.duration;
-    NSInteger position = self.player.currentPlaybackTime;
-    
-    int iMin  = (int)(position / 60);
-    int iSec  = (int)(position % 60);
-    
-    kCurrentLabe.text = [NSString stringWithFormat:@"%02d:%02d", iMin, iSec];
-    if (duration > 0) {
-        int iDuraMin  = (int)(duration / 60);
-        int iDuraSec  = (int)(duration % 3600 % 60);
-        kTotalLabel.text = [NSString stringWithFormat:@"%02d:%02d", iDuraMin, iDuraSec];
-        kPlaySlider.value = position;
-        kPlaySlider.maximumValue = duration;
-    }
-    else {
-        kTotalLabel.text = @"--:--";
-        kPlaySlider.value = 0.0f;
-        kPlaySlider.maximumValue = 1.0f;
-    }
-    if ([self.player isPlaying]==YES) {
-        [self performSelector:@selector(refreshControl) withObject:nil afterDelay:1.0];//一秒钟更新一次
     }
 }
-#pragma mark 添加触摸事件和运动事件
+- (void)showSetView:(UIButton *)btn
+{
+    [self addSetView];
+    kSetView.hidden=NO;
+    [self hiddenAllControls];
+    
+}
 #pragma mark 注册通知
 - (void)registerApplicationObservers
 {
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged:)
                                                  name:UIDeviceOrientationDidChangeNotification
@@ -244,11 +329,84 @@
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (orientation == UIDeviceOrientationLandscapeRight||orientation == UIDeviceOrientationLandscapeLeft)
     {
-        [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
+        [[UIApplication sharedApplication] setStatusBarHidden:NO
+                                                withAnimation:UIStatusBarAnimationFade];
+        UIDeviceOrientation  orientation=[[UIDevice currentDevice] orientation];
+        if (orientation == UIDeviceOrientationLandscapeRight) {
+            if (!KSYSYS_OS_IOS8) {
+                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+            }
+            else {
+            }
+        }
+        else {
+            if (!KSYSYS_OS_IOS8) {
+                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
+                
+            }
+            else {
+            }
+        }
+        if (self.changeNavigationBarColor) {
+            self.changeNavigationBarColor();
+        }
+        [self lunchFullScreen];
     }
-    
+    else if (orientation == UIDeviceOrientationPortrait)
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO
+                                                withAnimation:UIStatusBarAnimationFade];
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+        [self minFullScreen];
+    }
 }
-//手动设置设备方向，这样就能收到转屏事件
+
+#pragma mark 全屏模式
+- (void)lunchFullScreen
+{
+    self.frame=[UIScreen mainScreen].bounds;
+    //设置播放器视图的中心点
+    [self.player.view setCenter:CGPointMake(self.width/2, self.height/2)];
+    //设置为全屏
+    self.player.view.frame = CGRectMake(0, 0,self.width , self.height);
+    topView.hidden=YES;
+    self.detailView.hidden=YES;
+    self.commtenView.hidden=YES;
+    bottomView.frame=CGRectMake(0, self.height-40, self.width, 40);
+    [bottomView setSubviews];
+    kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 2, kProgressViewWidth, 50);
+    kLockView.frame=CGRectMake(kCoverLockViewLeftMargin, (self.height - self.height / 6) / 2, self.height / 6, self.height / 6);
+    [self addSubview:self.kToolView];
+    kToolView.hidden=NO;
+    UIButton *fullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
+    UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
+    [fullBtn setImage:fullImg forState:UIControlStateNormal];
+    self.indicator.center=CGPointMake(self.width/2, self.height/2);
+}
+
+#pragma mark 窗口最小化 动手去做
+- (void)minFullScreen
+{
+    self.frame=self.kPreviousSelfFrame;
+    //设置播放器视图的中心点
+    [self.indicator setCenter:CGPointMake(self.width/2, (self.height)/4)];
+    //设置为全屏
+    self.player.view.frame = CGRectMake(0, 0,self.width, (self.height)/2);
+    self.detailView.hidden=NO;
+    self.commtenView.hidden=NO;
+    kBrightnessView.hidden=YES;
+    kVoiceView.hidden=YES;
+    kLockView.hidden=YES;
+    bottomView.frame=CGRectMake(0, self.height/2-40, self.width, 40);
+    [bottomView resetSubviews];
+    kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
+    kToolView.hidden=YES;
+    UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
+    UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+    [unFullBtn setImage:unFullImg forState:UIControlStateNormal];
+    self.indicator.center=CGPointMake(self.width/2, self.height/4);
+}
+#pragma mark 退出全屏模式
 - (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
 {
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
@@ -264,33 +422,74 @@
 }
 #pragma mark - Touch event
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UISlider *progressSlider = (UISlider *)[self viewWithTag:kPlaySliderTag];
+    UISlider *progressSlider = (UISlider *)[self viewWithTag:kProgressSliderTag];
     _startPoint = [[touches anyObject] locationInView:self];
     _curPosition = progressSlider.value;
+    _curBrightness = [[UIScreen mainScreen] brightness];
+    _curVoice = [MPMusicPlayerController applicationMusicPlayer].volume;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    CGPoint curPoint = [[touches anyObject] locationInView:self];
-    CGFloat deltaX = curPoint.x - _startPoint.x;
-    CGFloat deltaY = curPoint.y - _startPoint.y;
+    // **** 锁屏状态下，屏幕禁用
+    if (isLock == YES) {
+        return;
+    }else if(_playState==KSYPopularLivePlay){
+        return;
+    }
+    CGPoint curPoint = [[touches anyObject] locationInView: self];
+    CGFloat deltaX = curPoint.x -  self.startPoint.x;
+    CGFloat deltaY = curPoint.y -  self.startPoint.y;
+    CGFloat totalWidth =  self.width;
+    CGFloat totalHeight =  self.height;
+//    if (totalHeight == [[UIScreen mainScreen] bounds].size.height) {//竖屏
+//        totalWidth =  self.height;
+//        totalHeight =  self.width;
+//    }
     NSInteger duration = (NSInteger)self.player.duration;
+    //    NSLog(@"durationnnnn is %@",@(duration));
     
-    if (fabs(deltaX) < fabs(deltaY)) {//如果是纵向滑动
+    if (fabs(deltaX) < fabs(deltaY)) {
+        // **** 亮度
+        if ((curPoint.x < totalWidth / 2) && ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYBrightness)) {
+            CGFloat deltaBright = deltaY / totalHeight * 1.0;
+            [[UIScreen mainScreen] setBrightness: _curBrightness - deltaBright];
+            UISlider *brightnessSlider = (UISlider *)[self viewWithTag:kBrightnessSliderTag];
+            [brightnessSlider setValue: _curBrightness - deltaBright animated:NO];
+            UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+            [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
+            UIView *brightnessView = [self viewWithTag:kBrightnessViewTag];
+            brightnessView.alpha = 1.0;
+            self.gestureType = kKSYBrightness;
+        }
+        // **** 声音
+        else if ((curPoint.x > totalWidth / 2) && ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYVoice)) {
+            CGFloat deltaVoice = deltaY / totalHeight * 1.0;
+            MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+            CGFloat voiceValue =  _curVoice - deltaVoice;
+            if (voiceValue < 0) {
+                voiceValue = 0;
+            }
+            else if (voiceValue > 1) {
+                voiceValue = 1;
+            }
+            [musicPlayer setVolume:voiceValue];
+            MediaVoiceView *mediaVoiceView = (MediaVoiceView *)[self viewWithTag:kMediaVoiceViewTag];
+            [mediaVoiceView setIVoice:voiceValue];
+            self.gestureType = kKSYVoice;
+        }
         return ;
     }
-    else if (curPoint.y>64&&curPoint.y<self.player.view.bottom&&duration > 0 && (_gestureType == kKSYUnknown || _gestureType == kKSYProgress)) {
-        
-        if (![self.player isPreparedToPlay]) {
-            return;
-        }
+    else if ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYProgress) {
         if (fabs(deltaX) > fabs(deltaY)) {
-            _gestureType = kKSYProgress;
+            self.gestureType = kKSYProgress;
             
-            UISlider *progressSlider = (UISlider *)[self viewWithTag:kPlaySliderTag];
-            UILabel *startLabel = (UILabel *)[self viewWithTag:kCurrentLabelTag];
-            CGFloat totalWidth=self.width;
+            [self performSelector:@selector(showORhideProgressView:) withObject:@NO];
             CGFloat deltaProgress = deltaX / totalWidth * duration;
+            UISlider *progressSlider = (UISlider *)[self viewWithTag:kProgressSliderTag];
+            UIView *progressView = [self viewWithTag:kProgressViewTag];
+            UILabel *progressViewCurLabel = (UILabel *)[self viewWithTag:kCurProgressLabelTag];
+            UIImageView *wardImageView = (UIImageView *)[self viewWithTag:kWardMarkImgViewTag];
+            UILabel *startLabel = (UILabel *)[self viewWithTag:kProgressCurLabelTag];
             NSInteger position = _curPosition + deltaProgress;
             if (position < 0) {
                 position = 0;
@@ -299,10 +498,27 @@
                 position = duration;
             }
             progressSlider.value = position;
+            
             int iMin1  = ((int)labs(position) / 60);
             int iSec1  = ((int)labs(position) % 60);
+            int iMin2  = ((int)fabs(deltaProgress) / 60);
+            int iSec2  = ((int)fabs(deltaProgress) % 60);
             NSString *strCurTime1 = [NSString stringWithFormat:@"%02d:%02d", iMin1, iSec1];
+            NSString *strCurTime2 = [NSString stringWithFormat:@"%02d:%02d", iMin2, iSec2];
             startLabel.text = strCurTime1;
+            if (deltaX > 0) {
+                strCurTime2 = [@"+" stringByAppendingString:strCurTime2];
+                UIImage *forwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_forward_normal"];
+                wardImageView.frame = CGRectMake(progressView.frame.size.width - 30, 15, 20, 20);
+                wardImageView.image = forwardImg;
+            }
+            else {
+                strCurTime2 = [@"-" stringByAppendingString:strCurTime2];
+                UIImage *backwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_backward_normal"];
+                wardImageView.frame = CGRectMake(10, 15, 20, 20);
+                wardImageView.image = backwardImg;
+            }
+            progressViewCurLabel.text = strCurTime2;
             UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
             [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
         }
@@ -310,71 +526,101 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (_gestureType == kKSYUnknown) { // **** tap 动作
-        if (isActive == NO) {
-            [self showAllControls];
-            
+    if (self.gestureType == kKSYUnknown) { // **** tap 动作
+        if (isActive == YES) {
+            [self hiddenAllControls];
+            kSetView.hidden=YES;
+//            UITableView *epsTableView=(UITableView *)[self viewWithTag:kEpisodeTableViewTag];
+//            epsTableView.hidden=YES;
+//            UIView *commentView=[self viewWithTag:kCommentViewTag];
+//            commentView.hidden=YES;
+//            UITextField *commentField=(UITextField *)[self viewWithTag:kCommentFieldTag];
+//            [commentField resignFirstResponder];
         }
         else {
-            [self hiddenAllControls];
+            [self showAllControls];
+            kSetView.hidden=YES;
         }
-        [self resetTextFrame];
     }
-    else if (_gestureType == kKSYProgress) {
-        if (![self.player isPreparedToPlay]) {
-            return;
-        }
+    else if (self.gestureType == kKSYProgress) {
         
-        UISlider *progressSlider = (UISlider *)[self viewWithTag:kPlaySliderTag];
-        [self  moviePlayerSeekTo:progressSlider.value];
+        UISlider *progressSlider = (UISlider *)[self viewWithTag:kProgressSliderTag];
+        
+        [self.player setCurrentPlaybackTime: progressSlider.value];
+        
         UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
         [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
     }
-    _gestureType = kKSYUnknown;
+    else if (self.gestureType == kKSYBrightness) {
+        UISlider *brightnessSlider = (UISlider *)[self viewWithTag:kBrightnessSliderTag];
+        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+        [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
+        if (isActive == NO) {
+            UIView *brightnessView = [self viewWithTag:kBrightnessViewTag];
+            [UIView animateWithDuration:0.3 animations:^{
+                brightnessView.alpha = 0.0f;
+            }];
+        }
+    }
+    self.gestureType = kKSYUnknown;
 }
+
+
 #pragma mark 显示控件
 - (void) showAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{
-        topView.hidden=NO;
-        bottomView.hidden=NO;
+//            获得的当前设备方向
+            if (self.width<THESCREENHEIGHT) {//证明是竖直方向
+                topView.hidden=NO;
+                bottomView.hidden=NO;
+                kBrightnessView.hidden=YES;
+                kVoiceView.hidden=YES;
+                kLockView.hidden=YES;
+                kToolView.hidden=YES;
+            }else{
+                if (isLock==NO) {
+                    bottomView.hidden=NO;
+                    kBrightnessView.hidden=NO;
+                    kVoiceView.hidden=NO;
+                    kToolView.hidden=NO;
+                }
+                kLockView.hidden=NO;
+            }
     } completion:^(BOOL finished) {
         isActive = YES;
-        [self refreshControl];
     }];
 }
 #pragma mark 隐藏控件
 - (void) hiddenAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{
-        topView.hidden=YES;
-        bottomView.hidden=YES;
+        if (isLock==NO) {
+            topView.hidden=YES;
+            bottomView.hidden=YES;
+            kBrightnessView.hidden=YES;
+            kVoiceView.hidden=YES;
+            kToolView.hidden=YES;
+        }
+        kLockView.hidden=YES;
     } completion:^(BOOL finished) {
         isActive = NO;
     }];
     
     
 }
-- (void)changeTextFrame
-{
-    //执行动画
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-        CGFloat kCommentViewY=self.height/2-40;
-        commtenView.frame=CGRectMake(0,  kCommentViewY, self.width, 40);
-    } completion:^(BOOL finished) {
-        NSLog(@"Animation Over!");
-    }];
+- (void)showORhideProgressView:(NSNumber *)bShowORHide {
+    UIView *progressView = [self viewWithTag:kProgressViewTag];
+    progressView.hidden = bShowORHide.boolValue;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideProgressView) object:nil];
+    if (!bShowORHide.boolValue) {
+        [self performSelector:@selector(hideProgressView) withObject:nil afterDelay:1];
+    }
+}
 
+- (void)hideProgressView {
+    UIView *progressView = [self viewWithTag:kProgressViewTag];
+    progressView.hidden = YES;
 }
-- (void)resetTextFrame
-{
-    UITextField *textField=(UITextField *)[self viewWithTag:kTextFieldTag];
-    [textField resignFirstResponder];
-    //执行动画
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-       commtenView.frame=CGRectMake(0, self.height-40, self.width, 40);
-    } completion:^(BOOL finished) {
-        NSLog(@"Animation Over!");
-    }];
-}
+
 @end
