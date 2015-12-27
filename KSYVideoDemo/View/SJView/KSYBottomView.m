@@ -65,6 +65,7 @@
             [commentText setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@"_placeholderLabel.font"];
             commentText.borderStyle=UITextBorderStyleRoundedRect;
             commentText.delegate=self;
+            commentText.hidden=YES;
             
         }else {
             _playstate=NO;
@@ -118,7 +119,7 @@
         [qualityBtn setTitle:@"流畅" forState:UIControlStateNormal];
         [qualityBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [qualityBtn setTitleColor:KSYCOLER(92, 232, 223) forState:UIControlStateHighlighted];
-        [qualityBtn addTarget:self action:@selector(clickQualityBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [qualityBtn addTarget:self action:@selector(clickQualityBtn) forControlEvents:UIControlEventTouchUpInside];
         //    [qualityBtn addTarget:self action:@selector(clickNormalBtn:) forControlEvents:UIControlEventTouchUpOutside | UIControlEventTouchDragOutside];
         //    [qualityBtn addTarget:self action:@selector(clickHighlightBtn:) forControlEvents:UIControlEventTouchDown];
         [self addSubview:qualityBtn];
@@ -143,7 +144,7 @@
         
         //全屏按钮
         kFullBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        CGRect kFullBtnRect = CGRectMake(commentText.right, 5, 30, 30);
+        CGRect kFullBtnRect = CGRectMake(kTotalLabel.right, 5, 30, 30);
         kFullBtn.alpha = 0.6;
         UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
         [kFullBtn setImage:fullImg forState:UIControlStateNormal];
@@ -192,6 +193,7 @@
         imageView.frame= CGRectMake(kShortPlayBtn.right+5, 5, 30, 30);
         fansCount.frame= CGRectMake(imageView.right+5, 5, 45, 30);
         commentText.frame=CGRectMake(fansCount.right+5, 5, self.width-commentText.left-125, 30);
+        commentText.hidden=NO;
         qualityBtn.hidden=NO;
         qualityBtn.frame= CGRectMake(commentText.right+5, 5, 40, 30);
         danmuBtn.hidden=NO;
@@ -235,5 +237,23 @@
         self.FullBtnClick(btn);
     }
 }
-
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    //通过代码块改变bottom的位置
+    if (self.changeBottomFrame) {
+        self.changeBottomFrame(textField);
+    }
+}
+- (void)clickQualityBtn
+{
+    if (self.rechangeBottom) {
+        self.rechangeBottom();
+    }
+}
+- (void)clickDanmuBtn:(UIButton *)btn
+{
+    if (self.addDanmu) {
+        self.addDanmu(btn);
+    }
+}
 @end

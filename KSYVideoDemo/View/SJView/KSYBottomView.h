@@ -30,6 +30,12 @@
 @property (nonatomic, copy) void (^progressChangeEnd)(UISlider *slider);
 @property (nonatomic, copy) void (^BtnClick)(UIButton *btn);
 @property (nonatomic, copy) void (^FullBtnClick)(UIButton *btn);
+@property (nonatomic, copy) void (^changeBottomFrame)(UITextField *textField);
+@property (nonatomic, copy) void (^rechangeBottom)();
+@property (nonatomic, copy) void (^addDanmu)(UIButton *btn);
+
+
+
 
 - (instancetype)initWithFrame:(CGRect)frame PlayState:(KSYPopularLivePlayState)playstate;
 - (void)setSubviews;

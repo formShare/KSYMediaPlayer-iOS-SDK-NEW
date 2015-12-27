@@ -11,7 +11,6 @@
 #import "SJNoticeView.h"
 #import "SJDetailView.h"
 #import "KSYBottomView.h"
-#import "KSYBottomView2.h"
 #import "KSYCommentView.h"
 #import "KSYBrightnessView.h"
 #import "KSYVoiceView.h"
@@ -19,7 +18,7 @@
 #import "KSYLockView.h"
 #import "KSYToolView.h"
 #import "KSYSetView.h"
-
+#import "KSBarrageView.h"
 @interface KSYVideoPlayerView ()
 {
     KSYTopView *topView;
@@ -30,8 +29,10 @@
     KSYLockView *kLockView;
     KSYToolView *kToolView;
     KSYSetView *kSetView;
+    KSBarrageView *kDanmuView;
     BOOL isActive;
     BOOL isLock;
+    BOOL isOpen;
 }
 //播放类型
 @property (nonatomic, assign) KSYPopularLivePlayState playState;
@@ -116,7 +117,9 @@
 - (void)addTopView
 {
     topView=[[KSYTopView alloc]initWithFrame:CGRectMake(0, 0, self.width, 40)];
-    topView.hidden=NO;
+    if (_playState==KSYPopularLivePlay) {
+        topView.hidden=YES;
+    }
     [self addSubview:topView];
 }
 #pragma mark 添加底部视图
@@ -125,6 +128,9 @@
         
     WeakSelf(KSYVideoPlayerView);
     bottomView=[[KSYBottomView alloc]initWithFrame:CGRectMake(0, self.height/2-40, self.width, 40) PlayState:_playState];
+    if (_playState==KSYPopularLivePlay) {
+        bottomView.hidden=YES;
+    }
     bottomView.progressDidBegin=^(UISlider *slider){
         [weakSelf progDidBegin:slider];
     };
@@ -138,10 +144,56 @@
         [weakSelf BtnClick:btn];
     };
     bottomView.FullBtnClick=^(UIButton *btn){
-        [weakSelf Fullclick:(btn)];
+        [weakSelf Fullclick:btn];
     };
-
+    bottomView.changeBottomFrame=^(UITextField *textField){
+        [weakSelf changeBottom:textField];
+    };
+    bottomView.rechangeBottom=^(){
+        [weakSelf rechangeBottom];
+    };
+    bottomView.addDanmu=^(UIButton *btn){
+        [weakSelf addDanmuView:(btn)];
+    };
     [self addSubview: bottomView];
+}
+#pragma mark 添加弹幕
+- (void)addDanmuView:(UIButton *)btn
+{
+    isOpen=!isOpen;
+    if (isOpen==YES) {
+        if (!kDanmuView) {
+            kDanmuView = [[KSBarrageView alloc] initWithFrame:CGRectMake(0, 0,self.width, self.height-60)];
+            [self addSubview:kDanmuView];
+            //设置弹幕内容
+            NSDictionary *dict1=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"djsflkjoiwene",@"content", nil];
+            NSDictionary *dict2=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
+            NSDictionary *dict3=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"大家好啊啊啊啊啊啊啊啊啊啊啊啊啊",@"content", nil];
+            NSDictionary *dict4=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
+            NSDictionary *dict5=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"2342sdfsjhd束带结发哈斯",@"content", nil];
+            kDanmuView.dataArray=[NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+            [kDanmuView setDanmuFont:10];
+            [kDanmuView setDanmuAlpha:0.5];
+        }
+        [kDanmuView start];
+    }else{
+        [kDanmuView stop];
+    }
+}
+#pragma mark 修改bottom 的位置
+- (void)changeBottom:(UITextField *)textField
+{
+    bottomView.alpha=1.0;
+    bottomView.frame=CGRectMake(0, self.height/2-78, self.width, 40);
+    
+}
+- (void)rechangeBottom
+{
+    if (_playState==KSYPopularLivePlay) {
+        [bottomView.commentText resignFirstResponder];
+        bottomView.frame=CGRectMake(0, self.height-40, self.width, 40);
+        bottomView.alpha=0.6;
+    }
 }
 #pragma mark 添加亮度视图
 - (void)addBrightnessVIew
@@ -287,7 +339,6 @@
         UIImage *lockCloseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_hl"];
         [btn setImage:lockCloseImg_n forState:UIControlStateNormal];
         [btn setImage:lockCloseImg_h forState:UIControlStateHighlighted];
-        
     }
     else{
         kBrightnessView.hidden=NO;
@@ -370,6 +421,7 @@
     //设置为全屏
     self.player.view.frame = CGRectMake(0, 0,self.width , self.height);
     topView.hidden=YES;
+    bottomView.hidden=YES;
     self.detailView.hidden=YES;
     self.commtenView.hidden=YES;
     bottomView.frame=CGRectMake(0, self.height-40, self.width, 40);
@@ -377,7 +429,6 @@
     kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 2, kProgressViewWidth, 50);
     kLockView.frame=CGRectMake(kCoverLockViewLeftMargin, (self.height - self.height / 6) / 2, self.height / 6, self.height / 6);
     [self addSubview:self.kToolView];
-    kToolView.hidden=NO;
     UIButton *fullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
     UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
     [fullBtn setImage:fullImg forState:UIControlStateNormal];
@@ -397,6 +448,9 @@
     kBrightnessView.hidden=YES;
     kVoiceView.hidden=YES;
     kLockView.hidden=YES;
+    if (_playState==KSYPopularLivePlay) {
+        bottomView.hidden=YES;
+    }
     bottomView.frame=CGRectMake(0, self.height/2-40, self.width, 40);
     [bottomView resetSubviews];
     kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
@@ -432,8 +486,6 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     // **** 锁屏状态下，屏幕禁用
     if (isLock == YES) {
-        return;
-    }else if(_playState==KSYPopularLivePlay){
         return;
     }
     CGPoint curPoint = [[touches anyObject] locationInView: self];
@@ -480,7 +532,11 @@
         return ;
     }
     else if ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYProgress) {
+        
         if (fabs(deltaX) > fabs(deltaY)) {
+            if(_playState==KSYPopularLivePlay){
+                return;
+            }
             self.gestureType = kKSYProgress;
             
             [self performSelector:@selector(showORhideProgressView:) withObject:@NO];
@@ -536,6 +592,8 @@
 //            commentView.hidden=YES;
 //            UITextField *commentField=(UITextField *)[self viewWithTag:kCommentFieldTag];
 //            [commentField resignFirstResponder];
+            [self rechangeBottom];
+            
         }
         else {
             [self showAllControls];
@@ -572,8 +630,14 @@
     [UIView animateWithDuration:0.3 animations:^{
 //            获得的当前设备方向
             if (self.width<THESCREENHEIGHT) {//证明是竖直方向
-                topView.hidden=NO;
-                bottomView.hidden=NO;
+                if (_playState==KSYPopularLivePlay) {
+                    topView.hidden=YES;
+                    bottomView.hidden=YES;
+                }
+                else{
+                    topView.hidden=NO;
+                    bottomView.hidden=NO;
+                }
                 kBrightnessView.hidden=YES;
                 kVoiceView.hidden=YES;
                 kLockView.hidden=YES;
