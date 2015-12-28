@@ -43,9 +43,10 @@
 
         [self addSubview:self.player.view];
         [self addSubview:self.indicator];
+        [self bringSubviewToFront:_indicator];
         [self setupObservers];
         
-        
+        [self registerApplicationObservers];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
         
         NSString *remoteHostName = @"www.baidu.com";
@@ -61,14 +62,14 @@
     return self;
 }
 
-- (void)setIsBackGroundReleasePlayer:(BOOL)isBackGroundReleasePlayer
-{
-    if (isBackGroundReleasePlayer == YES) {
-        [self registerApplicationObservers];
-        
-    }
-
-}
+//- (void)setIsBackGroundReleasePlayer:(BOOL)isBackGroundReleasePlayer
+//{
+//    if (isBackGroundReleasePlayer == YES) {
+//        [self registerApplicationObservers];
+//        
+//    }
+//
+//}
 
 - (KSYMoviePlayerController *)player
 {
@@ -80,6 +81,7 @@
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _player.shouldAutoplay = TRUE;
         _player.scalingMode = MPMovieScalingModeAspectFit;
+        [self sendSubviewToBack:_player.view];
         if (_networkStatus != ReachableViaWWAN) {
             [_player prepareToPlay];
             [self.indicator startAnimating];
@@ -191,10 +193,13 @@
     NSLog(@"player finish state: %ld", finishState);
     if (finishState == MPMoviePlaybackStateStopped) {
         [self stopTimer];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放完成，是否重新播放？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"播放", nil];
-        alertView.tag = 104;
-        [alertView show];
-        _isShowAlert = YES;
+        if (!_isShowAlert) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放完成，是否重新播放？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"播放", nil];
+            alertView.tag = 104;
+            [alertView show];
+            _isShowAlert = YES;
+
+        }
 
     }
 
@@ -255,9 +260,15 @@
 {
     _isShowAlert = NO;
 
-    if (alertView.tag == 101 && buttonIndex != alertView.cancelButtonIndex) {
+    if (alertView.tag == 101 ) {
+        if (buttonIndex != alertView.cancelButtonIndex) {
             [self shutDown];
-            [self addSubview:self.player.view];
+            [self sendSubviewToBack:self.player.view];
+            [self setupObservers];
+
+        }else {
+            [_indicator stopAnimating];
+        }
 
     }else if (alertView.tag == 103 && buttonIndex != alertView.cancelButtonIndex){
         if ([self.player isPreparedToPlay]) {
@@ -378,7 +389,6 @@
             _networkStatus = ReachableViaWiFi;
 
             NSLog(@"wifi");
-
             
             break;
         }
@@ -465,11 +475,13 @@
 {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.isLivePlay) {
+        if (self.isLivePlay || self.isBackGroundReleasePlayer) {
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
             [self setupObservers];
 
+        }else {
+            [self play];
         }
         
     });
@@ -478,10 +490,12 @@
 - (void)applicationWillResignActive
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.player isPlaying] && self.isLivePlay) {
+        if ([self.player isPlaying] && self.isBackGroundReleasePlayer) {
             [self shutDown];
 
-        }
+        }else if ([self.player isPlaying] && !self.isLivePlay){
+            [self pause];
+        };
     });
     
 }
