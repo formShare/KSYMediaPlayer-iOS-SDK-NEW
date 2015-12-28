@@ -389,6 +389,7 @@
         //工具栏视图
         CGRect toolViewRect = CGRectMake(0, 0, size.width, kTopBarHeight);
         KSYBarView *toolView = [[KSYBarView alloc] initWithFrame:toolViewRect];
+        toolView.hidden=YES;
         toolView.backgroundColor = [UIColor clearColor];
         toolView.tag = kToolViewTag;
         [self addSubview:toolView];
@@ -697,6 +698,7 @@
         lockView.hidden = YES;
         commentView.hidden=YES;
         backgroundView.hidden=NO;
+        toolView.hidden=YES;
     }
     else {
         
