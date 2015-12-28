@@ -52,7 +52,7 @@
 @implementation KSYVideoPlayerView
 
 
-- (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState
+- (instancetype)initWithFrame:(CGRect)frame UrlWithString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState
 {
     //重置播放界面的大小
     self = [super initWithFrame:frame urlString:urlString];//初始化父视图的(frame、url)

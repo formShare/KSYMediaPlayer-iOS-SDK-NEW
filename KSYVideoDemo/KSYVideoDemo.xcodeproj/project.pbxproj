@@ -77,6 +77,7 @@
 		E3626A511C2E984300679848 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = E3626A4E1C2E984300679848 /* 1.png */; };
 		E3626A521C2E984300679848 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = E3626A4F1C2E984300679848 /* 2.png */; };
 		E3626A551C2F80DE00679848 /* KSYSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3626A541C2F80DE00679848 /* KSYSetView.m */; };
+		E3626A991C30DDAB00679848 /* KSYShortTabelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3626A981C30DDAB00679848 /* KSYShortTabelViewCell.m */; };
 		E37D16111C2819750009715A /* Model1.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D160C1C2819750009715A /* Model1.m */; };
 		E37D16121C2819750009715A /* Model2.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D160E1C2819750009715A /* Model2.m */; };
 		E37D16131C2819750009715A /* Model3.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16101C2819750009715A /* Model3.m */; };
@@ -239,6 +240,8 @@
 		E3626A4F1C2E984300679848 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
 		E3626A531C2F80DE00679848 /* KSYSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSYSetView.h; path = SJView/KSYSetView.h; sourceTree = "<group>"; };
 		E3626A541C2F80DE00679848 /* KSYSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSYSetView.m; path = SJView/KSYSetView.m; sourceTree = "<group>"; };
+		E3626A971C30DDAB00679848 /* KSYShortTabelViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSYShortTabelViewCell.h; path = TableViewCell/KSYShortTabelViewCell.h; sourceTree = "<group>"; };
+		E3626A981C30DDAB00679848 /* KSYShortTabelViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSYShortTabelViewCell.m; path = TableViewCell/KSYShortTabelViewCell.m; sourceTree = "<group>"; };
 		E37D160B1C2819750009715A /* Model1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model1.h; sourceTree = "<group>"; };
 		E37D160C1C2819750009715A /* Model1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model1.m; sourceTree = "<group>"; };
 		E37D160D1C2819750009715A /* Model2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model2.h; sourceTree = "<group>"; };
@@ -559,30 +562,32 @@
 			isa = PBXGroup;
 			children = (
 				E3626A431C2E78A800679848 /* KSYDamu */,
+				E3236FF01C2B85DE00CB6B99 /* KSYVideoPlayerView.h */,
+				E3236FF11C2B85DE00CB6B99 /* KSYVideoPlayerView.m */,
+				E3A19D541C2D88C4001CF09F /* KSYShortVideoPlayView.h */,
+				E3A19D551C2D88C4001CF09F /* KSYShortVideoPlayView.m */,
+				E3626A971C30DDAB00679848 /* KSYShortTabelViewCell.h */,
+				E3626A981C30DDAB00679848 /* KSYShortTabelViewCell.m */,
+				E32370091C2D1F1400CB6B99 /* KSYPopularVideoView.h */,
+				E323700A1C2D1F1400CB6B99 /* KSYPopularVideoView.m */,
 				E341BB891C2A690300E4A4A4 /* SJSnapeView.h */,
 				E341BB8A1C2A690300E4A4A4 /* SJSnapeView.m */,
 				E341BB931C2A723100E4A4A4 /* SJNoticeView.h */,
 				E341BB941C2A723100E4A4A4 /* SJNoticeView.m */,
 				E3236FEA1C2A7D8600CB6B99 /* SJDetailView.h */,
 				E3236FEB1C2A7D8600CB6B99 /* SJDetailView.m */,
-				E3236FF01C2B85DE00CB6B99 /* KSYVideoPlayerView.h */,
-				E3236FF11C2B85DE00CB6B99 /* KSYVideoPlayerView.m */,
 				E3236FF31C2B9EFF00CB6B99 /* KSYTopView.h */,
 				E3236FF41C2B9EFF00CB6B99 /* KSYTopView.m */,
 				E3236FF61C2BA4EA00CB6B99 /* KSYBottomView.h */,
 				E3236FF71C2BA4EA00CB6B99 /* KSYBottomView.m */,
 				E3236FFC1C2BC05800CB6B99 /* KSYCommentView.h */,
 				E3236FFD1C2BC05800CB6B99 /* KSYCommentView.m */,
-				E32370091C2D1F1400CB6B99 /* KSYPopularVideoView.h */,
-				E323700A1C2D1F1400CB6B99 /* KSYPopularVideoView.m */,
 				E3A19D4E1C2D6797001CF09F /* KSYBrightnessView.h */,
 				E3A19D4F1C2D6797001CF09F /* KSYBrightnessView.m */,
 				E3A19D511C2D6FBD001CF09F /* KSYVoiceView.h */,
 				E3A19D521C2D6FBD001CF09F /* KSYVoiceView.m */,
 				E3626A401C2E789B00679848 /* KSYProgressView.h */,
 				E3626A411C2E789B00679848 /* KSYProgressView.m */,
-				E3A19D541C2D88C4001CF09F /* KSYShortVideoPlayView.h */,
-				E3A19D551C2D88C4001CF09F /* KSYShortVideoPlayView.m */,
 				E3626A471C2E7D7400679848 /* KSYLockView.h */,
 				E3626A481C2E7D7400679848 /* KSYLockView.m */,
 				E3626A4A1C2E935B00679848 /* KSYToolView.h */,
@@ -805,6 +810,7 @@
 				7C5CA4DC1C2193BB003A92A8 /* UIColor+ColorExtension.m in Sources */,
 				7CDBE5B31C1555B800D221C7 /* KSYShortVideoPlayVC.m in Sources */,
 				7C43BB991C19853200AB8402 /* KSYInteractiveView.m in Sources */,
+				E3626A991C30DDAB00679848 /* KSYShortTabelViewCell.m in Sources */,
 				7CB994F51C28016100E86919 /* MediaControlView.m in Sources */,
 				7CDBE5BB1C1567FB00D221C7 /* KSYBaseViewController.m in Sources */,
 				7CB994F71C28016100E86919 /* MediaVoiceView.m in Sources */,

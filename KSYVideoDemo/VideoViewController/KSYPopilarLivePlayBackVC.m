@@ -26,7 +26,7 @@
     //修改导航栏模式
     [self changeNavigationStayle];
     //初始化视图
-    ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[NSString stringWithFormat: @"http://121.42.58.232:8980/hls_test/1.m3u8"] playState:KSYPopularPlayBack];
+    ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"] playState:KSYPopularPlayBack];
     WeakSelf(KSYPopilarLivePlayBackVC);
     ksyPoularbackView.changeNavigationBarColor=^(){
         [weakSelf changeNavigationBarCLO];

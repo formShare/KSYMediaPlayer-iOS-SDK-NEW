@@ -7,18 +7,13 @@
 //
 
 #import "KSYPopularVideoView.h"
-#import "KSYTopView.h"
-#import "KSYBottomView.h"
+#import "KSYShortTabelViewCell.h"
 
-@interface KSYShortVideoPlayView : KSYPopularVideoView
+@interface KSYShortVideoPlayView : UIView
 
 - (instancetype)initWithFrame:(CGRect)frame UrlPathString:(NSString *)urlPathString;
 
-@property (nonatomic, strong) KSYTopView *topView;
-@property (nonatomic, strong) KSYBottomView *bottomView;
-@property (nonatomic, assign) BOOL isActive;
-@property (nonatomic, assign) CGPoint startPoint;
-@property (nonatomic, assign) CGFloat curPosition;
-
-
+@property (nonatomic, strong) NSMutableArray *models;
+@property (nonatomic, strong) NSMutableArray *modelsCells;
+@property (nonatomic, strong) KSYShortTabelViewCell *videoCell;
 @end

@@ -200,5 +200,16 @@
     
     
 }
-
+-(void)brightnessChanged:(UISlider *)slider
+{
+    
+}
+-(void) brightnessDidBegin:(UISlider *)slider
+{
+    
+}
+- (void)brightnessChangeEnd:(UISlider *)slider
+{
+    
+}
 @end

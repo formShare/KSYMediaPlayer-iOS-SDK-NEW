@@ -59,7 +59,7 @@
     //修改导航栏模式
     [self changeNavigationStayle];
     //初始化视图
-    ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlPathString:[NSString stringWithFormat:@"http://121.42.58.232:8980/hls_test/1.m3u8"]];
+    ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) UrlPathString:[[NSBundle mainBundle]pathForResource:@"a" ofType:@"mp4"]];
     [self.view addSubview:ksyShortVideoplayView];
     
 }
@@ -102,7 +102,7 @@
 #pragma mark 转到另一个控制器
 - (void)back
 {
-    [ksyShortVideoplayView shutDown];
+    [ksyShortVideoplayView.videoCell.ksyShortView stop];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];

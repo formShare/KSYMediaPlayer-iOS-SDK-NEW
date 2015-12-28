@@ -26,7 +26,7 @@
     //修改导航栏模式
     [self changeNavigationStayle];
     //初始化视图
-    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[NSString stringWithFormat: @"rtmp://live.hkstv.hk.lxdns.com/live/hks"] playState:KSYPopularLivePlay];
+    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:[NSString stringWithFormat: @"rtmp://live.hkstv.hk.lxdns.com/live/hks"] playState:KSYPopularLivePlay];
     WeakSelf(KSYPopilarLivePlayVC);
     ksyPoularLiveView.changeNavigationBarColor=^(){
         [weakSelf changeNavigationBarCLO];
@@ -77,6 +77,7 @@
 - (void)back
 {
     [ksyPoularLiveView.player stop];
+    [ksyPoularLiveView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
