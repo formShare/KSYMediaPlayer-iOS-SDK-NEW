@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface KSYTopView : UIView
+@property (nonatomic, strong)  UIImageView *kUserImageView;
+@property (nonatomic, strong)  UILabel *kUserName;
+@property (nonatomic, strong)  UIButton *kForcBtn;
+
+
 
 @end

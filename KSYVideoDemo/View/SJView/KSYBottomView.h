@@ -8,12 +8,36 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KSYBottomView : UIView
+@interface KSYBottomView : UIView<UITextFieldDelegate>
+{
+    BOOL _playstate;
+}
+@property (nonatomic, strong) UIButton *kShortPlayBtn;
+@property (nonatomic, strong) UILabel *kCurrentLabel;
+@property (nonatomic, strong) UISlider *kPlaySlider;
+@property (nonatomic, strong) UILabel *kTotalLabel;
+@property (nonatomic, strong) UIButton *kFullBtn;
+@property (nonatomic, strong) UIButton *danmuBtn;
+@property (nonatomic, strong) UIButton *qualityBtn;
+@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UILabel *fansCount;
+@property (nonatomic, strong) UITextField *commentText;
 
 
-@property (nonatomic, retain) void (^progressDidBegin)(UISlider *slider);
-@property (nonatomic, retain) void (^progressChanged)(UISlider *slider);
-@property (nonatomic, retain) void (^progressChangeEnd)(UISlider *slider);
-@property (nonatomic, retain) void (^BtnClick)();
 
+@property (nonatomic, copy) void (^progressDidBegin)(UISlider *slider);
+@property (nonatomic, copy) void (^progressChanged)(UISlider *slider);
+@property (nonatomic, copy) void (^progressChangeEnd)(UISlider *slider);
+@property (nonatomic, copy) void (^BtnClick)(UIButton *btn);
+@property (nonatomic, copy) void (^FullBtnClick)(UIButton *btn);
+@property (nonatomic, copy) void (^changeBottomFrame)(UITextField *textField);
+@property (nonatomic, copy) void (^rechangeBottom)();
+@property (nonatomic, copy) void (^addDanmu)(UIButton *btn);
+
+
+
+
+- (instancetype)initWithFrame:(CGRect)frame PlayState:(KSYPopularLivePlayState)playstate;
+- (void)setSubviews;
+- (void)resetSubviews;
 @end

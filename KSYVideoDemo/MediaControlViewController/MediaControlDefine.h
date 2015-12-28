@@ -68,4 +68,19 @@
 
 
 
+
+
+#define kShortPlayBtnTag            160
+#define kTextFieldTag               161
+#define kShortCommentViewTag        162
+#define kPlaySliderTag              163
+#define kShortIndicatorViewTag      164
+#define kShortIndicatorLabelTag     165
+#define kShortErrorLabelTag         166
+#define kTotalLabelTag              167
+#define kCurrentLabelTag            168
+#define ksyTextFieldTag             169
+#define kDetailViewTag              170
+
+
 #endif

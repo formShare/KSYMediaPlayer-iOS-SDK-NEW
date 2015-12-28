@@ -20,8 +20,14 @@
 #import "Model2.h"
 #import "KSY3TableViewCell.h"
 #import "Model3.h"
-
-
+#import "KSYDefine.h"
+#import "MediaControlDefine.h"
+typedef enum : NSUInteger {
+    KSYPopularLivePlay,
+    KSYPopularPlayBack,
+    kSYShortVideoPlay,
+    KSYVideoOnlinePlay,
+} KSYPopularLivePlayState;
 
 enum KSYVideoQuality {
     kKSYVideoNormal = 0, // **** default
@@ -41,6 +47,7 @@ enum KSYGestureType {
     kKSYProgress,
 };
 
+
 typedef enum KSYVideoQuality KSYVideoQuality;
 typedef enum KSYVideoScale KSYVideoScale;
 typedef enum KSYGestureType KSYGestureType;
@@ -52,6 +59,27 @@ typedef enum KSYGestureType KSYGestureType;
 #define THESCREENWIDTH [UIScreen mainScreen].bounds.size.width
 #define THESCREENHEIGHT [UIScreen mainScreen].bounds.size.height
 
+#define TEXTCOLOR1 ([UIColor colorWithRed:207.0/255.0 green:206.0/255.0 blue:203.0/255.0 alpha:1.0])
+#define TEXTCOLOR2 ([UIColor colorWithRed:237.0/255.0 green:236.0/255.0 blue:234.0/255.0 alpha:1.0])
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define kTopBarHeight 40
+#define kBottomBarHeight 58
+#define kCoverBarHeight 140
+#define kCoverBarLeftMargin 20
+#define kCoverBarRightMargin 20
+#define kCoverBarTopMargin 48
+#define kCoverBarBottomMargin 42
+#define kCoverLockViewLeftMargin 68
+#define kCoverLockViewBgWidth 40
+#define kCoverLockWidth 30
+#define kCoverBarWidth 25
+#define kProgressViewWidth 150
+#define kLandscapeSpacing 10
+#define kVertialSpacing 20
+#define kBigFont 18
+#define kSmallFont 16
+
+
 //颜色
 #define KSYCOLER(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
 //字体大小
@@ -60,16 +88,6 @@ typedef enum KSYGestureType KSYGestureType;
 
 
 
-#define kShortPlayBtnTag            160
-#define kTextFieldTag               161
-#define kCommentViewTag             162
-#define kPlaySliderTag              163
-#define kShortIndicatorViewTag      164
-#define kShortIndicatorLabelTag     165
-#define kShortErrorLabelTag         166
-#define kTotalLabelTag              167
-#define kCurrentLabelTag            168
-#define ksyTextFieldTag             169
-#define kDetailViewTag              170
+
 
 #endif /* KSYHead_h */

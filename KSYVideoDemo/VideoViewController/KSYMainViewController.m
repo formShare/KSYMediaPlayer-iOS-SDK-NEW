@@ -38,7 +38,13 @@
     label1.font = [UIFont systemFontOfSize:13.0];
     [self.view addSubview:label1];
     
-    UILabel *httpUrlLabl = [[UILabel alloc] initWithFrame:CGRectMake(label1.left, label1.bottom + 5, 60, 20)];
+    _switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(20, label1.bottom+5, 40, 25)];
+    [_switchControl addTarget:self action:@selector(switchControlEvent:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_switchControl];
+    
+    
+    
+    UILabel *httpUrlLabl = [[UILabel alloc] initWithFrame:CGRectMake(label1.left, _switchControl.bottom + 5, 60, 20)];
     httpUrlLabl.text = @"点播URL";
     httpUrlLabl.font = [UIFont systemFontOfSize:13.0];
 
@@ -50,11 +56,9 @@
 
     [self.view addSubview:rtmpUrlLabl];
 
-    _switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(label1.right + 8, label1.top - 5, 40, 25)];
-    [_switchControl addTarget:self action:@selector(switchControlEvent:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:_switchControl];
     
-    _httpTextF = [[UITextField alloc] initWithFrame:CGRectMake(httpUrlLabl.right + 5, httpUrlLabl.top, 250, 20)];
+    _httpTextF = [[UITextField alloc] initWithFrame:CGRectMake(httpUrlLabl.right + 5, httpUrlLabl.top,self.view.width-httpUrlLabl.right-10, 20)];
+    _httpTextF.adjustsFontSizeToFitWidth=YES;
     _httpTextF.text = @"http://121.42.58.232:8980/hls_test/1.m3u8";
     _httpTextF.borderStyle = UITextBorderStyleRoundedRect;
     _httpTextF.returnKeyType = UIReturnKeyDone;
@@ -62,7 +66,8 @@
     _httpTextF.delegate = self;
     [self.view addSubview:_httpTextF];
     
-    _rtmpTextF = [[UITextField alloc] initWithFrame:CGRectMake(rtmpUrlLabl.right + 5, rtmpUrlLabl.top, 250, 20)];
+    _rtmpTextF = [[UITextField alloc] initWithFrame:CGRectMake(rtmpUrlLabl.right + 5, rtmpUrlLabl.top, self.view.width-_httpTextF.left-5, 20)];
+    _rtmpTextF.adjustsFontSizeToFitWidth=YES;
     _rtmpTextF.text = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
     _rtmpTextF.borderStyle = UITextBorderStyleRoundedRect;
     _rtmpTextF.returnKeyType = UIReturnKeyDone;
@@ -185,16 +190,12 @@
         case 0:
         {
             if (indexPath.row == 0) {
-                KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
+                KSYPopilarLivePlayVC *view=[[KSYPopilarLivePlayVC alloc]init];
                 [self.navigationController pushViewController:view animated:YES];
-                view.videoPath=_rtmpTextF.text;
-                view.isRtmp=YES;
                
             }else {
-                KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
-                view.videoPath =[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
+                KSYPopilarLivePlayBackVC *view=[[KSYPopilarLivePlayBackVC alloc]init];
                 [self.navigationController pushViewController:view animated:YES];
-                view.isRtmp=NO;
             }
         }
             break;

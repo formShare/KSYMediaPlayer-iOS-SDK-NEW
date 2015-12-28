@@ -29,7 +29,7 @@
     self.backgroundColor=KSYCOLER(34, 34, 34);
     
     UITextField *kTextField=[[UITextField alloc]initWithFrame:CGRectMake(10, 5, self.width-10-50, 30)];
-    kTextField.tag=kTextFieldTag;
+    kTextField.tag=kCommentFieldTag;
     [self addSubview:kTextField];
     kTextField.backgroundColor=KSYCOLER(100, 100, 100);
     kTextField.placeholder=@"填写评论内容";

@@ -295,7 +295,7 @@
         
         [self moviePlayerFinishState:self.player.playbackState];
 
-        [self moviePlayerReadSize:self.player.readSize];
+//        [self moviePlayerReadSize:self.player.readSize];
         
         NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
         [self moviePlayerFinishReson:[reason integerValue]];
@@ -304,7 +304,7 @@
     
 }
 
-
+//播放器状态通知
 - (void)setupObservers
 {
     [[NSNotificationCenter defaultCenter]addObserver:self
@@ -410,7 +410,7 @@
     
 }
 
-
+//应用状态通知
 - (void)registerApplicationObservers
 {
     [[NSNotificationCenter defaultCenter] addObserver:self

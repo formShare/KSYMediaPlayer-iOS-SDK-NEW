@@ -26,8 +26,19 @@
     //修改导航栏模式
     [self changeNavigationStayle];
     //初始化视图
-    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"] playState:KSYPopularLivePlay];
+    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[NSString stringWithFormat: @"rtmp://live.hkstv.hk.lxdns.com/live/hks"] playState:KSYPopularLivePlay];
+    WeakSelf(KSYPopilarLivePlayVC);
+    ksyPoularLiveView.changeNavigationBarColor=^(){
+        [weakSelf changeNavigationBarCLO];
+        
+    };
     [self.view addSubview:ksyPoularLiveView];
+    
+}
+- (void)changeNavigationBarCLO
+{
+    self.navigationController.navigationBar.alpha=0.0;
+    //修改导航栏左侧Item
     
 }
 - (void)changeNavigationStayle
@@ -65,7 +76,7 @@
 }
 - (void)back
 {
-    [ksyPoularLiveView shutDown];
+    [ksyPoularLiveView.player stop];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
@@ -74,6 +85,7 @@
 {
     
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

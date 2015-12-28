@@ -9,6 +9,14 @@
 #import "KSYTopView.h"
 
 @implementation KSYTopView
+@synthesize kUserImageView;
+@synthesize kUserName;
+@synthesize kForcBtn;
+
+
+
+
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self=[super initWithFrame:frame];
@@ -20,23 +28,24 @@
 }
 - (void)addSubViews
 {
+
     self.backgroundColor=[UIColor blackColor];
     self.alpha=0.6;
     //用户名和关注按钮
-    UIImageView *kUserImageView=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 30, 30)];
+    kUserImageView=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 30, 30)];
     [self addSubview:kUserImageView];
     kUserImageView.layer.masksToBounds=YES;
     kUserImageView.layer.cornerRadius=15;
     kUserImageView.contentMode=UIViewContentModeScaleAspectFit;//等比例缩放
     kUserImageView.image=[UIImage imageNamed:@"touxiang.png"];
 
-    UILabel *kUserName=[[UILabel alloc]initWithFrame:CGRectMake(kUserImageView.right+5, kUserImageView.center.y-10, 80, 20)];
+     kUserName=[[UILabel alloc]initWithFrame:CGRectMake(kUserImageView.right+5, kUserImageView.center.y-10, 80, 20)];
     [self addSubview:kUserName];
     kUserName.text=@"用户名ID";
     kUserName.textColor=[UIColor whiteColor];
     kUserName.font=[UIFont systemFontOfSize:WORDFONT16];
 
-    UIButton *kForcBtn=[[UIButton alloc]initWithFrame:CGRectMake(self.right-70, 5, 60, 30)];
+    kForcBtn=[[UIButton alloc]initWithFrame:CGRectMake(self.right-70, 5, 60, 30)];
     [self addSubview:kForcBtn];
     [kForcBtn setTitle:@"＋关注" forState:UIControlStateNormal];
     [kForcBtn setTitleColor:KSYCOLER(92, 223, 232) forState:UIControlStateNormal];
