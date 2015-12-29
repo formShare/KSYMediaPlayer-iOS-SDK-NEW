@@ -23,7 +23,7 @@
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self changeNavigationStayle];
-    ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"] playState:KSYPopularPlayBack];
+    ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:@"http://121.42.58.232:8980/hls_test/1.m3u8" playState:KSYPopularPlayBack];
     WeakSelf(KSYPopilarLivePlayBackVC);
     ksyPoularbackView.changeNavigationBarColor=^(){
         [weakSelf changeNavigationBarCLO];

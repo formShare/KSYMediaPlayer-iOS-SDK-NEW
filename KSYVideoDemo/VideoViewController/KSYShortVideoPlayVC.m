@@ -23,7 +23,7 @@
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self changeNavigationStayle];
-    ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) UrlPathString:[[NSBundle mainBundle]pathForResource:@"a" ofType:@"mp4"]];
+    ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) UrlPathString:@"http://121.42.58.232:8980/hls_test/1.m3u8"];
     [self.view addSubview:ksyShortVideoplayView];
     
 }
