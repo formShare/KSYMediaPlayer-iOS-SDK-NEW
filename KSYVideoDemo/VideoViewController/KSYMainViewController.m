@@ -220,9 +220,8 @@
         case 2:
         {
             KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
-            view.videoPath=[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"];
             [self.navigationController pushViewController:view animated:YES];
-            view.isRtmp=NO;
+
         }
             break;
         case 3:

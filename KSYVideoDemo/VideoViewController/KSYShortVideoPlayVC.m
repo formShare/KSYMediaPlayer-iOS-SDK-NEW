@@ -7,44 +7,13 @@
 //
 
 #import "KSYShortVideoPlayVC.h"
-#import "Model1.h"
-#import "KSY1TableViewCell.h"
-#import "Model2.h"
-#import "KSY2TableViewCell.h"
-#import "Model3.h"
-#import "KSY3TableViewCell.h"
-#import "ThemeManager.h"
-#import "MediaControlViewController.h"
 #import "KSYShortVideoPlayView.h"
 
 @interface KSYShortVideoPlayVC ()
 {
     KSYShortVideoPlayView *ksyShortVideoplayView;
-    //播放器状态
-    BOOL isAutoPlay;        //是否自动播放
-    BOOL isPlaying;         //是否正在播放
-    BOOL isPreperded;       //是否准备播放
-    BOOL isCompleted;       //是否播放完毕
-    BOOL isCyclePlay;       //是否自动播放
-    BOOL isActive;          //是否
-    BOOL isEnd;             //是否结束
-    BOOL isRtmp;            //是否是rtmp直播
-    BOOL pauseInBackground; //是否进入后台
-    BOOL isKSYPlayerPling;
-    NSMutableArray *_models;
-    NSMutableArray *_modelsCells;
 }
-@property (nonatomic, strong) KSYBasePlayView *phoneLivePlayVC;
-@property (nonatomic, strong) UIView * kShortBackgroundView;
-@property (nonatomic, strong) UISegmentedControl * kShortSegmentedCTL;
-@property (nonatomic, strong) UITableView * kShortTableView;
-@property (nonatomic, strong) UIView * kShortTopView;
-@property (nonatomic, strong) UIView * kShortBottomView;
-@property (nonatomic, strong) UIView * kShortLodingView;
-@property (nonatomic, strong) UIView * kShortErrorView;
-@property (nonatomic, assign) CGPoint startPoint;
-@property (nonatomic, assign) CGFloat curPosition;
-@property (nonatomic, assign) KSYGestureType gestureType;
+
 @end
 
 @implementation KSYShortVideoPlayVC
