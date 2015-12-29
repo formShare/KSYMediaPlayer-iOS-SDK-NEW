@@ -263,6 +263,7 @@
     if (alertView.tag == 101 ) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self shutDown];
+            [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
             [self setupObservers];
 
@@ -475,7 +476,7 @@
 {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.isLivePlay || self.isBackGroundReleasePlayer) {
+        if (self.isLivePlay) {
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
             [self setupObservers];
@@ -490,7 +491,7 @@
 - (void)applicationWillResignActive
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.player isPlaying] && self.isBackGroundReleasePlayer) {
+        if (([self.player isPlaying] && self.isBackGroundReleasePlayer ) || self.isLivePlay) {
             [self shutDown];
 
         }else if ([self.player isPlaying] && !self.isLivePlay){

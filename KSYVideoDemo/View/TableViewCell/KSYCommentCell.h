@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentModel.h"
 
 @interface KSYCommentCell : UITableViewCell
 
-@property (nonatomic, strong)id userModel;
+@property (nonatomic, strong)CommentModel *userModel;
 @end
