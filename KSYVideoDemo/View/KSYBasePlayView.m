@@ -18,17 +18,10 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//    [self releaseObservers];
-//    [self unregisterApplicationObservers];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"netWorkStateChanged" object:nil];
+    [self releaseObservers];
+    [self unregisterApplicationObservers];
 
-//    [self shutDown];
-//    [self stopTimer];
-//    if (_player) {
-//        [_player stop];
-//        [_player.view removeFromSuperview];
-//        _player = nil;
-//    }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString
@@ -153,6 +146,46 @@
     }
     return 0;
 }
+
+- (void)startTimer
+{
+    if (!_timer) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES];
+        
+    }
+}
+
+- (void)stopTimer
+{
+    if (nil == _timer) {
+        return;
+    }
+    [_timer invalidate];
+    _timer = nil;
+}
+
+- (void)updateCurrentTime
+{
+    NSLog(@"currentTime is %f",self.currentPlaybackTime);
+    
+}
+
+- (void)timerIsStop:(BOOL)isStop
+{
+    if (isStop) {
+        [_timer setFireDate:[NSDate distantFuture]];
+    }else {
+        [_timer setFireDate:[NSDate date]];
+    }
+}
+
+- (void)moviePlayerSeekTo:(NSTimeInterval)position
+{
+    if (self.player) {
+        self.player.currentPlaybackTime = position;
+    }
+}
+
 #pragma mark- playerState
 
 - (void)moviePlayerPlaybackState:(MPMoviePlaybackState)playbackState
@@ -202,43 +235,6 @@
     NSLog(@"player finish reson is %ld",finishReson);
 }
 
-- (void)moviePlayerSeekTo:(NSTimeInterval)position
-{
-    if (self.player) {
-        self.player.currentPlaybackTime = position;
-    }
-}
-- (void)startTimer
-{
-    if (!_timer) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES];
-
-    }
-}
-
-- (void)stopTimer
-{
-    if (nil == _timer) {
-        return;
-    }
-    [_timer invalidate];
-    _timer = nil;
-}
-
-- (void)updateCurrentTime
-{
-    NSLog(@"currentTime is %f",self.currentPlaybackTime);
-
-}
-
-- (void)timerIsStop:(BOOL)isStop
-{
-    if (isStop) {
-        [_timer setFireDate:[NSDate distantFuture]];
-    }else {
-         [_timer setFireDate:[NSDate date]];
-    }
-}
 
 #pragma mark -alertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -271,38 +267,8 @@
     }
 }
 
-#pragma mark- notify
--(void)handlePlayerNotify:(NSNotification*)notify
-{
-    
-    if (!_player) {
-        return;
-    }
-    if (MPMediaPlaybackIsPreparedToPlayDidChangeNotification ==  notify.name) {
-        [self.indicator stopAnimating];
-        [self startTimer];
-    }
-    if (MPMoviePlayerPlaybackStateDidChangeNotification ==  notify.name) {
-        
-        [self moviePlayerPlaybackState:self.player.playbackState];
-    }
-    if (MPMoviePlayerLoadStateDidChangeNotification ==  notify.name) {
-        
-        [self moviePlayerLoadState:self.player.loadState];
-        
-    }
-    if (MPMoviePlayerPlaybackDidFinishNotification ==  notify.name) {
-        
-        [self moviePlayerFinishState:self.player.playbackState];
 
-        
-        NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-        [self moviePlayerFinishReson:[reason integerValue]];
-
-    }
-    
-}
-
+#pragma mark- setNotifis
 //播放器状态通知
 - (void)setupObservers
 {
@@ -338,6 +304,63 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:MPMoviePlayerLoadStateDidChangeNotification
                                                  object:nil];
+}
+
+//应用状态通知
+- (void)registerApplicationObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+}
+
+- (void)unregisterApplicationObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillResignActiveNotification
+                                                  object:nil];
+}
+
+
+#pragma mark- notifyControl
+
+-(void)handlePlayerNotify:(NSNotification*)notify
+{
+    
+    if (!_player) {
+        return;
+    }
+    if (MPMediaPlaybackIsPreparedToPlayDidChangeNotification ==  notify.name) {
+        [self.indicator stopAnimating];
+        [self startTimer];
+    }
+    if (MPMoviePlayerPlaybackStateDidChangeNotification ==  notify.name) {
+        
+        [self moviePlayerPlaybackState:self.player.playbackState];
+    }
+    if (MPMoviePlayerLoadStateDidChangeNotification ==  notify.name) {
+        
+        [self moviePlayerLoadState:self.player.loadState];
+        
+    }
+    if (MPMoviePlayerPlaybackDidFinishNotification ==  notify.name) {
+        
+        [self moviePlayerFinishState:self.player.playbackState];
+        
+        
+        NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+        [self moviePlayerFinishReson:[reason integerValue]];
+        
+    }
+    
 }
 
 - (void)netWorkStateChanged:(NSNotification *)note
@@ -408,57 +431,6 @@
     
 }
 
-//应用状态通知
-- (void)registerApplicationObservers
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillEnterForeground)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillResignActive)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillTerminate)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
-}
-
-- (void)unregisterApplicationObservers
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillEnterForegroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidBecomeActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillResignActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidEnterBackgroundNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillTerminateNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIDeviceOrientationDidChangeNotification
-                                                  object:nil];
-}
-
-- (void)applicationWillEnterForeground
-{
-}
-
 - (void)applicationDidBecomeActive
 {
     
@@ -486,20 +458,4 @@
     });
     
 }
-
-- (void)applicationDidEnterBackground
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-
-    });
-}
-
-- (void)applicationWillTerminate
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-
-    });
-}
-
-
 @end
