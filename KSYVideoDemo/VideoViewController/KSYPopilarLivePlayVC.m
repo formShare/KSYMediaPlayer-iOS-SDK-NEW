@@ -8,7 +8,7 @@
 
 #import "KSYPopilarLivePlayVC.h"
 #import "KSYVideoPlayerView.h"
-
+#import "AppDelegate.h"
 @interface KSYPopilarLivePlayVC ()
 {
     KSYVideoPlayerView *ksyPoularLiveView;
@@ -32,8 +32,17 @@
         [weakSelf changeNavigationBarCLO];
         
     };
+    ksyPoularLiveView.lockScreen=^(BOOL isLocked){
+        [weakSelf lockTheScreen:(isLocked)];
+    };
     [self.view addSubview:ksyPoularLiveView];
-    
+    AppDelegate *appDelegate=[[UIApplication sharedApplication]delegate];
+    appDelegate.allowRotation=YES;
+}
+- (void)lockTheScreen:(BOOL)isLocked
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=!isLocked;
 }
 - (void)changeNavigationBarCLO
 {
@@ -76,7 +85,7 @@
 }
 - (void)back
 {
-    [ksyPoularLiveView.player stop];
+    [ksyPoularLiveView shutDown];
     [ksyPoularLiveView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
@@ -91,6 +100,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)dealloc
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=NO;
+}
 
 @end

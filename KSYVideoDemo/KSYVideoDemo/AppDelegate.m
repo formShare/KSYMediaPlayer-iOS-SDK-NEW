@@ -50,7 +50,21 @@
 //    [self redirectNSlogToDocumentFolder];
     return YES;
 }
-
+-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    if (self.allowRotation) {
+        return UIInterfaceOrientationMaskAll;
+    }else{
+        //判断一下当前设备的方向
+        if ([[UIApplication sharedApplication]statusBarOrientation]==UIInterfaceOrientationLandscapeLeft) {
+            return UIInterfaceOrientationMaskLandscapeLeft;
+        }else if([[UIApplication sharedApplication]statusBarOrientation]==UIInterfaceOrientationLandscapeRight){
+            return UIInterfaceOrientationMaskLandscapeRight;
+        }else if([[UIApplication sharedApplication]statusBarOrientation]==UIInterfaceOrientationPortrait){
+            return UIInterfaceOrientationMaskPortrait;
+        }
+        return 0;
+    }
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

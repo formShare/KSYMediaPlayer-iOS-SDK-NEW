@@ -8,6 +8,7 @@
 
 #import "KSYPopilarLivePlayBackVC.h"
 #import "KSYVideoPlayerView.h"
+#import "AppDelegate.h"
 
 @interface KSYPopilarLivePlayBackVC ()
 {
@@ -30,10 +31,19 @@
     WeakSelf(KSYPopilarLivePlayBackVC);
     ksyPoularbackView.changeNavigationBarColor=^(){
         [weakSelf changeNavigationBarCLO];
-        
+    };
+    ksyPoularbackView.lockScreen=^(BOOL isLocked){
+        [weakSelf lockTheScreen:(isLocked)];
     };
     [self.view addSubview:ksyPoularbackView];
-    
+    AppDelegate *appDelegate=[[UIApplication sharedApplication]delegate];
+    appDelegate.allowRotation=YES;
+}
+
+- (void)lockTheScreen:(BOOL)isLocked
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=!isLocked;
 }
 - (void)changeNavigationBarCLO
 {
@@ -76,7 +86,8 @@
 }
 - (void)back
 {
-    [ksyPoularbackView.player stop];
+    [ksyPoularbackView shutDown];
+    [ksyPoularbackView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
@@ -84,6 +95,11 @@
 - (void)menu
 {
     
+}
+- (void)dealloc
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=NO;
 }
 
 @end

@@ -50,7 +50,14 @@
 #pragma mark 添加评论视图
 - (void)addCommentView
 {
+    WeakSelf(KSYShortVideoPlayView);
     commentView=[[KSYCommentView alloc]initWithFrame:CGRectMake(0, self.height-40, self.width, 40)];
+    commentView.textFieldDidBeginEditing=^(){
+        [weakSelf changeCommentViewFrame];
+    };
+    commentView.send=^(){
+        [weakSelf rechangeCommentViewFrame];
+    };
     [self addSubview:commentView];
 }
 #pragma mark 分区数
@@ -124,7 +131,16 @@
 {
     return 1;
 }
-
+- (void)changeCommentViewFrame
+{
+    commentView.frame=CGRectMake(0, self.height/2-8, self.width, 40);
+}
+- (void)rechangeCommentViewFrame
+{
+    commentView.frame=CGRectMake(0, self.height-40, self.width, 40);
+    UITextField *kTextField=(UITextField *)[self viewWithTag:kCommentFieldTag];
+    [kTextField resignFirstResponder];
+}
 //#pragma mark 添加顶部视图
 //- (KSYTopView *)topView
 //{

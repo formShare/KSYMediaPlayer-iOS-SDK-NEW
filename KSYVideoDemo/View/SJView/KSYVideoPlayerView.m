@@ -55,7 +55,7 @@
 - (instancetype)initWithFrame:(CGRect)frame UrlWithString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState
 {
     //重置播放界面的大小
-    self = [super initWithFrame:frame urlString:urlString];//初始化父视图的(frame、url)
+    self=[super initWithFrame:frame UrlFromString:urlString];//初始化父视图的(frame、url)
     if (self) {
         _playState=playState;
         isLock=NO;
@@ -339,6 +339,10 @@
         UIImage *lockCloseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_hl"];
         [btn setImage:lockCloseImg_n forState:UIControlStateNormal];
         [btn setImage:lockCloseImg_h forState:UIControlStateHighlighted];
+        if (self.lockScreen) {
+            self.lockScreen(isLock);
+            
+        }
     }
     else{
         kBrightnessView.hidden=NO;
@@ -349,6 +353,9 @@
         UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
         [btn setImage:lockOpenImg_n forState:UIControlStateNormal];
         [btn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
+        if (self.lockScreen) {
+            self.lockScreen(isLock);
+        }
 
     }
 }
@@ -438,27 +445,32 @@
 #pragma mark 窗口最小化 动手去做
 - (void)minFullScreen
 {
-    self.frame=self.kPreviousSelfFrame;
-    //设置播放器视图的中心点
-    [self.indicator setCenter:CGPointMake(self.width/2, (self.height)/4)];
-    //设置为全屏
-    self.player.view.frame = CGRectMake(0, 0,self.width, (self.height)/2);
-    self.detailView.hidden=NO;
-    self.commtenView.hidden=NO;
-    kBrightnessView.hidden=YES;
-    kVoiceView.hidden=YES;
-    kLockView.hidden=YES;
-    if (_playState==KSYPopularLivePlay) {
-        bottomView.hidden=YES;
+    if (isLock==YES) {
+        return;
+    }else{
+        self.frame=self.kPreviousSelfFrame;
+        //设置播放器视图的中心点
+        [self.indicator setCenter:CGPointMake(self.width/2, (self.height)/4)];
+        //设置为全屏
+        self.player.view.frame = CGRectMake(0, 0,self.width, (self.height)/2);
+        self.detailView.hidden=NO;
+        self.commtenView.hidden=NO;
+        kBrightnessView.hidden=YES;
+        kVoiceView.hidden=YES;
+        kLockView.hidden=YES;
+        if (_playState==KSYPopularLivePlay) {
+            bottomView.hidden=YES;
+        }
+        bottomView.frame=CGRectMake(0, self.height/2-40, self.width, 40);
+        [bottomView resetSubviews];
+        kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
+        kToolView.hidden=YES;
+        UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
+        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+        [unFullBtn setImage:unFullImg forState:UIControlStateNormal];
+        self.indicator.center=CGPointMake(self.width/2, self.height/4);
+
     }
-    bottomView.frame=CGRectMake(0, self.height/2-40, self.width, 40);
-    [bottomView resetSubviews];
-    kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
-    kToolView.hidden=YES;
-    UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
-    UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
-    [unFullBtn setImage:unFullImg forState:UIControlStateNormal];
-    self.indicator.center=CGPointMake(self.width/2, self.height/4);
 }
 #pragma mark 退出全屏模式
 - (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation

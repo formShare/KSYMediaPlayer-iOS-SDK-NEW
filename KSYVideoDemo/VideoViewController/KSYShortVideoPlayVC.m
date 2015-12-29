@@ -102,7 +102,7 @@
 #pragma mark 转到另一个控制器
 - (void)back
 {
-    [ksyShortVideoplayView.videoCell.ksyShortView stop];
+    [ksyShortVideoplayView.videoCell.ksyShortView shutDown];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
