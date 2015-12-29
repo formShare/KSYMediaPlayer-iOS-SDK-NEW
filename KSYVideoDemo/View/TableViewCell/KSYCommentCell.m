@@ -7,7 +7,6 @@
 //
 
 #import "KSYCommentCell.h"
-#import "CommentModel.h"
 #import "UIView+BFExtension.h"
 @interface KSYCommentCell ()
 {
@@ -57,21 +56,47 @@
 {
     [super layoutSubviews];
     
-    _backGroundView.frame = CGRectMake(5, 5, 150, 39);
-    _headImv.frame = CGRectMake(3, 2, 35, 35);
-    _contentLab.frame = CGRectMake(_headImv.right+5, 0, 90, 39);
+    if ([self.userModel isKindOfClass:[CommentModel class]]) {
+        if (self.userModel.userName != nil) {
+            _headImv.frame = CGRectZero;
+            _contentLab.frame = CGRectMake(_headImv.right+5, 0, 90, 25);
+            _backGroundView.frame = CGRectMake(5, 5, 150, 25);
+
+            
+        }else {
+            _backGroundView.frame = CGRectMake(5, 5, 150, 39);
+
+            _contentLab.frame = CGRectMake(_headImv.right+5, 0, 90, 39);
+
+            _headImv.frame = CGRectMake(3, 2, 35, 35);
+
+        }
+    }else {
+        _backGroundView.frame = CGRectMake(5, 5, 150, 39);
+
+        _contentLab.frame = CGRectMake(_headImv.right+5, 0, 90, 39);
+
+        _headImv.frame = CGRectMake(3, 2, 35, 35);
+
+    }
+
     
 }
 
 - (void)setUserModel:(id)userModel
 {
+    _userModel = userModel;
     if ([userModel isKindOfClass:[CommentModel class]]) {
         CommentModel *model = userModel;
 
         _backGroundView.backgroundColor = model.backColor;
         _headImv.backgroundColor = model.headColor;
-        _contentLab.text = model.userComment;
+        if (model.userComment) {
+            _contentLab.text = model.userComment;
 
+        }else {
+            _contentLab.text = [NSString stringWithFormat:@"%@  来了",model.userName];
+        }
 
     }else {
         _backGroundView.backgroundColor = [UIColor clearColor];

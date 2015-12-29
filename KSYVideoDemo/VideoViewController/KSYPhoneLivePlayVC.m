@@ -17,6 +17,7 @@
 {
     KSYPhoneLivePlayView    *_phoneLivePlayVC;
     NSTimer                 *_commetnTimer;
+    NSTimer                 *_commetnTimer1;
     NSTimer                 *_praiseTimer0;
     NSTimer                 *_praiseTimer1;
 }
@@ -30,6 +31,9 @@
     WeakSelf(KSYBaseViewController);
     //模拟观众评论
     _commetnTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(addNewCommentWith) userInfo:nil repeats:YES];
+    //模拟用户进入
+    _commetnTimer1 = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(addNewUserName) userInfo:nil repeats:YES];
+
     //模拟点赞事件
     _praiseTimer0 = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(praiseEvent) userInfo:nil repeats:YES];
     _praiseTimer1 = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(presentEvent) userInfo:nil repeats:YES];
@@ -81,6 +85,23 @@
     [_phoneLivePlayVC addNewCommentWith:model];
 }
 
+- (void)addNewUserName
+{
+    CommentModel *model = [[CommentModel alloc] init];
+    model.userName = @"用户名";
+    CGFloat hue = ( arc4random() % 256 / 256.0 );
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;
+    model.backColor = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:0.9];
+    
+    CGFloat hue1 = ( arc4random() % 256 / 256.0 );
+    CGFloat saturation1 = ( arc4random() % 128 / 256.0 ) + 0.5;
+    CGFloat brightness1 = ( arc4random() % 128 / 256.0 ) + 0.5;
+    model.headColor = [UIColor colorWithHue:hue1 saturation:saturation1 brightness:brightness1 alpha:1];
+    
+    [_phoneLivePlayVC addNewCommentWith:model];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -91,6 +112,7 @@
 {
     if (buttonIndex != alertView.cancelButtonIndex) {
         [_commetnTimer invalidate];
+        [_commetnTimer1 invalidate];
         [_praiseTimer0 invalidate];
         [_praiseTimer1 invalidate];
         [_phoneLivePlayVC shutDown];

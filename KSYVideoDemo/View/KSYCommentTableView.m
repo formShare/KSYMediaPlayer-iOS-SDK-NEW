@@ -68,6 +68,20 @@
     return _colorArr.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    id model = _colorArr[indexPath.row];
+    if ([model isKindOfClass:[CommentModel class]]) {
+        CommentModel *userModel = (CommentModel *)model;
+        if (userModel.userName != nil) {
+            return 35;
+        }
+    }
+    return 50;
+
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifer = @"identifer";
