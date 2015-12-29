@@ -193,11 +193,11 @@
     NSLog(@"player finish state: %ld", finishState);
     if (finishState == MPMoviePlaybackStateStopped) {
         [self stopTimer];
-        if (!_isShowAlert) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放完成，是否重新播放？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"播放", nil];
-            alertView.tag = 104;
-            [alertView show];
-            _isShowAlert = YES;
+        if (!_isShowFinishAlert) {
+            UIAlertView *finishAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放完成，是否重新播放？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"播放", nil];
+            finishAlertView.tag = 104;
+            [finishAlertView show];
+            _isShowFinishAlert = YES;
 
         }
 
@@ -208,11 +208,11 @@
 - (void)moviePlayerFinishReson:(MPMovieFinishReason)finishReson
 {
     NSLog(@"player finish reson is %ld",finishReson);
-    if (finishReson == MPMovieFinishReasonPlaybackError && _isShowAlert == NO) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放错误，是否重试？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重试", nil];
-        alertView.tag = 101;
-        [alertView show];
-        _isShowAlert = YES;
+    if (finishReson == MPMovieFinishReasonPlaybackError && _isShowErrorAlert == NO) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放错误，是否重试？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重试", nil];
+        errorAlertView.tag = 101;
+        [errorAlertView show];
+        _isShowErrorAlert = YES;
 
     }
 }
@@ -258,27 +258,31 @@
 #pragma mark -alertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    _isShowAlert = NO;
-
-    if (alertView.tag == 101 ) {
+    
+    
+    
+    if (alertView.tag == 101 ) {//错误提示弹框
+        _isShowErrorAlert = NO;
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self shutDown];
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
             [self setupObservers];
-
+            
         }else {
             [_indicator stopAnimating];
         }
 
     }else if (alertView.tag == 103 && buttonIndex != alertView.cancelButtonIndex){
+        _isNetShowAlert=NO;
         if ([self.player isPreparedToPlay]) {
             [self play];
         }else {
             [self.player prepareToPlay];
         }
         
-    }else if (alertView.tag == 104 && buttonIndex != alertView.cancelButtonIndex){
+    }else if (alertView.tag == 104 && buttonIndex != alertView.cancelButtonIndex){//完成提示弹框
+        _isShowFinishAlert = NO;
         [self replay];
     }
 }
@@ -370,12 +374,12 @@
     {
         case NotReachable:
         {
-            if (_networkStatus != NotReachable && _isShowAlert == NO) {
+            if (_networkStatus != NotReachable && _isNetShowAlert == NO) {
                 [self pause];
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络似乎已经断开，请检查网络" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
-                alertView.tag = 102;
-                [alertView show];
-                _isShowAlert = YES;
+                UIAlertView *networkAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络似乎已经断开，请检查网络" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
+                networkAlertView.tag = 102;
+                [networkAlertView show];
+                _isNetShowAlert = YES;
 
             }
             _networkStatus = NotReachable;
@@ -395,16 +399,16 @@
         }
         case ReachableViaWWAN:
         {
-            if (_networkStatus != ReachableViaWWAN && _isShowAlert == NO) {
+            if (_networkStatus != ReachableViaWWAN && _isWifiShowAlert == NO) {
 
                 if ([self.player isPreparedToPlay]) {
                     [self pause];
 
                 }
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"wifi已经断开，继续播放将产生流量费用，是否继续？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"继续", nil];
-                alertView.tag = 103;
-                [alertView show];
-                _isShowAlert = YES;
+                UIAlertView *wifiAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"wifi已经断开，继续播放将产生流量费用，是否继续？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"继续", nil];
+                wifiAlertView.tag = 103;
+                [wifiAlertView show];
+                _isWifiShowAlert = YES;
 
             }
             _networkStatus = ReachableViaWWAN;

@@ -19,13 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //1.设置导航栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
-    //2.设置状态栏颜色
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    //修改导航栏模式
-    [self changeNavigationStayle];
-    //初始化视图
+    [self changeNavigationStyle];
     ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:[NSString stringWithFormat: @"rtmp://live.hkstv.hk.lxdns.com/live/hks"] playState:KSYPopularLivePlay];
     WeakSelf(KSYPopilarLivePlayVC);
     ksyPoularLiveView.changeNavigationBarColor=^(){
@@ -39,18 +35,19 @@
     AppDelegate *appDelegate=[[UIApplication sharedApplication]delegate];
     appDelegate.allowRotation=YES;
 }
+#pragma mark 锁屏
 - (void)lockTheScreen:(BOOL)isLocked
 {
     AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
     appDelegate.allowRotation=!isLocked;
 }
+#pragma mark 修改导航栏颜色
 - (void)changeNavigationBarCLO
 {
     self.navigationController.navigationBar.alpha=0.0;
-    //修改导航栏左侧Item
-    
 }
-- (void)changeNavigationStayle
+#pragma mark 修改导航栏模式
+- (void)changeNavigationStyle
 {
     //设置返回按钮
     UIButton *ksyBackBtn=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -98,7 +95,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 - (void)dealloc
 {
