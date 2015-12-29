@@ -20,13 +20,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //1.设置导航栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
-    //2.设置状态栏颜色
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    //修改导航栏模式
     [self changeNavigationStayle];
-    //初始化视图
     ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"] playState:KSYPopularPlayBack];
     WeakSelf(KSYPopilarLivePlayBackVC);
     ksyPoularbackView.changeNavigationBarColor=^(){
@@ -48,8 +44,6 @@
 - (void)changeNavigationBarCLO
 {
     self.navigationController.navigationBar.alpha=0.0;
-    //修改导航栏左侧Item
-    
 }
 - (void)changeNavigationStayle
 {
@@ -89,7 +83,6 @@
     [ksyPoularbackView shutDown];
     [ksyPoularbackView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
-    //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }
 - (void)menu

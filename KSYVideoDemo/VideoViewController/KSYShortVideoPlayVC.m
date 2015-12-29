@@ -51,14 +51,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //1.设置导航栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
-    //2.设置状态栏颜色
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    //修改导航栏模式
     [self changeNavigationStayle];
-    //初始化视图
     ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) UrlPathString:[[NSBundle mainBundle]pathForResource:@"a" ofType:@"mp4"]];
     [self.view addSubview:ksyShortVideoplayView];
     
@@ -104,7 +99,6 @@
 {
     [ksyShortVideoplayView.videoCell.ksyShortView shutDown];
     [self.navigationController popViewControllerAnimated:YES];
-    //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }
 - (void)menu
