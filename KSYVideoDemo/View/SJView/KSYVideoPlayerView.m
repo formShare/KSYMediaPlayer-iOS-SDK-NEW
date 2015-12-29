@@ -65,7 +65,7 @@
         [self addBottomView];
         [self addBrightnessVIew];
         [self addVoiceView];
-        [self registerApplicationObservers];
+//        [self registerApplicationObservers];
         [self addProgressView];
         [self addLockBtn];
         [self performSelector:@selector(hiddenAllControls) withObject:nil afterDelay:3.0];

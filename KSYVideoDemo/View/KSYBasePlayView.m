@@ -18,15 +18,17 @@
 
 - (void)dealloc
 {
-    [self stopTimer];
-    if (_player) {
-        [_player stop];
-        [_player.view removeFromSuperview];
-        _player = nil;
-    }
-    [self releaseObservers];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    [self releaseObservers];
 //    [self unregisterApplicationObservers];
+
+//    [self shutDown];
+//    [self stopTimer];
+//    if (_player) {
+//        [_player stop];
+//        [_player.view removeFromSuperview];
+//        _player = nil;
+//    }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString
@@ -47,13 +49,12 @@
         [self setupObservers];
         
         [self registerApplicationObservers];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netWorkStateChanged:) name:@"netWorkStateChanged" object:nil];
         NSString *remoteHostName = @"www.baidu.com";
         
         self.hostReachability = [Reachability reachabilityWithHostName:remoteHostName];
         [self.hostReachability startNotifier];
-//        [self updateInterfaceWithReachability:self.hostReachability];
         
 
 
@@ -61,15 +62,6 @@
     }
     return self;
 }
-
-//- (void)setIsBackGroundReleasePlayer:(BOOL)isBackGroundReleasePlayer
-//{
-//    if (isBackGroundReleasePlayer == YES) {
-//        [self registerApplicationObservers];
-//        
-//    }
-//
-//}
 
 - (KSYMoviePlayerController *)player
 {
@@ -137,13 +129,13 @@
 
 - (void)shutDown
 {
-    [self stopTimer];
+
     if (_player) {
         [_player stop];
         [_player.view removeFromSuperview];
         _player = nil;
     }
-    [self releaseObservers];
+    [self stopTimer];
 
 }
 - (NSTimeInterval)currentPlaybackTime
@@ -208,13 +200,6 @@
 - (void)moviePlayerFinishReson:(MPMovieFinishReason)finishReson
 {
     NSLog(@"player finish reson is %ld",finishReson);
-    if (finishReson == MPMovieFinishReasonPlaybackError && _isShowErrorAlert == NO) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"播放错误，是否重试？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重试", nil];
-        errorAlertView.tag = 101;
-        [errorAlertView show];
-        _isShowErrorAlert = YES;
-
-    }
 }
 
 - (void)moviePlayerSeekTo:(NSTimeInterval)position
@@ -267,8 +252,7 @@
             [self shutDown];
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
-            [self setupObservers];
-            
+
         }else {
             [_indicator stopAnimating];
         }
@@ -311,7 +295,6 @@
         
         [self moviePlayerFinishState:self.player.playbackState];
 
-//        [self moviePlayerReadSize:self.player.readSize];
         
         NSNumber *reason = [[notify userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
         [self moviePlayerFinishReson:[reason integerValue]];
@@ -357,25 +340,25 @@
                                                  object:nil];
 }
 
-
-- (void)reachabilityChanged:(NSNotification *)note
+- (void)netWorkStateChanged:(NSNotification *)note
 {
-    Reachability* curReach = [note object];
-    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
-    [self updateInterfaceWithReachability:curReach];
+    NSString *stateString = [note object];
+
+    [self updateInterfaceWithReachability:[stateString integerValue]];
 }
 
-
-- (void)updateInterfaceWithReachability:(Reachability *)reachability
+- (void)updateInterfaceWithReachability:(NSInteger)netState
 {
-    NetworkStatus netStatus = [reachability currentReachabilityStatus];
     
-    switch (netStatus)
+    switch (netState)
     {
         case NotReachable:
         {
             if (_networkStatus != NotReachable && _isNetShowAlert == NO) {
-                [self pause];
+                if ([self.player isPreparedToPlay]) {
+                    [self pause];
+                    
+                }
                 UIAlertView *networkAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络似乎已经断开，请检查网络" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
                 networkAlertView.tag = 102;
                 [networkAlertView show];
@@ -483,7 +466,6 @@
         if (self.isLivePlay) {
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
-            [self setupObservers];
 
         }else {
             [self play];

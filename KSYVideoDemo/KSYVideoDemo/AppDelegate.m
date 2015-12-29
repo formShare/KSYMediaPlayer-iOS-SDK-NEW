@@ -65,24 +65,24 @@
         return 0;
     }
 }
-//- (void)applicationWillResignActive:(UIApplication *)application {
+- (void)applicationWillResignActive:(UIApplication *)application {
 //    NSLog(@"applicationWillResignActive,应用程序将要入非活动状态执行，在此期间，应用程序不接收消息或事件，比如来电话了");
-//}
-//
-//- (void)applicationDidEnterBackground:(UIApplication *)application {
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
 //    NSLog(@"applicationDidEnterBackground 程序被推送到后台");
-//}
-//
-//- (void)applicationWillEnterForeground:(UIApplication *)application {
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
 //     NSLog(@"applicationWillEnterForeground程序从后台将要重新回到前台");
-//}
-//
-//- (void)applicationDidBecomeActive:(UIApplication *)application {
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
 //    NSLog(@"applicationDidBecomeActive应用程序入活动状态执行");
-//}
-//
-//- (void)applicationWillTerminate:(UIApplication *)application {
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
 //    NSLog(@"applicationWillTerminate程序将要退出");
-//}
+}
 
 @end

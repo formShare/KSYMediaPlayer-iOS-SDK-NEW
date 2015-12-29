@@ -83,7 +83,7 @@
 - (void)back
 {
     [ksyPoularLiveView shutDown];
-    [ksyPoularLiveView removeFromSuperview];
+//    [ksyPoularLiveView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];

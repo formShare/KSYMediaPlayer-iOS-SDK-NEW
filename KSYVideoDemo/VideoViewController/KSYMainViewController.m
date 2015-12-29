@@ -26,6 +26,12 @@
 
 @implementation KSYMainViewController
 
+- (void)dealloc
+{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -82,6 +88,18 @@
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 
     [self.view addSubview:tableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+
+    
+}
+
+- (void)reachabilityChanged:(NSNotification *)note
+{
+    Reachability* curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+    NetworkStatus netStatus = [curReach currentReachabilityStatus];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"netWorkStateChanged" object:@(netStatus)];
 }
 
 - (void)switchControlEvent:(UISwitch *)switchControl
