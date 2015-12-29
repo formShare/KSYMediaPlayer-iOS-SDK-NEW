@@ -17,7 +17,7 @@
 
 
 
-- (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString;
+- (instancetype)initWithFrame:(CGRect)frame UrlFromString:(NSString *)urlString;
 
 - (void)resetTextFrame;
 

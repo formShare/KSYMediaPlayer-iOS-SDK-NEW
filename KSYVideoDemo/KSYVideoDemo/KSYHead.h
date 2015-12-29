@@ -87,7 +87,4 @@ typedef enum KSYGestureType KSYGestureType;
 #define WORDFONT18 18
 
 
-
-
-
 #endif /* KSYHead_h */

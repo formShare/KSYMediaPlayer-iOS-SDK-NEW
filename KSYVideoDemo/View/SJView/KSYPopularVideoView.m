@@ -11,7 +11,7 @@
 
 @implementation KSYPopularVideoView
 
-- (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString
+- (instancetype)initWithFrame:(CGRect)frame UrlFromString:(NSString *)urlString
 {
     //重置播放界面的大小
     self = [super initWithFrame:frame urlString:urlString];//初始化父视图的(frame、url)

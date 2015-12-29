@@ -12,9 +12,9 @@
 
 @interface KSYVideoPlayerView : KSYPopularVideoView
 
-- (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState;
+- (instancetype)initWithFrame:(CGRect)frame UrlWithString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState;
 @property (nonatomic, copy) void (^changeNavigationBarColor)();
-
+@property (nonatomic, copy) void (^lockScreen)(BOOL isLocked);
 
 
 @end

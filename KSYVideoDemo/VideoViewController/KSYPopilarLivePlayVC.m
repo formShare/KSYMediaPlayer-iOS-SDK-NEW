@@ -8,7 +8,7 @@
 
 #import "KSYPopilarLivePlayVC.h"
 #import "KSYVideoPlayerView.h"
-
+#import "AppDelegate.h"
 @interface KSYPopilarLivePlayVC ()
 {
     KSYVideoPlayerView *ksyPoularLiveView;
@@ -26,14 +26,23 @@
     //修改导航栏模式
     [self changeNavigationStayle];
     //初始化视图
-    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[NSString stringWithFormat: @"rtmp://live.hkstv.hk.lxdns.com/live/hks"] playState:KSYPopularLivePlay];
+    ksyPoularLiveView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:[NSString stringWithFormat: @"rtmp://live.hkstv.hk.lxdns.com/live/hks"] playState:KSYPopularLivePlay];
     WeakSelf(KSYPopilarLivePlayVC);
     ksyPoularLiveView.changeNavigationBarColor=^(){
         [weakSelf changeNavigationBarCLO];
         
     };
+    ksyPoularLiveView.lockScreen=^(BOOL isLocked){
+        [weakSelf lockTheScreen:(isLocked)];
+    };
     [self.view addSubview:ksyPoularLiveView];
-    
+    AppDelegate *appDelegate=[[UIApplication sharedApplication]delegate];
+    appDelegate.allowRotation=YES;
+}
+- (void)lockTheScreen:(BOOL)isLocked
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=!isLocked;
 }
 - (void)changeNavigationBarCLO
 {
@@ -76,7 +85,8 @@
 }
 - (void)back
 {
-    [ksyPoularLiveView.player stop];
+    [ksyPoularLiveView shutDown];
+    [ksyPoularLiveView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
@@ -90,6 +100,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)dealloc
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=NO;
+}
 
 @end

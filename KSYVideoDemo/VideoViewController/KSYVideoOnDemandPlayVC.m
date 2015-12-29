@@ -15,7 +15,7 @@
 #import "SJSnapeView.h"
 #import "SJNoticeView.h"
 #import "SJDetailView.h"
-
+#import "AppDelegate.h"
 @interface KSYVideoOnDemandPlayVC ()
 @property (nonatomic, strong) KSYBasePlayView *phoneLivePlayVC;
 @end
@@ -41,6 +41,8 @@
     [self initPlayerWithLowTimelagType:NO];
     [self addDetailPart];
     [self performSelector:@selector(refreshControl) withObject:nil afterDelay:1.0];
+    AppDelegate *appDelegate=[[UIApplication sharedApplication]delegate];
+    appDelegate.allowRotation=YES;
 }
 #pragma mark 改变导航栏状态
 - (void)changeNavigationStayle
@@ -628,6 +630,10 @@
 - (void)dealloc
 {
     [self unregisterApplicationObservers];
+
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=NO;
+
 }
 
 

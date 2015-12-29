@@ -8,6 +8,7 @@
 
 #import "KSYPopilarLivePlayBackVC.h"
 #import "KSYVideoPlayerView.h"
+#import "AppDelegate.h"
 
 @interface KSYPopilarLivePlayBackVC ()
 {
@@ -26,14 +27,23 @@
     //修改导航栏模式
     [self changeNavigationStayle];
     //初始化视图
-    ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) urlString:[NSString stringWithFormat: @"http://121.42.58.232:8980/hls_test/1.m3u8"] playState:KSYPopularPlayBack];
+    ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:[[NSBundle mainBundle] pathForResource:@"a" ofType:@"mp4"] playState:KSYPopularPlayBack];
     WeakSelf(KSYPopilarLivePlayBackVC);
     ksyPoularbackView.changeNavigationBarColor=^(){
         [weakSelf changeNavigationBarCLO];
-        
+    };
+    ksyPoularbackView.lockScreen=^(BOOL isLocked){
+        [weakSelf lockTheScreen:(isLocked)];
     };
     [self.view addSubview:ksyPoularbackView];
-    
+    AppDelegate *appDelegate=[[UIApplication sharedApplication]delegate];
+    appDelegate.allowRotation=YES;
+}
+
+- (void)lockTheScreen:(BOOL)isLocked
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=!isLocked;
 }
 - (void)changeNavigationBarCLO
 {
@@ -76,7 +86,8 @@
 }
 - (void)back
 {
-    [ksyPoularbackView.player stop];
+    [ksyPoularbackView shutDown];
+    [ksyPoularbackView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
     //修改状态栏颜色
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
@@ -84,6 +95,11 @@
 - (void)menu
 {
     
+}
+- (void)dealloc
+{
+    AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
+    appDelegate.allowRotation=NO;
 }
 
 @end
