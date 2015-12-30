@@ -58,7 +58,9 @@
 
 - (void)back
 {
-    
+    if (self.backEventBlock) {
+        self.backEventBlock();
+    }
 }
 
 - (void)clickBtn:(UIButton *)btn

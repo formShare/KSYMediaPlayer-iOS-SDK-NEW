@@ -10,4 +10,5 @@
 
 @interface KSYToolView : UIView
 @property (nonatomic, copy) void (^showSetView)(UIButton *btn);
+@property (nonatomic, copy) void (^backEventBlock)();
 @end

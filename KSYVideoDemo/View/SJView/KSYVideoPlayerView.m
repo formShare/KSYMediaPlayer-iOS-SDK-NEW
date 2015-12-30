@@ -89,8 +89,14 @@
     {
         kToolView=[[KSYToolView alloc]initWithFrame:CGRectMake(0, 0, self.width, 50)];
         kToolView.hidden=YES;
+        bottomView.kFullBtn.hidden = NO;
+
         kToolView.showSetView=^(UIButton *btn){
             [weakSelf showSetView:(btn)];
+        };
+        kToolView.backEventBlock = ^(){
+            [weakSelf changeDeviceOrientation:UIInterfaceOrientationPortrait];
+
         };
     }
     return kToolView;
@@ -335,6 +341,8 @@
         kVoiceView.hidden=YES;
         bottomView.hidden=YES;
         kToolView.hidden=YES;
+        bottomView.kFullBtn.hidden = NO;
+
         UIImage *lockCloseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_normal"];
         UIImage *lockCloseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_hl"];
         [btn setImage:lockCloseImg_n forState:UIControlStateNormal];
@@ -349,6 +357,7 @@
         kVoiceView.hidden=NO;
         bottomView.hidden=NO;
         kToolView.hidden=NO;
+        bottomView.kFullBtn.hidden = YES;
         UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
         UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
         [btn setImage:lockOpenImg_n forState:UIControlStateNormal];
@@ -465,6 +474,8 @@
         [bottomView resetSubviews];
         kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
         kToolView.hidden=YES;
+        bottomView.kFullBtn.hidden = NO;
+
         UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
         UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
         [unFullBtn setImage:unFullImg forState:UIControlStateNormal];
@@ -654,12 +665,16 @@
                 kVoiceView.hidden=YES;
                 kLockView.hidden=YES;
                 kToolView.hidden=YES;
+                bottomView.kFullBtn.hidden = NO;
+
+                
             }else{
                 if (isLock==NO) {
                     bottomView.hidden=NO;
                     kBrightnessView.hidden=NO;
                     kVoiceView.hidden=NO;
                     kToolView.hidden=NO;
+                    bottomView.kFullBtn.hidden = YES;
                 }
                 kLockView.hidden=NO;
             }
@@ -677,6 +692,8 @@
             kBrightnessView.hidden=YES;
             kVoiceView.hidden=YES;
             kToolView.hidden=YES;
+            bottomView.kFullBtn.hidden = NO;
+
         }
         kLockView.hidden=YES;
     } completion:^(BOOL finished) {
