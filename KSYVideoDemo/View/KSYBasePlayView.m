@@ -134,6 +134,9 @@
 - (NSTimeInterval)currentPlaybackTime
 {
     if (self.player) {
+        if (self.player.currentPlaybackTime > self.duration) { //临时解决底层currentPlaybackTime有时候返回多一秒的问题
+            return self.duration;
+        }
         return self.player.currentPlaybackTime;
     }
     return 0;

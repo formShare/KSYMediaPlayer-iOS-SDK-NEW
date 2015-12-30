@@ -28,7 +28,7 @@
 
 - (void)dealloc
 {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 
 }
 
@@ -57,15 +57,15 @@
     [self.view addSubview:httpUrlLabl];
     
     UILabel *rtmpUrlLabl = [[UILabel alloc] initWithFrame:CGRectMake(label1.left, httpUrlLabl.bottom + 7, 60, 20)];
-    rtmpUrlLabl.text = @"点播URL";
+    rtmpUrlLabl.text = @"直播URL";
     rtmpUrlLabl.font = [UIFont systemFontOfSize:13.0];
 
     [self.view addSubview:rtmpUrlLabl];
 
     
     _httpTextF = [[UITextField alloc] initWithFrame:CGRectMake(httpUrlLabl.right + 5, httpUrlLabl.top,self.view.width-httpUrlLabl.right-10, 20)];
-    _httpTextF.adjustsFontSizeToFitWidth=YES;
-    _httpTextF.text = @"http://121.42.58.232:8980/hls_test/1.m3u8";
+    _httpTextF.adjustsFontSizeToFitWidth = YES;
+    _httpTextF.text = @"http://121.42.58.232:8980/hls_test/1.m3u";
     _httpTextF.borderStyle = UITextBorderStyleRoundedRect;
     _httpTextF.returnKeyType = UIReturnKeyDone;
     _httpTextF.font = [UIFont systemFontOfSize:13.0];
@@ -73,7 +73,7 @@
     [self.view addSubview:_httpTextF];
     
     _rtmpTextF = [[UITextField alloc] initWithFrame:CGRectMake(rtmpUrlLabl.right + 5, rtmpUrlLabl.top, self.view.width-_httpTextF.left-5, 20)];
-    _rtmpTextF.adjustsFontSizeToFitWidth=YES;
+    _rtmpTextF.adjustsFontSizeToFitWidth = YES;
     _rtmpTextF.text = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
     _rtmpTextF.borderStyle = UITextBorderStyleRoundedRect;
     _rtmpTextF.returnKeyType = UIReturnKeyDone;

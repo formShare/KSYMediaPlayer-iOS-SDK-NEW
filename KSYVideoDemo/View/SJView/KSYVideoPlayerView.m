@@ -65,7 +65,7 @@
         [self addBottomView];
         [self addBrightnessVIew];
         [self addVoiceView];
-//        [self registerApplicationObservers];
+        [self registerObservers];
         [self addProgressView];
         [self addLockBtn];
         [self performSelector:@selector(hiddenAllControls) withObject:nil afterDelay:3.0];
@@ -367,7 +367,7 @@
     
 }
 #pragma mark 注册通知
-- (void)registerApplicationObservers
+- (void)registerObservers
 {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -376,7 +376,7 @@
                                                object:nil];
 }
 #pragma mark 移除通知
-- (void)unregisterApplicationObservers
+- (void)unregisterObservers
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIDeviceOrientationDidChangeNotification
