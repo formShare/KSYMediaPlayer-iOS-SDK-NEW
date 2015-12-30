@@ -20,7 +20,6 @@
 #import "Model2.h"
 #import "KSY3TableViewCell.h"
 #import "Model3.h"
-#import "KSYDefine.h"
 #import "MediaControlDefine.h"
 typedef enum : NSUInteger {
     KSYPopularLivePlay,
@@ -51,6 +50,9 @@ enum KSYGestureType {
 typedef enum KSYVideoQuality KSYVideoQuality;
 typedef enum KSYVideoScale KSYVideoScale;
 typedef enum KSYGestureType KSYGestureType;
+
+#define KSYSYS_OS_IOS8  ([[[[UIDevice currentDevice]systemVersion]substringToIndex:1] doubleValue]>=8)
+#define W16H9Scale ((float)16 / 9)
 
 //  弱引用宏
 #define WeakSelf(VC) __weak VC *weakSelf = self

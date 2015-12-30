@@ -35,8 +35,8 @@
     _commetnTimer1 = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(addNewUserName) userInfo:nil repeats:YES];
 
     //模拟点赞事件
-    _praiseTimer0 = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(praiseEvent) userInfo:nil repeats:YES];
-    _praiseTimer1 = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(presentEvent) userInfo:nil repeats:YES];
+    _praiseTimer0 = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(praiseEvent) userInfo:nil repeats:YES];
+//    _praiseTimer1 = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(presentEvent) userInfo:nil repeats:YES];
 
     _phoneLivePlayVC = [[KSYPhoneLivePlayView alloc] initWithFrame:self.view.bounds urlString:self.videoUrlString playState:KSYPhoneLivePlay];
     _phoneLivePlayVC.isBackGroundReleasePlayer = self.isReleasePlayer;

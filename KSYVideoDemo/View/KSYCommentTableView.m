@@ -11,7 +11,7 @@
 #import "CommentModel.h"
 @interface KSYCommentTableView ()
 {
-    NSMutableArray *_colorArr;
+    NSMutableArray  *_commentArray;
     UITableView     *_tableView;
 }
 @end
@@ -22,9 +22,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _colorArr = [[NSMutableArray alloc] initWithCapacity:0];
+        _commentArray = [[NSMutableArray alloc] initWithCapacity:0];
         for (int i = 0; i < 7; i++) {
-            [_colorArr addObject:@""];
+            [_commentArray addObject:@""];
         }
         self.backgroundColor = [UIColor clearColor];
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
@@ -45,9 +45,9 @@
 {
     self = [super init];
     if (self) {
-        _colorArr = [[NSMutableArray alloc] initWithCapacity:0];
+        _commentArray = [[NSMutableArray alloc] initWithCapacity:0];
         for (int i = 0; i < 7; i++) {
-            [_colorArr addObject:@""];
+            [_commentArray addObject:@""];
         }
         self.backgroundColor = [UIColor clearColor];
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, self.frame.size.width, self.frame.size.height)];
@@ -65,13 +65,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _colorArr.count;
+    return _commentArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    id model = _colorArr[indexPath.row];
+    id model = _commentArray[indexPath.row];
     if ([model isKindOfClass:[CommentModel class]]) {
         CommentModel *userModel = (CommentModel *)model;
         if (userModel.userName != nil) {
@@ -90,7 +90,7 @@
         cell = [[KSYCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
     }
     
-    cell.userModel = [_colorArr objectAtIndex:indexPath.row];
+    cell.userModel = [_commentArray objectAtIndex:indexPath.row];
 
     return cell;
 }
@@ -99,11 +99,11 @@
 {
     
     //一个cell刷新
-    [_colorArr addObject:object];
+    [_commentArray addObject:object];
 
 
     [_tableView reloadData];
-    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_colorArr.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_commentArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     [self delleteObj:object];
 }
 
@@ -116,11 +116,11 @@
 - (void)test:(CommentModel *)obj
 {
 //    obj.isShoudDele = YES;
-    NSInteger i = [_colorArr indexOfObject:obj];
-    [_colorArr removeObject:obj];
-    [_colorArr insertObject:@"" atIndex:i];
+    NSInteger i = [_commentArray indexOfObject:obj];
+    [_commentArray removeObject:obj];
+    [_commentArray insertObject:@"" atIndex:i];
     [_tableView reloadData];
-    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_colorArr.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_commentArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
 }
 @end

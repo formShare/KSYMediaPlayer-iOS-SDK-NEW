@@ -154,7 +154,8 @@
 {
     if (!_praiseBtn) {
         _praiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _praiseBtn.backgroundColor = [UIColor redColor];
+//        _praiseBtn.backgroundColor = [UIColor redColor];
+        [_praiseBtn setBackgroundImage:[UIImage imageNamed:@"praise"] forState:UIControlStateNormal];
         _praiseBtn.frame = CGRectMake(_spectatorsTableViews.right + 24, _spectatorsTableViews.top+4, 30, 30);
         [_praiseBtn addTarget:self action:@selector(praiseEvent) forControlEvents:UIControlEventTouchUpInside];
 
@@ -208,11 +209,11 @@
 #pragma 点赞
 - (void)onPraiseWithSpectatorsInteractiveType:(SpectatorsInteractiveType)type
 {
-    UIImageView* flakeView = [[UIImageView alloc] init];
+    UIImageView* flakeView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"praise"]];
     if (type == SpectatorsInteractivePresent) {
-        flakeView.backgroundColor = [UIColor orangeColor];
+        flakeView.backgroundColor = [UIColor clearColor];
     }else {
-        flakeView.backgroundColor = [UIColor purpleColor];
+        flakeView.backgroundColor = [UIColor clearColor];
         
     }
     int startX = round(random() % 100);
@@ -220,7 +221,7 @@
     double scale = 1 / round(random() % 700) + 1.0;
     double speed = 1 / round(random() % 900) + 1.0;
     
-    flakeView.frame = CGRectMake(_spectatorsTableViews.right + 38, _spectatorsTableViews.top+10, 5, 5);
+    flakeView.frame = _praiseBtn.frame;
     
     flakeView.alpha = 1;
     
@@ -228,7 +229,7 @@
     
     [UIView beginAnimations:nil context:(__bridge void * _Nullable)(flakeView)];
     [UIView setAnimationDuration:7 * speed];
-    flakeView.frame = CGRectMake(startX+300, -30, 25.0 * scale, 25.0 * scale);
+    flakeView.frame = CGRectMake(startX+300, -200, 25.0 * scale, 25.0 * scale);
     flakeView.alpha = 0.3;
 
     [UIView setAnimationDidStopSelector:@selector(onAnimationComplete:finished:context:)];

@@ -13,9 +13,9 @@
 
 
 
-@property (nonatomic, strong)   KSYMoviePlayerController *player;
-@property (nonatomic, assign)   NSTimeInterval currentPlaybackTime;
-@property (nonatomic, readonly) NSTimeInterval duration;
+@property (nonatomic, strong)   KSYMoviePlayerController    *player;
+@property (nonatomic, assign)   NSTimeInterval              currentPlaybackTime;
+@property (nonatomic, readonly) NSTimeInterval              duration;
 /**
  *	@brief	app退到后台是否释放播放器，默认是 NO
  */

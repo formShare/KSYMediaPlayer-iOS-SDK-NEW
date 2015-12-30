@@ -250,8 +250,8 @@
             break;
         case 4:
         {
-            KSYPopilarLivePlayVC *view=[[KSYPopilarLivePlayVC alloc]init];
-            [self.navigationController pushViewController:view animated:YES];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"暂未开放，敬请期待" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
         }
             break;
         default:
