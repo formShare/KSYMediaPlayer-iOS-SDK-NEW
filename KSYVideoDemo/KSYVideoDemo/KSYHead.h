@@ -15,11 +15,11 @@
 #import "ThemeManager.h"
 #import "MediaVoiceView.h"
 #import "KSY1TableViewCell.h"
-#import "Model1.h"
+#import "UserinfoModel1.h"
 #import "KSY2TableViewCell.h"
-#import "Model2.h"
+#import "UserinfoModel2.h"
 #import "KSY3TableViewCell.h"
-#import "Model3.h"
+#import "UserinfoModel3.h"
 #import "MediaControlDefine.h"
 typedef enum : NSUInteger {
     KSYPopularLivePlay,

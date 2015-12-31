@@ -1,18 +1,16 @@
 //
-//  Model2.m
-//  AMZVideoDemo
+//  UserinfoModel2.m
+//  KSYVideoDemo
 //
-//  Created by 孙健 on 15/12/9.
+//  Created by KSC on 15/12/30.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "Model2.h"
+#import "UserinfoModel2.h"
 
-@implementation Model2
+@implementation UserinfoModel2
 
-
-#pragma mark 动态方法 聪明的人都是能够控制自己双手的人
-- (Model2 *)initWithDictionary:(NSDictionary *)dict
+- (UserinfoModel2 *)initWithDictionary:(NSDictionary *)dict
 {
     if (self=[super init])
     {
@@ -28,10 +26,10 @@
     }
     return self;
 }
-#pragma mark 静态方法
-+ (Model2 *)modelWithDictionary:(NSDictionary *)dict
+
++ (UserinfoModel2 *)modelWithDictionary:(NSDictionary *)dict
 {
-    Model2 *model2=[[Model2 alloc]initWithDictionary:dict];
+    UserinfoModel2 *model2=[[UserinfoModel2 alloc]initWithDictionary:dict];
     return model2;
 }
 @end

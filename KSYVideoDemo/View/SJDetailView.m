@@ -66,7 +66,7 @@
             cell.selectedBackgroundView = tempView1;
             
         }
-        Model1 *SKYmodel=_models[indexPath.row];
+         UserinfoModel1 *SKYmodel=_models[indexPath.row];
         cell.model1=SKYmodel;
         return cell;
     }
@@ -77,7 +77,7 @@
         {
             cell=[[KSY2TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY2TableViewCellIdentify"];
         }
-        Model2 *SKYmodel=_models[indexPath.row];
+        UserinfoModel2 *SKYmodel=_models[indexPath.row];
         cell.model2=SKYmodel;//调用set方法
         return cell;
         
@@ -89,7 +89,7 @@
         {
             cell=[[KSY3TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY3TableViewCellIdentify"];
         }
-        Model3 *SKYmodel=_models[indexPath.row];
+        UserinfoModel3 *SKYmodel=_models[indexPath.row];
         cell.model3=SKYmodel;//调用set方法
         return cell;
         
@@ -142,7 +142,7 @@
         _modelsCells=[[NSMutableArray alloc]init];
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_models addObject:[Model1 modelWithDictionary:obj]];
+            [_models addObject:[UserinfoModel1 modelWithDictionary:obj]];
             KSY1TableViewCell *cell=[[KSY1TableViewCell alloc]init];
             [_modelsCells addObject:cell];
         }];
@@ -156,7 +156,7 @@
         [_modelsCells removeAllObjects];
         NSString *path=[[NSBundle mainBundle]pathForResource:@"Model2" ofType:@"plist"];
         NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:path];
-        [_models addObject:[Model2 modelWithDictionary:dict]];
+        [_models addObject:[UserinfoModel2 modelWithDictionary:dict]];
         KSY2TableViewCell *cell=[[KSY2TableViewCell alloc]init];
         [_modelsCells addObject:cell];
         //这样做复杂啦换一种方法
@@ -175,7 +175,7 @@
         _modelsCells=[[NSMutableArray alloc]init];
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_models addObject:[Model3 modelWithDictionary:obj]];
+            [_models addObject:[UserinfoModel3 modelWithDictionary:obj]];
             KSY3TableViewCell *cell=[[KSY3TableViewCell alloc]init];
             [_modelsCells addObject:cell];
         }];

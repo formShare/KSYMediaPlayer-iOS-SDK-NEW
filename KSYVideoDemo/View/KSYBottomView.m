@@ -67,6 +67,18 @@
             commentText.delegate=self;
             commentText.hidden=YES;
             
+            
+            //全屏按钮
+            kFullBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+            CGRect kFullBtnRect = CGRectMake(self.width-40, 5, 30, 30);
+            kFullBtn.alpha = 0.6;
+            UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+            [kFullBtn setImage:fullImg forState:UIControlStateNormal];
+            kFullBtn.frame = kFullBtnRect;
+            kFullBtn.tag = kFullScreenBtnTag;
+            [kFullBtn addTarget:self action:@selector(clickFullBtn:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:kFullBtn];
+            
         }else {
             _playstate=NO;
             //播放时间
@@ -104,6 +116,18 @@
             kTotalLabel.textColor=[UIColor whiteColor];
             kTotalLabel.alpha = 0.6;
             kTotalLabel.font = [UIFont boldSystemFontOfSize:13];
+            
+            
+            //全屏按钮
+            kFullBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+            CGRect kFullBtnRect = CGRectMake(kTotalLabel.right, 5, 30, 30);
+            kFullBtn.alpha = 0.6;
+            UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+            [kFullBtn setImage:fullImg forState:UIControlStateNormal];
+            kFullBtn.frame = kFullBtnRect;
+            kFullBtn.tag = kFullScreenBtnTag;
+            [kFullBtn addTarget:self action:@selector(clickFullBtn:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:kFullBtn];
         }
         //添加流畅度按钮面向对象的语言 特性 继承 封装 多态 今天晚上先实现了 明天再优化
         //视频清晰度选择按钮
@@ -142,16 +166,7 @@
         [danmuBtn addTarget:self action:@selector(clickDanmuBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:danmuBtn];
         
-        //全屏按钮
-        kFullBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        CGRect kFullBtnRect = CGRectMake(kTotalLabel.right, 5, 30, 30);
-        kFullBtn.alpha = 0.6;
-        UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
-        [kFullBtn setImage:fullImg forState:UIControlStateNormal];
-        kFullBtn.frame = kFullBtnRect;
-        kFullBtn.tag = kFullScreenBtnTag;
-        [kFullBtn addTarget:self action:@selector(clickFullBtn:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:kFullBtn];
+       
     }
     return self;
 }
@@ -218,6 +233,7 @@
         imageView.frame= CGRectMake(kShortPlayBtn.right+5, 5, 30, 30);
         fansCount.frame= CGRectMake(imageView.right+5, 5, 45, 30);
         commentText.frame=CGRectMake(fansCount.right+5, 5, self.width-commentText.left-40, 30);
+        commentText.hidden=YES;
         qualityBtn.hidden=YES;
         danmuBtn.hidden=YES;
         kFullBtn.frame=CGRectMake(commentText.right+5, 5, 30, 30);

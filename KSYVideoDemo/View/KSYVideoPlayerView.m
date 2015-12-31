@@ -8,10 +8,7 @@
 
 #import "KSYVideoPlayerView.h"
 #import "KSYTopView.h"
-#import "SJNoticeView.h"
-#import "SJDetailView.h"
 #import "KSYBottomView.h"
-#import "KSYCommentView.h"
 #import "KSYBrightnessView.h"
 #import "KSYVoiceView.h"
 #import "KSYProgressView.h"
@@ -19,6 +16,9 @@
 #import "KSYToolView.h"
 #import "KSYSetView.h"
 #import "KSBarrageView.h"
+
+
+
 @interface KSYVideoPlayerView ()
 {
     KSYTopView *topView;
@@ -31,11 +31,10 @@
     KSYSetView *kSetView;
     KSBarrageView *kDanmuView;
     BOOL isActive;
-    BOOL isLock;
     BOOL isOpen;
 }
-//播放类型
-@property (nonatomic, assign) KSYPopularLivePlayState playState;
+
+@property (nonatomic, assign)  KSYGestureType gestureType;
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, assign) CGFloat curPosition;
 @property (nonatomic, assign) CGFloat curVoice;
@@ -51,21 +50,23 @@
 
 @implementation KSYVideoPlayerView
 
-
-- (instancetype)initWithFrame:(CGRect)frame UrlWithString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState
+- (instancetype)initWithFrame:(CGRect)frame UrlFromString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState
 {
-    //重置播放界面的大小
-    self=[super initWithFrame:frame UrlFromString:urlString];//初始化父视图的(frame、url)
+
+    self=[super initWithFrame:frame urlString:urlString];//初始化父视图的(frame、url)
     if (self) {
-        _playState=playState;
-        isLock=NO;
-        self.kPreviousSelfFrame=self.frame;
-        self.kPreviousPlayViewFrame=self.player.view.frame;
+        ThemeManager *themeManager = [ThemeManager sharedInstance];
+        //    [themeManager changeTheme:@"blue"];
+        //    [themeManager changeTheme:@"green"];
+        //    [themeManager changeTheme:@"orange"];
+        //    [themeManager changeTheme:@"pink"];
+        [themeManager changeTheme:@"red"];
+        _isLock=NO;
+        self.playState=playState;
         [self addTopView];
         [self addBottomView];
         [self addBrightnessVIew];
         [self addVoiceView];
-        [self registerObservers];
         [self addProgressView];
         [self addLockBtn];
         [self performSelector:@selector(hiddenAllControls) withObject:nil afterDelay:3.0];
@@ -133,7 +134,7 @@
 {
         
     WeakSelf(KSYVideoPlayerView);
-    bottomView=[[KSYBottomView alloc]initWithFrame:CGRectMake(0, self.height/2-40, self.width, 40) PlayState:_playState];
+    bottomView=[[KSYBottomView alloc]initWithFrame:CGRectMake(0, self.height-40, self.width, 40) PlayState:_playState];
     if (_playState==KSYPopularLivePlay) {
         bottomView.hidden=YES;
     }
@@ -168,29 +169,28 @@
 {
     isOpen=!isOpen;
     if (isOpen==YES) {
-        if (!kDanmuView) {
-            kDanmuView = [[KSBarrageView alloc] initWithFrame:CGRectMake(0, 0,self.width, self.height-60)];
-            [self addSubview:kDanmuView];
-            //设置弹幕内容
-            NSDictionary *dict1=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"djsflkjoiwene",@"content", nil];
-            NSDictionary *dict2=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
-            NSDictionary *dict3=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"大家好啊啊啊啊啊啊啊啊啊啊啊啊啊",@"content", nil];
-            NSDictionary *dict4=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
-            NSDictionary *dict5=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"2342sdfsjhd束带结发哈斯",@"content", nil];
-            kDanmuView.dataArray=[NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
-            [kDanmuView setDanmuFont:10];
-            [kDanmuView setDanmuAlpha:0.5];
-        }
+        kDanmuView = [[KSBarrageView alloc] initWithFrame:CGRectMake(0, 0,self.width, self.height-60)];
+        [self addSubview:kDanmuView];
+        //设置弹幕内容
+        NSDictionary *dict1=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"djsflkjoiwene",@"content", nil];
+        NSDictionary *dict2=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
+        NSDictionary *dict3=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"大家好啊啊啊啊啊啊啊啊啊啊啊啊啊",@"content", nil];
+        NSDictionary *dict4=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
+        NSDictionary *dict5=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"2342sdfsjhd束带结发哈斯",@"content", nil];
+        kDanmuView.dataArray=[NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+        [kDanmuView setDanmuFont:10];
+        [kDanmuView setDanmuAlpha:0.5];
         [kDanmuView start];
     }else{
         [kDanmuView stop];
+        [kDanmuView removeFromSuperview];
     }
 }
 #pragma mark 修改bottom 的位置
 - (void)changeBottom:(UITextField *)textField
 {
     bottomView.alpha=1.0;
-    bottomView.frame=CGRectMake(0, self.height/2-78, self.width, 40);
+    bottomView.frame=CGRectMake(0, self.height/2-40, self.width, 40);
     
 }
 - (void)rechangeBottom
@@ -305,6 +305,9 @@
     if (_fullScreenModeToggled) {
         [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
         [self lunchFullScreen];
+        if (self.clickFullBtn) {
+            self.clickFullBtn(_fullScreenModeToggled);
+        }
         UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
         [btn setImage:fullImg forState:UIControlStateNormal];
     }else{
@@ -335,8 +338,8 @@
 }
 - (void)lockBtn:(UIButton *)btn
 {
-    isLock=!isLock;
-    if (isLock==YES) {
+    _isLock=!_isLock;
+    if (_isLock==YES) {
         kBrightnessView.hidden=YES;
         kVoiceView.hidden=YES;
         bottomView.hidden=YES;
@@ -348,8 +351,7 @@
         [btn setImage:lockCloseImg_n forState:UIControlStateNormal];
         [btn setImage:lockCloseImg_h forState:UIControlStateHighlighted];
         if (self.lockScreen) {
-            self.lockScreen(isLock);
-            
+            self.lockScreen(_isLock);
         }
     }
     else{
@@ -363,7 +365,7 @@
         [btn setImage:lockOpenImg_n forState:UIControlStateNormal];
         [btn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
         if (self.lockScreen) {
-            self.lockScreen(isLock);
+            self.lockScreen(_isLock);
         }
 
     }
@@ -375,71 +377,11 @@
     [self hiddenAllControls];
     
 }
-#pragma mark 注册通知
-- (void)registerObservers
-{
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-}
-#pragma mark 移除通知
-- (void)unregisterObservers
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIDeviceOrientationDidChangeNotification
-                                                  object:nil];
-}
-- (void)orientationChanged:(NSNotification *)notification
-{
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    if (orientation == UIDeviceOrientationLandscapeRight||orientation == UIDeviceOrientationLandscapeLeft)
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO
-                                                withAnimation:UIStatusBarAnimationFade];
-        UIDeviceOrientation  orientation=[[UIDevice currentDevice] orientation];
-        if (orientation == UIDeviceOrientationLandscapeRight) {
-            if (!KSYSYS_OS_IOS8) {
-                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-            }
-            else {
-            }
-        }
-        else {
-            if (!KSYSYS_OS_IOS8) {
-                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
-                
-            }
-            else {
-            }
-        }
-        if (self.changeNavigationBarColor) {
-            self.changeNavigationBarColor();
-        }
-        [self lunchFullScreen];
-    }
-    else if (orientation == UIDeviceOrientationPortrait)
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO
-                                                withAnimation:UIStatusBarAnimationFade];
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
-        [self minFullScreen];
-    }
-}
-
 #pragma mark 全屏模式
 - (void)lunchFullScreen
 {
-    self.frame=[UIScreen mainScreen].bounds;
-    //设置播放器视图的中心点
-    [self.player.view setCenter:CGPointMake(self.width/2, self.height/2)];
-    //设置为全屏
-    self.player.view.frame = CGRectMake(0, 0,self.width , self.height);
     topView.hidden=YES;
     bottomView.hidden=YES;
-    self.detailView.hidden=YES;
-    self.commtenView.hidden=YES;
     bottomView.frame=CGRectMake(0, self.height-40, self.width, 40);
     [bottomView setSubviews];
     kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 2, kProgressViewWidth, 50);
@@ -448,42 +390,27 @@
     UIButton *fullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
     UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
     [fullBtn setImage:fullImg forState:UIControlStateNormal];
-    self.indicator.center=CGPointMake(self.width/2, self.height/2);
+    self.indicator.center=self.center;
 }
 
 #pragma mark 窗口最小化 动手去做
 - (void)minFullScreen
 {
-    if (isLock==YES) {
-        return;
-    }else{
-        self.frame=self.kPreviousSelfFrame;
-        //设置播放器视图的中心点
-        [self.indicator setCenter:CGPointMake(self.width/2, (self.height)/4)];
-        //设置为全屏
-        self.player.view.frame = CGRectMake(0, 0,self.width, (self.height)/2);
-        self.detailView.hidden=NO;
-        self.commtenView.hidden=NO;
-        kBrightnessView.hidden=YES;
-        kVoiceView.hidden=YES;
-        kLockView.hidden=YES;
-        if (_playState==KSYPopularLivePlay) {
-            bottomView.hidden=YES;
-        }
-        bottomView.frame=CGRectMake(0, self.height/2-40, self.width, 40);
-        [bottomView resetSubviews];
-        kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
-        kToolView.hidden=YES;
-        bottomView.kFullBtn.hidden = NO;
-
-        UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
-        UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
-        [unFullBtn setImage:unFullImg forState:UIControlStateNormal];
-        self.indicator.center=CGPointMake(self.width/2, self.height/4);
-
-    }
+    kBrightnessView.hidden=YES;
+    kVoiceView.hidden=YES;
+    kLockView.hidden=YES;
+    bottomView.frame=CGRectMake(0, self.height-40, self.width, 40);
+    [bottomView resetSubviews];
+    kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
+    kToolView.hidden=YES;
+    UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
+    UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+    [unFullBtn setImage:unFullImg forState:UIControlStateNormal];
+    self.indicator.center=self.center;
 }
+
 #pragma mark 退出全屏模式
+
 - (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
 {
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
@@ -508,7 +435,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     // **** 锁屏状态下，屏幕禁用
-    if (isLock == YES) {
+    if (_isLock == YES) {
         return;
     }
     CGPoint curPoint = [[touches anyObject] locationInView: self];
@@ -516,16 +443,12 @@
     CGFloat deltaY = curPoint.y -  self.startPoint.y;
     CGFloat totalWidth =  self.width;
     CGFloat totalHeight =  self.height;
-//    if (totalHeight == [[UIScreen mainScreen] bounds].size.height) {//竖屏
-//        totalWidth =  self.height;
-//        totalHeight =  self.width;
-//    }
+
     NSInteger duration = (NSInteger)self.player.duration;
-    //    NSLog(@"durationnnnn is %@",@(duration));
     
     if (fabs(deltaX) < fabs(deltaY)) {
         // **** 亮度
-        if ((curPoint.x < totalWidth / 2) && ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYBrightness)) {
+        if ((curPoint.x < totalWidth/2 ) && ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYBrightness)) {
             CGFloat deltaBright = deltaY / totalHeight * 1.0;
             [[UIScreen mainScreen] setBrightness: _curBrightness - deltaBright];
             UISlider *brightnessSlider = (UISlider *)[self viewWithTag:kBrightnessSliderTag];
@@ -537,7 +460,7 @@
             self.gestureType = kKSYBrightness;
         }
         // **** 声音
-        else if ((curPoint.x > totalWidth / 2) && ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYVoice)) {
+        else if ((curPoint.x > totalWidth/2 ) && ( self.gestureType == kKSYUnknown ||  self.gestureType == kKSYVoice)) {
             CGFloat deltaVoice = deltaY / totalHeight * 1.0;
             MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
             CGFloat voiceValue =  _curVoice - deltaVoice;
@@ -651,16 +574,10 @@
 - (void) showAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{
-//            获得的当前设备方向
+
             if (self.width<THESCREENHEIGHT) {//证明是竖直方向
-                if (_playState==KSYPopularLivePlay) {
-                    topView.hidden=YES;
-                    bottomView.hidden=YES;
-                }
-                else{
-                    topView.hidden=NO;
-                    bottomView.hidden=NO;
-                }
+                topView.hidden=NO;
+                bottomView.hidden=NO;
                 kBrightnessView.hidden=YES;
                 kVoiceView.hidden=YES;
                 kLockView.hidden=YES;
@@ -669,7 +586,7 @@
 
                 
             }else{
-                if (isLock==NO) {
+                if (_isLock==NO) {
                     bottomView.hidden=NO;
                     kBrightnessView.hidden=NO;
                     kVoiceView.hidden=NO;
@@ -686,7 +603,7 @@
 - (void) hiddenAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{
-        if (isLock==NO) {
+        if (_isLock==NO) {
             topView.hidden=YES;
             bottomView.hidden=YES;
             kBrightnessView.hidden=YES;

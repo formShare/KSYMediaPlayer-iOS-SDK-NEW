@@ -10,5 +10,5 @@
 #import "KSYBaseViewController.h"
 
 @interface KSYPopilarLivePlayBackVC : KSYBaseViewController
-
+@property (nonatomic, copy) NSString *urlPath;
 @end

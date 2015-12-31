@@ -38,7 +38,7 @@
         _modelsCells=[[NSMutableArray alloc]init];
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_models addObject:[Model1 modelWithDictionary:obj]];
+            [_models addObject:[UserinfoModel1 modelWithDictionary:obj]];
             KSY1TableViewCell *cell=[[KSY1TableViewCell alloc]init];
             [_modelsCells addObject:cell];
         }];
@@ -101,7 +101,7 @@
             cell.selectedBackgroundView = tempView1;
             
         }
-        Model1 *SKYmodel=_models[indexPath.row];
+        UserinfoModel1 *SKYmodel=_models[indexPath.row];
         cell.model1=SKYmodel;
         return cell;
     }else{

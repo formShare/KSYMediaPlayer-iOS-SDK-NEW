@@ -86,7 +86,7 @@
     _content.numberOfLines=0;
 }
 #pragma mark 设置模型
-- (void)setModel2:(Model2 *)model2
+- (void)setModel2:(UserinfoModel2 *)model2
 {
     //主播头像图片
     CGFloat hostImageViewX=10,hostImageViewY=10;
