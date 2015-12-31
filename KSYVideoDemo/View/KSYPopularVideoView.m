@@ -16,13 +16,15 @@
     self = [super initWithFrame:frame];//初始化父视图的(frame、url)
     if (self) {
         WeakSelf(KSYPopularVideoView);
-        self.backgroundColor = [UIColor redColor];
         self.ksyVideoPlayerView=[[KSYVideoPlayerView alloc]initWithFrame: CGRectMake(0, 0, self.width, self.height/2) UrlFromString:urlString playState:playState];
         self.ksyVideoPlayerView.lockScreen=^(BOOL isLocked){
             [weakSelf lockTheScreen:isLocked];
         };
-        self.ksyVideoPlayerView.clickFullBtn=^(BOOL isFull){
-            [weakSelf FullScreen:(isFull)];
+        self.ksyVideoPlayerView.clickFullBtn=^(){
+            [weakSelf FullScreen];
+        };
+        self.ksyVideoPlayerView.clicUnkFullBtn=^(){
+            [weakSelf unFullScreen];
         };
         [self addSubview:self.ksyVideoPlayerView];
         [self addDetailView];
@@ -32,12 +34,29 @@
     return self;
 
 }
-- (void)FullScreen:(BOOL)isFull{
-    if (isFull) {
-        [self lunchFull];
-    }else{
-        [self unLunchFull];
+
+
+#pragma mark 退出全屏模式
+- (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
+{
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
+    {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val = toOrientation;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
     }
+}
+- (void)FullScreen{
+    [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
+    [self lunchFull];
+}
+- (void)unFullScreen{
+    [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
+    [self unLunchFull];
 }
 - (void)lunchFull{
     self.frame=[UIScreen mainScreen].bounds;
@@ -47,11 +66,15 @@
     self.commtenView.hidden=YES;
 }
 - (void)unLunchFull{
+
     if (self.ksyVideoPlayerView.isLock) {
         return;
     }
-    self.frame=CGRectMake(0, 64, self.height, self.width-64);
-    self.ksyVideoPlayerView.frame=CGRectMake(0, 0, self.width, self.height/2);
+    CGRect frame=[UIScreen mainScreen].bounds;
+    self.frame=CGRectMake(0, 64, frame.size.width, frame.size.height-64);
+    NSLog(NSStringFromCGRect(self.frame));
+    self.ksyVideoPlayerView.frame=CGRectMake(0, 0,self.frame.size.width,self.frame.size.height/2);
+    NSLog(NSStringFromCGRect(self.ksyVideoPlayerView.frame));
     [self.ksyVideoPlayerView minFullScreen];
     self.detailView.hidden=NO;
     self.commtenView.hidden=NO;
@@ -149,8 +172,7 @@
     {
         [[UIApplication sharedApplication] setStatusBarHidden:NO
                                                 withAnimation:UIStatusBarAnimationFade];
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
-
+//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
         [self unLunchFull];
     }
 }

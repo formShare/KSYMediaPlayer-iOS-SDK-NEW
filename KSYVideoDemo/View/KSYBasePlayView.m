@@ -454,11 +454,11 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if (([self.player isPlaying] && self.isBackGroundReleasePlayer ) || self.isLivePlay) {
             [self shutDown];
-
         }else if ([self.player isPlaying] && !self.isLivePlay){
             [self pause];
         };
     });
-    
 }
+
+
 @end
