@@ -209,10 +209,12 @@
         {
             if (indexPath.row == 0) {
                 KSYPopilarLivePlayVC *view=[[KSYPopilarLivePlayVC alloc]init];
+                view.urlPath=_rtmpTextF.text;
                 [self.navigationController pushViewController:view animated:YES];
                
             }else {
                 KSYPopilarLivePlayBackVC *view=[[KSYPopilarLivePlayBackVC alloc]init];
+                view.urlPath=_httpTextF.text;
                 [self.navigationController pushViewController:view animated:YES];
             }
         }

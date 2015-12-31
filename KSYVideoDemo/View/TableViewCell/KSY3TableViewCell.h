@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Model3.h"
+#import "UserinfoModel3.h"
 @interface KSY3TableViewCell : UITableViewCell
 
 
 //两个属性
-@property (nonatomic, strong) Model3 *model3;
+@property (nonatomic, strong) UserinfoModel3 *model3;
 @property (nonatomic, assign) CGFloat height;
 
 @end

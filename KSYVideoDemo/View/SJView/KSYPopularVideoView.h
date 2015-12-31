@@ -9,16 +9,22 @@
 #import "KSYBasePlayView.h"
 #import "SJDetailView.h"
 #import "KSYCommentView.h"
-@interface KSYPopularVideoView : KSYBasePlayView
+#import "KSYVideoPlayerView.h"
+@interface KSYPopularVideoView : UIView
 
 @property (nonatomic,strong) SJDetailView *detailView;
 @property (nonatomic,strong)  KSYCommentView *commtenView;
-@property (nonatomic, assign) KSYGestureType gestureType;
+@property (nonatomic, strong)  KSYVideoPlayerView *ksyVideoPlayerView;
+
+
+@property (nonatomic, copy) void (^changeNavigationBarColor)();
+@property (nonatomic, copy) void (^lockWindow)(BOOL isLocked);
+
+- (instancetype)initWithFrame:(CGRect)frame UrlWithString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState;
+
+- (void)unregisterObservers;
 
 
 
-- (instancetype)initWithFrame:(CGRect)frame UrlFromString:(NSString *)urlString;
-
-- (void)resetTextFrame;
 
 @end

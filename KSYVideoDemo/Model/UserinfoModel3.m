@@ -1,15 +1,15 @@
 //
-//  Model3.m
-//  AMZVideoDemo
+//  UserinfoModel3.m
+//  KSYVideoDemo
 //
-//  Created by 孙健 on 15/12/14.
+//  Created by KSC on 15/12/30.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "Model3.h"
+#import "UserinfoModel3.h"
 
-@implementation Model3
-- (Model3 *)initWithDictionary:(NSDictionary *)dict
+@implementation UserinfoModel3
+- (UserinfoModel3 *)initWithDictionary:(NSDictionary *)dict
 {
     if (self=[super init])
     {
@@ -21,9 +21,9 @@
     }
     return self;
 }
-+ (Model3 *)modelWithDictionary:(NSDictionary *)dict
++ (UserinfoModel3 *)modelWithDictionary:(NSDictionary *)dict
 {
-    Model3 *model3=[[Model3 alloc]initWithDictionary:dict];
+    UserinfoModel3 *model3=[[UserinfoModel3 alloc]initWithDictionary:dict];
     return model3;
 }
 @end

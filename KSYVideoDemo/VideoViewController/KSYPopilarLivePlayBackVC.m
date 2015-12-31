@@ -7,12 +7,12 @@
 //
 
 #import "KSYPopilarLivePlayBackVC.h"
-#import "KSYVideoPlayerView.h"
+#import "KSYPopularVideoView.h"
 #import "AppDelegate.h"
 
 @interface KSYPopilarLivePlayBackVC ()
 {
-    KSYVideoPlayerView *ksyPoularbackView;
+    KSYPopularVideoView *ksyPoularbackView;
 }
 @end
 
@@ -23,20 +23,20 @@
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self changeNavigationStayle];
-    ksyPoularbackView=[[KSYVideoPlayerView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:@"http://121.42.58.232:8980/hls_test/1.m3u8" playState:KSYPopularPlayBack];
+    ksyPoularbackView=[[KSYPopularVideoView alloc]initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64) UrlWithString:self.urlPath playState:KSYPopularPlayBack];
     WeakSelf(KSYPopilarLivePlayBackVC);
     ksyPoularbackView.changeNavigationBarColor=^(){
         [weakSelf changeNavigationBarCLO];
     };
-    ksyPoularbackView.lockScreen=^(BOOL isLocked){
-        [weakSelf lockTheScreen:(isLocked)];
+    ksyPoularbackView.lockWindow=^(BOOL isLocked){
+        [weakSelf lockTheWindow:(isLocked)];
     };
     [self.view addSubview:ksyPoularbackView];
     AppDelegate *appDelegate=[[UIApplication sharedApplication]delegate];
     appDelegate.allowRotation=YES;
 }
 
-- (void)lockTheScreen:(BOOL)isLocked
+- (void)lockTheWindow:(BOOL)isLocked
 {
     AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
     appDelegate.allowRotation=!isLocked;
@@ -80,8 +80,8 @@
 }
 - (void)back
 {
-    [ksyPoularbackView shutDown];
-    [ksyPoularbackView removeFromSuperview];
+    [ksyPoularbackView.ksyVideoPlayerView shutDown];
+    [ksyPoularbackView unregisterObservers];
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }
