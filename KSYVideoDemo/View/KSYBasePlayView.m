@@ -11,6 +11,16 @@
 
 @interface KSYBasePlayView ()<UIAlertViewDelegate>
 
+@property (nonatomic, strong)   NSTimer *timer;
+@property (nonatomic, assign)   BOOL isLivePlay;
+@property (nonatomic, copy)     NSString *urlString;
+@property (nonatomic)           Reachability *hostReachability;
+@property (nonatomic)           NetworkStatus networkStatus;
+@property (nonatomic) BOOL      isShowFinishAlert;
+@property (nonatomic) BOOL      isShowErrorAlert;
+@property (nonatomic) BOOL      isNetShowAlert;
+@property (nonatomic) BOOL      isWifiShowAlert;
+
 
 @end
 
@@ -94,14 +104,16 @@
 - (void)replay
 {
     [self play];
-    [self startTimer];
 
 }
 - (void)play
 {
     if (self.player) {
         [self.player play];
+        [self startTimer];
+
     }
+
 }
 
 - (void)pause
@@ -173,15 +185,6 @@
     
 }
 
-- (void)timerIsStop:(BOOL)isStop
-{
-    if (isStop) {
-        [_timer setFireDate:[NSDate distantFuture]];
-    }else {
-        [_timer setFireDate:[NSDate date]];
-    }
-}
-
 - (void)moviePlayerSeekTo:(NSTimeInterval)position
 {
     if (self.player) {
@@ -218,7 +221,7 @@
 
 - (void)moviePlayerFinishState:(MPMoviePlaybackState)finishState
 {
-    NSLog(@"player finish state: %ld", finishState);
+    NSLog(@"player finish state: %ld", (long)finishState);
     if (finishState == MPMoviePlaybackStateStopped) {
         [self stopTimer];
         if (!_isShowFinishAlert) {
@@ -235,7 +238,7 @@
 
 - (void)moviePlayerFinishReson:(MPMovieFinishReason)finishReson
 {
-    NSLog(@"player finish reson is %ld",finishReson);
+    NSLog(@"player finish reson is %ld",(long)finishReson);
 }
 
 

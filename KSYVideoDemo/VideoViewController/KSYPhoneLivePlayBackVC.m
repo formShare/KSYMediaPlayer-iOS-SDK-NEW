@@ -45,10 +45,12 @@
         [alertView show];
     };
     _phoneLivePlayVC.shareBlock = ^{
-        NSLog(@"分享");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"请调用分享接口" delegate:weakSelf cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        [alertView show];
     };
     _phoneLivePlayVC.liveBroadcastReporteBlock = ^{
-        NSLog(@"举报");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"请调用举报接口" delegate:weakSelf cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        [alertView show];
     };
     [self.view addSubview:_phoneLivePlayVC];
 

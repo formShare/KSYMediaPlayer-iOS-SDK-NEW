@@ -38,8 +38,8 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.controCommentButton.frame = CGRectMake(10, 5, 30, 30);
-    self.playControlButton.frame = CGRectMake(self.controCommentButton.right + 8, 5, 30, 30);
+    self.controCommentButton.frame = CGRectMake(10, 5, 40, 30);
+    self.playControlButton.frame = CGRectMake(self.controCommentButton.right + 8, 3, 34, 34);
 
     self.slider.frame = CGRectMake(_playControlButton.right + 6, 5, self.frame.size.width - 120 - 36, 30);
     self.shareButton.frame = CGRectMake(_slider.right + 10, 5, 30, 30);
@@ -49,7 +49,12 @@
 {
     if (!_controCommentButton) {
         _controCommentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _controCommentButton.backgroundColor = [UIColor purpleColor];
+        _controCommentButton.tag = 331;
+        [_controCommentButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _controCommentButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
+        [_controCommentButton setTitle:@"互动开" forState:UIControlStateNormal];
+        [_controCommentButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+
     }
     return _controCommentButton;
 }
@@ -58,7 +63,12 @@
 {
     if (!_shareButton) {
         _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _shareButton.backgroundColor = [UIColor greenColor];
+        _shareButton.tag = 332;
+        [_shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _shareButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
+        [_shareButton setTitle:@"分享" forState:UIControlStateNormal];
+        [_shareButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+
     }
     return _shareButton;
 }
@@ -67,7 +77,7 @@
 {
     if (!_playControlButton) {
         _playControlButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _playControlButton.backgroundColor = [UIColor orangeColor];
+        [_playControlButton setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
         [_playControlButton addTarget:self action:@selector(playControlButtonEvent:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _playControlButton;
@@ -125,20 +135,57 @@
         self.playControlEventBlock(button.selected);
     }
     if (!button.selected) {
-        _playControlButton.backgroundColor = [UIColor orangeColor];
+        [button setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
 
     }else{
-        _playControlButton.backgroundColor = [UIColor magentaColor];
+        [button setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
 
     }
 }
 
-- (void)playerStop
+- (void)playerIsStop:(BOOL)isStop
 {
-    self.playControlButton.selected = YES;
-    _playControlButton.backgroundColor = [UIColor magentaColor];
+    self.playControlButton.selected = isStop;
+    if (isStop) {
+        [self.playControlButton setBackgroundImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+
+    }else {
+        [self.playControlButton setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+
+    }
 
 }
+
+
+- (void)buttonAction:(UIButton *)button
+{
+    if (button.tag == 331) {
+        if (!button.selected) {
+            [_controCommentButton setTitle:@"互动关" forState:UIControlStateNormal];
+            
+            if (self.userEventBlock) {
+                self.userEventBlock(button.tag - 330);
+            }
+            
+        }else {
+            [_controCommentButton setTitle:@"互动开" forState:UIControlStateNormal];
+            
+            if (self.userEventBlock) {
+                self.userEventBlock(button.tag - 331);
+            }
+            
+        }
+        button.selected = !button.selected;
+        
+    }else {
+        if (self.userEventBlock) {
+            self.userEventBlock(button.tag - 330);
+        }
+        
+    }
+}
+
+
 - (void)progressDidBegin:(UISlider *)slider
 {
     

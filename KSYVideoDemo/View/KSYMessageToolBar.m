@@ -78,15 +78,19 @@
 {
     
     //控制评论
-    _controCommentBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 30, 30)];
-    _controCommentBtn.backgroundColor = [UIColor yellowColor];
+    _controCommentBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 40, 30)];
+    [_controCommentBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _controCommentBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
+    [_controCommentBtn setTitle:@"互动开" forState:UIControlStateNormal];
     _controCommentBtn.tag = 231;
     _controCommentBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [_controCommentBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     //分享
     _shareBtn = [[UIButton alloc] init];
-    _shareBtn.backgroundColor = [UIColor blueColor];
+    [_shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _shareBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
+    [_shareBtn setTitle:@"分享" forState:UIControlStateNormal];
     _shareBtn.tag = 232;
     _shareBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
     [_shareBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -99,7 +103,6 @@
     _inputTexField.returnKeyType = UIReturnKeySend;
     _inputTexField.enablesReturnKeyAutomatically = YES; // UITextView内部判断send按钮是否可以用
     _inputTexField.delegate = self;
-//    _inputTexField.backgroundColor = [UIColor clearColor];
     _inputTexField.layer.borderColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
     _inputTexField.layer.borderWidth = 0.65f;
     _inputTexField.layer.cornerRadius = 6.0f;
@@ -115,11 +118,15 @@
 {
     if (button.tag == 231) {
         if (!button.selected) {
+            [_controCommentBtn setTitle:@"互动关" forState:UIControlStateNormal];
+
             if (self.userEventBlock) {
                 self.userEventBlock(button.tag - 230);
             }
 
         }else {
+            [_controCommentBtn setTitle:@"互动开" forState:UIControlStateNormal];
+
             if (self.userEventBlock) {
                 self.userEventBlock(button.tag - 231);
             }

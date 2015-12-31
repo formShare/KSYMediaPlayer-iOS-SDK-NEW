@@ -31,5 +31,5 @@ typedef enum : NSUInteger {
 - (void)messageToolBarInputResignFirstResponder;
 
 - (void)updateProgressWithCurentTime:(NSTimeInterval)time duration:(NSTimeInterval)duration;
-- (void)playerStop;
+- (void)playerStop:(BOOL)isStop;
 @end
