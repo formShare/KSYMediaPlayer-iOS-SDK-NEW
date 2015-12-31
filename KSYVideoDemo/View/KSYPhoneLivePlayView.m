@@ -61,11 +61,12 @@
 
 - (KSYInteractiveView *)interactiveView
 {
-    WeakSelf(KSYPhoneLivePlayView);//循环引用的问题
+    WeakSelf(KSYPhoneLivePlayView);
     if (!_interactiveView) {
         _interactiveView = [[KSYInteractiveView alloc] initWithFrame:CGRectMake(0, 270, self.frame.size.width, self.frame.size.height - 270) playState:self.playState];
         _interactiveView.alertViewBlock = ^(id obj){
             [weakSelf setInfoViewFrame:YES];
+            
         };
         _interactiveView.shareEventBlock = ^{
             if (weakSelf.shareBlock) {
@@ -73,8 +74,7 @@
             }
         };
         _interactiveView.playEventBlock = ^(BOOL isStop){
-//            [weakSelf timerIsStop:isStop];
-//
+
             if (isStop) {
                 [weakSelf pause];
             }else {
@@ -213,7 +213,7 @@
 {
     [super moviePlayerFinishState:finishState];
     if (finishState == MPMoviePlaybackStateStopped) {
-        [self.interactiveView playerStop];
+        [self.interactiveView playerStop:YES];
     }
 }
 - (void)updateCurrentTime
@@ -230,6 +230,12 @@
 
 }
 
+//调用父类方法，播放按钮状态重置
+- (void)replay
+{
+    [super replay];
+    [self.interactiveView playerStop:NO];
+}
 
 #pragma mark- buttonEvent
 
@@ -242,7 +248,7 @@
         self.liveBroadcastCloseBlock();//这是实现方法
     }
     
-}
+} 
 
 - (void)liveBroadcastWillBeReport
 {

@@ -30,12 +30,15 @@
 @property (nonatomic,strong)UIButton    *closeButton;
 @end
 @implementation KSYAlertView
+static CGFloat kTransitionDuration = 0.3;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     
     if (self) {
+        
+        
         [self addSubview:self.headImageView];
         [self addSubview:self.userNameLabel];
         [self addSubview:self.praiseNumberLabel];
@@ -51,6 +54,53 @@
 
     }
     return self;
+}
+
+- (void)show
+{
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    if (!window)
+    {
+        window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+    }
+    
+    UIView *_backgroundView = [[UIView alloc] initWithFrame:window.bounds];
+    
+    // 这个可以使背景变成灰色,类似UIAlertView弹出的效果
+    _backgroundView.backgroundColor =  [[UIColor blackColor] colorWithAlphaComponent:0.35];
+    
+    // 叠加到window上,这样他的父窗口就无法再响应点击消息了.
+    [window addSubview:_backgroundView];
+    
+    self.frame = CGRectMake(10, 60, 300, 380);
+    [_backgroundView addSubview:self];
+    self.backgroundColor = [UIColor orangeColor];
+    
+    // 一系列动画效果, 先放大0.1, 在缩小0.1,随后还原原始大小,达到反弹效果
+    self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.05, 0.05);
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:kTransitionDuration/1.5];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(bounceAnimationStopped)];
+    self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+    [UIView commitAnimations];
+    
+
+}
+- (void)bounceAnimationStopped {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:kTransitionDuration/2];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(bounce2AnimationStopped)];
+    self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9);
+    [UIView commitAnimations];
+}
+
+- (void)bounce2AnimationStopped {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:kTransitionDuration/2];
+    self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+    [UIView commitAnimations];
 }
 
 - (void)layoutSubviews
@@ -219,14 +269,9 @@
 
 - (void)alertViewDisAppere
 {
-//    self.frame = CGRectMake(0, 0, 0, 0);
+
     self.hidden = YES;
 }
 
-//- (void)show
-//{
-//   UIWindow *window = [[UIApplication sharedApplication].delegate window];
-//    [self setFrame:CGRectMake(70, 150 ,320 - 140, 430)];
-//    [window addSubview:self];
-//}
+
 @end

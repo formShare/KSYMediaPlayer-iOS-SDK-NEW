@@ -133,6 +133,19 @@
                 weakSelf.seekBlock(value);
             }
         };
+        _progressToolBar.userEventBlock = ^(NSInteger index){
+            if (index == 1) {
+                weakSelf.commetnTableView.hidden = YES;
+            }else if(index == 0){
+                weakSelf.commetnTableView.hidden = NO;
+                
+            }else if (index == 2){
+                if (weakSelf.shareEventBlock) {
+                    weakSelf.shareEventBlock();
+                }
+            }
+        };
+
         
 
     }
@@ -191,9 +204,9 @@
     [self.progressToolBar updataSliderWithPosition:time duration:duration];
 }
 
-- (void)playerStop
+- (void)playerStop:(BOOL)isStop
 {
-    [self.progressToolBar playerStop];
+    [self.progressToolBar playerIsStop:isStop];
 }
 #pragma mark- buttonEvent
 
