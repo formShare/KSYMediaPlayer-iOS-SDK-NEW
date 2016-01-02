@@ -7,12 +7,12 @@
 //
 
 #import "KSYVoiceView.h"
-#import "MediaVoiceView.h"
+#import "KSYMediaVoiceView.h"
 
 
 @interface KSYVoiceView ()
 
-@property (nonatomic, strong) MediaVoiceView *mediaVoiceView;
+@property (nonatomic, strong) KSYMediaVoiceView *mediaVoiceView;
 
 @end
 
@@ -47,7 +47,7 @@
     
     //静音按钮
     CGFloat voiceImgWidth = kCoverBarWidth - 8;
-    UIImage *voiceMinImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"voice_min"];
+    UIImage *voiceMinImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"voice_min"];
     CGRect voiceImgViewRect1 = CGRectMake(4, self.height - voiceImgWidth - 4, voiceImgWidth, voiceImgWidth);
     UIButton *voiceMinBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [voiceMinBtn setImage:voiceMinImg forState:UIControlStateNormal];
@@ -57,9 +57,9 @@
     
     //声音条
     CGRect mediaVoiceRect = CGRectMake(4, 25, kCoverBarWidth - 10, self.height - 25 * 2);
-    _mediaVoiceView = [[MediaVoiceView alloc] initWithFrame:mediaVoiceRect];
+    _mediaVoiceView = [[KSYMediaVoiceView alloc] initWithFrame:mediaVoiceRect];
     _mediaVoiceView.tag = kMediaVoiceViewTag;
-    [_mediaVoiceView setFillColor:[[ThemeManager sharedInstance] themeColor]];
+    [_mediaVoiceView setFillColor:[[KSYThemeManager sharedInstance] themeColor]];
     [_mediaVoiceView setIVoice:[MPMusicPlayerController applicationMusicPlayer].volume];
     [self addSubview:_mediaVoiceView];
     
@@ -67,7 +67,7 @@
     CGRect voiceImgViewRect2 = voiceImgViewRect1;//CGRectMake(2, 0, 20, 20);
     voiceImgViewRect2.origin.y = 4;
     UIImageView *voiceImgView2 = [[UIImageView alloc] initWithFrame:voiceImgViewRect2];
-    UIImage *voiceMaxImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"voice_max"];
+    UIImage *voiceMaxImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"voice_max"];
     voiceImgView2.image = voiceMaxImg;
     [self addSubview:voiceImgView2];
 }

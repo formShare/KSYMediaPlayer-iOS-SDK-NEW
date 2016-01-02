@@ -35,12 +35,12 @@
     brightnessBgView.alpha = 0.6f;
     [self addSubview:brightnessBgView];
     
-    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
-    UIImage *minImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"slider_color"];
+    UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+    UIImage *minImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"slider_color"];
     //高亮模式图片
     CGRect brightnessImgViewRect1 = CGRectMake(3, 3, self.width - 6, self.width - 6);
     UIImageView *brightnessImgView1 = [[UIImageView alloc] initWithFrame:brightnessImgViewRect1];
-    UIImage *brightnessImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"brightness"];
+    UIImage *brightnessImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"brightness"];
     brightnessImgView1.image = brightnessImg;
     [self addSubview:brightnessImgView1];
     

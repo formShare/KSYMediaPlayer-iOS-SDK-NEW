@@ -7,12 +7,12 @@
 //
 
 #import "KSYBasePlayView.h"
-#import "SJDetailView.h"
+#import "KSYDetailView.h"
 #import "KSYCommentView.h"
 #import "KSYVideoPlayerView.h"
 @interface KSYPopularVideoView : UIView
 
-@property (nonatomic,strong) SJDetailView *detailView;
+@property (nonatomic,strong) KSYDetailView *detailView;
 @property (nonatomic,strong)  KSYCommentView *commtenView;
 @property (nonatomic, strong)  KSYVideoPlayerView *ksyVideoPlayerView;
 

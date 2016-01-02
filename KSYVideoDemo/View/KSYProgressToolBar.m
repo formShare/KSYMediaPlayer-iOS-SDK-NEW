@@ -8,7 +8,7 @@
 
 #import "KSYProgressToolBar.h"
 #import "UIView+BFExtension.h"
-#import "ThemeManager.h"
+#import "KSYThemeManager.h"
 @interface KSYProgressToolBar ()
 
 @property (strong, nonatomic) UIButton  *controCommentButton;
@@ -93,9 +93,9 @@
         _slider.value = 0.0;
 
         _slider.maximumTrackTintColor = [UIColor whiteColor];
-        [[ThemeManager sharedInstance] changeTheme:@"red"];
+        [[KSYThemeManager sharedInstance] changeTheme:@"red"];
 
-        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+        UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
         [_slider setThumbImage:dotImg forState:UIControlStateNormal];
 
     }

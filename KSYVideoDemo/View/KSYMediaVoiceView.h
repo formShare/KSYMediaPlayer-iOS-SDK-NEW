@@ -1,5 +1,5 @@
 //
-//  MediaVoiceView.h
+//  KSYMediaVoiceView.h
 //  KSYVideoDemo
 //
 //  Created by Blues on 15/6/2.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MediaVoiceView : UIView
+@interface KSYMediaVoiceView : UIView
 
 - (void)setIVoice:(CGFloat)iVoice; // **** 0 - 100
 - (void)setFillColor:(UIColor *)fillColor;

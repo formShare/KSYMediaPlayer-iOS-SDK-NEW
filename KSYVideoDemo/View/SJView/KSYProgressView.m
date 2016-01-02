@@ -49,7 +49,7 @@
     CGRect wardImgViewRect = CGRectMake(10, 15, 20, 20);
     UIImageView *wardImgView = [[UIImageView alloc] initWithFrame:wardImgViewRect];
     wardImgView.alpha = 0.6f;
-    UIImage *forwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_forward_normal"];
+    UIImage *forwardImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_forward_normal"];
     wardImgView.image = forwardImg;
     wardImgView.tag =kWardMarkImgViewTag;
     [self addSubview:wardImgView];

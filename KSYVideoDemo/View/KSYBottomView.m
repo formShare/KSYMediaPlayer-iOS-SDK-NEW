@@ -32,8 +32,8 @@
         //播放按钮 播放时间 进度条 总时间
         kShortPlayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         kShortPlayBtn.alpha = 0.6;
-        UIImage *pauseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
-        UIImage *pauseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_hl"];
+        UIImage *pauseImg_n = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
+        UIImage *pauseImg_h = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_hl"];
         [kShortPlayBtn setImage:pauseImg_n forState:UIControlStateNormal];
         [kShortPlayBtn setImage:pauseImg_h forState:UIControlStateHighlighted];
         kShortPlayBtn.frame = CGRectMake(5, 5, 30, 30);
@@ -72,7 +72,7 @@
             kFullBtn=[UIButton buttonWithType:UIButtonTypeCustom];
             CGRect kFullBtnRect = CGRectMake(self.width-40, 5, 30, 30);
             kFullBtn.alpha = 0.6;
-            UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+            UIImage *fullImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
             [kFullBtn setImage:fullImg forState:UIControlStateNormal];
             kFullBtn.frame = kFullBtnRect;
             kFullBtn.tag = kFullScreenBtnTag;
@@ -90,13 +90,13 @@
             kCurrentLabel.textAlignment = NSTextAlignmentRight;
             kCurrentLabel.tag= kProgressCurLabelTag;
             kCurrentLabel.font = [UIFont boldSystemFontOfSize:13];
-            UIColor *tintColor = [[ThemeManager sharedInstance] themeColor];
+            UIColor *tintColor = [[KSYThemeManager sharedInstance] themeColor];
             kCurrentLabel.textColor = tintColor;
             
             
             //进度条
-            UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
-            UIImage *minImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"slider_color"];
+            UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+            UIImage *minImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"slider_color"];
             kPlaySlider=[[UISlider alloc]initWithFrame:CGRectMake(kCurrentLabel.right+10, kCurrentLabel.center.y-5, self.width-kCurrentLabel.right-10-90, 10)];
             [kPlaySlider setMinimumTrackImage:minImg forState:UIControlStateNormal];
             kPlaySlider.maximumTrackTintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2];
@@ -122,7 +122,7 @@
             kFullBtn=[UIButton buttonWithType:UIButtonTypeCustom];
             CGRect kFullBtnRect = CGRectMake(kTotalLabel.right, 5, 30, 30);
             kFullBtn.alpha = 0.6;
-            UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+            UIImage *fullImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
             [kFullBtn setImage:fullImg forState:UIControlStateNormal];
             kFullBtn.frame = kFullBtnRect;
             kFullBtn.tag = kFullScreenBtnTag;

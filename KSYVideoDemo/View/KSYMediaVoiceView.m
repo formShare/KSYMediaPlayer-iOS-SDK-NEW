@@ -1,5 +1,5 @@
 //
-//  MediaVoiceView.m
+//  KSYMediaVoiceView.m
 //  KSYVideoDemo
 //
 //  Created by Blues on 15/6/2.
@@ -9,15 +9,15 @@
 #define kItemNum 20
 #define kColor [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2]
 
-#import "MediaVoiceView.h"
+#import "KSYMediaVoiceView.h"
 
-@interface MediaVoiceView () {
+@interface KSYMediaVoiceView () {
     UIColor *_fillColor;
 }
 
 @end
 
-@implementation MediaVoiceView
+@implementation KSYMediaVoiceView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
