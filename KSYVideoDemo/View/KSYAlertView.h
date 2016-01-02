@@ -10,6 +10,4 @@
 
 @interface KSYAlertView : UIView
 
-- (void)show;
-
 @end

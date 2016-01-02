@@ -10,6 +10,6 @@
 @interface KSYSpectatorsTableView : UIView<UITableViewDataSource,UITableViewDelegate>
 
 //观众的数组
-@property (nonatomic, strong)NSArray *spectatorsArr;
+@property (nonatomic, strong)NSArray *spectatorsArray;
 @property (nonatomic, copy)void (^specTatorsInfoBlock)(id obj);
 @end

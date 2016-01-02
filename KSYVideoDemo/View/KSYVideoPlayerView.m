@@ -513,12 +513,6 @@
         if (isActive == YES) {
             [self hiddenAllControls];
             kSetView.hidden=YES;
-//            UITableView *epsTableView=(UITableView *)[self viewWithTag:kEpisodeTableViewTag];
-//            epsTableView.hidden=YES;
-//            UIView *commentView=[self viewWithTag:kCommentViewTag];
-//            commentView.hidden=YES;
-//            UITextField *commentField=(UITextField *)[self viewWithTag:kCommentFieldTag];
-//            [commentField resignFirstResponder];
             [self rechangeBottom];
             
         }

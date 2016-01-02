@@ -11,7 +11,7 @@
 
 @interface KSYSpectatorsTableView ()
 {
-    NSMutableArray *_spectatorsArr;
+
     UITableView     *_tableView;
 }
 
@@ -23,7 +23,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        _spectatorsArr = [[NSMutableArray alloc] initWithCapacity:0];
+
         self.backgroundColor = [UIColor clearColor];
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 40, self.frame.size.width)];
         _tableView.backgroundColor = [UIColor clearColor];
@@ -46,7 +46,7 @@
     self = [super init];
     if (self) {
         
-        _spectatorsArr = [[NSMutableArray alloc] initWithCapacity:0];
+
         self.backgroundColor = [UIColor clearColor];
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 40, self.frame.size.width)];
         _tableView.backgroundColor = [UIColor clearColor];
@@ -64,13 +64,15 @@
     return self;
 }
 
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 40;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return _spectatorsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -83,7 +85,7 @@
     }
     cell.backgroundColor = [UIColor clearColor];
 //    cell.contentView.transform = CGAffineTransformMakeRotation(M_PI / 2);
-    cell.spectatorModel = @"";
+    cell.spectatorModel = self.spectatorsArray[indexPath.row];
     return cell;
 }
 

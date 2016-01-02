@@ -445,7 +445,9 @@
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
 
-        }else {
+        }else if([self.player isPlaying] && !self.isBackGroundReleasePlayer){
+            [self play];
+        }else if (self.isBackGroundReleasePlayer){
             [self play];
         }
         
