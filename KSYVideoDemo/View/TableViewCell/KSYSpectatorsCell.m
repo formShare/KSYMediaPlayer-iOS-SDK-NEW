@@ -8,6 +8,7 @@
 
 #import "KSYSpectatorsCell.h"
 #import "SpectatorModel.h"
+
 @interface KSYSpectatorsCell ()
 {
     UIImageView *_headImageViwe;
@@ -53,11 +54,13 @@
 
 - (void)setSpectatorModel:(id)spectatorModel
 {
+    SpectatorModel *model = (SpectatorModel *)spectatorModel;
 //    SpectatorModel *model = spectatorModel;
     CGFloat hue = ( arc4random() % 256 / 256.0 );
     CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;
     CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;
     _headImageViwe.backgroundColor = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+//    _headImageViwe.backgroundColor = model.headColor;
 
 //    _headImageViwe.backgroundColor = model.headColor;
 }

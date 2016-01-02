@@ -64,6 +64,7 @@
     WeakSelf(KSYPhoneLivePlayView);
     if (!_interactiveView) {
         _interactiveView = [[KSYInteractiveView alloc] initWithFrame:CGRectMake(0, 270, self.frame.size.width, self.frame.size.height - 270) playState:self.playState];
+        _interactiveView.spectatorsArray = self.spectatorsArray;
         _interactiveView.alertViewBlock = ^(id obj){
             [weakSelf setInfoViewFrame:YES];
             

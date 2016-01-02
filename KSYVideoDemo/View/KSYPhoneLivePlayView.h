@@ -20,6 +20,7 @@
 @property (nonatomic, copy) void (^liveBroadcastReporteBlock)();
 //分享事件block
 @property (nonatomic, copy) void (^shareBlock)();
+@property (nonatomic ,strong)   NSArray     *spectatorsArray;
 
 - (void)addNewCommentWith:(id)model;
 //点赞

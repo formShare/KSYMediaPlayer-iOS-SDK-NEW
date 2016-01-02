@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
 
 @interface KSYInteractiveView : UIView
 
-
+@property (nonatomic ,strong)   NSArray     *spectatorsArray;
 @property (nonatomic, copy)void (^alertViewBlock)(id obj);
 @property (nonatomic, copy)void (^shareEventBlock)();
 @property (nonatomic, copy)void (^playEventBlock)(BOOL isStop);
