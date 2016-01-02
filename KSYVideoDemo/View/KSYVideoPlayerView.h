@@ -21,7 +21,8 @@
 
 @property (nonatomic, assign) KSYPopularLivePlayState playState;
 @property (nonatomic, copy) void (^lockScreen)(BOOL isLocked);
-@property (nonatomic, copy) void (^clickFullBtn)(BOOL isFull);
+@property (nonatomic, copy) void (^clickFullBtn)();
+@property (nonatomic, copy) void (^clicUnkFullBtn)();
 @property (nonatomic, assign) BOOL isLock;
 
 

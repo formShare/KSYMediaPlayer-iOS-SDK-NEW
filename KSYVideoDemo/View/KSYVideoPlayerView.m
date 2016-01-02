@@ -90,13 +90,11 @@
     {
         kToolView=[[KSYToolView alloc]initWithFrame:CGRectMake(0, 0, self.width, 50)];
         kToolView.hidden=YES;
-        bottomView.kFullBtn.hidden = NO;
-
         kToolView.showSetView=^(UIButton *btn){
             [weakSelf showSetView:(btn)];
         };
         kToolView.backEventBlock = ^(){
-            [weakSelf changeDeviceOrientation:UIInterfaceOrientationPortrait];
+            [weakSelf unFullclick];
 
         };
     }
@@ -299,23 +297,21 @@
     }
 
 }
+-(void)unFullclick
+{
+   
+    if (self.clicUnkFullBtn) {
+        self.clicUnkFullBtn();
+    };
+    [self minFullScreen];
+}
 -(void)Fullclick:(UIButton *)btn
 {
-    _fullScreenModeToggled=!_fullScreenModeToggled;
-    if (_fullScreenModeToggled) {
-        [self changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
-        [self lunchFullScreen];
-        if (self.clickFullBtn) {
-            self.clickFullBtn(_fullScreenModeToggled);
-        }
-        UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
-        [btn setImage:fullImg forState:UIControlStateNormal];
-    }else{
-        [self changeDeviceOrientation:UIInterfaceOrientationPortrait];
-        [self minFullScreen];
-        UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
-        [btn setImage:fullImg forState:UIControlStateNormal];
-    }
+    
+    if (self.clickFullBtn) {
+        self.clickFullBtn();
+    };
+    [self lunchFullScreen];
 }
 
 - (void)updateCurrentTime{
@@ -392,7 +388,6 @@
     [fullBtn setImage:fullImg forState:UIControlStateNormal];
     self.indicator.center=self.center;
 }
-
 #pragma mark 窗口最小化 动手去做
 - (void)minFullScreen
 {
@@ -409,21 +404,7 @@
     self.indicator.center=self.center;
 }
 
-#pragma mark 退出全屏模式
 
-- (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
-{
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
-    {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val = toOrientation;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
-}
 #pragma mark - Touch event
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UISlider *progressSlider = (UISlider *)[self viewWithTag:kProgressSliderTag];
