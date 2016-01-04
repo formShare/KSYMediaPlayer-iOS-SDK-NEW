@@ -11,8 +11,6 @@
 #import "KSYPhoneLivePlayView.h"
 #import "CommentModel.h"
 
-//  弱引用宏
-#define WeakSelf(VC) __weak VC *weakSelf = self
 
 @interface KSYPhoneLivePlayBackVC ()
 {

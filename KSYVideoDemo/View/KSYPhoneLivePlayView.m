@@ -8,15 +8,12 @@
 
 #import "KSYPhoneLivePlayView.h"
 #import "UIView+BFExtension.h"
-#import "KSYCommentViewList.h"
 #import "CommentModel.h"
 #import "KSYCommentTableView.h"
 #import "KSYSpectatorsTableView.h"
 #import "KSYMessageToolBar.h"
 #import "KSYAlertView.h"
 
-//  弱引用宏
-#define WeakSelf(VC) __weak VC *weakSelf = self
 
 @interface KSYPhoneLivePlayView ()<UIAlertViewDelegate>
 

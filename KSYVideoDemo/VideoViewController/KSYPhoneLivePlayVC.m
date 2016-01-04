@@ -10,8 +10,7 @@
 #import "KSYPhoneLivePlayView.h"
 #import "CommentModel.h"
 #import "SpectatorModel.h"
-//  弱引用宏
-#define WeakSelf(VC) __weak VC *weakSelf = self
+
 
 @interface KSYPhoneLivePlayVC ()<UIAlertViewDelegate>
 {

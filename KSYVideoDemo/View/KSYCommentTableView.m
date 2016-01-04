@@ -115,12 +115,20 @@
 
 - (void)test:(CommentModel *)obj
 {
-//    obj.isShoudDele = YES;
+
     NSInteger i = [_commentArray indexOfObject:obj];
     [_commentArray removeObject:obj];
     [_commentArray insertObject:@"" atIndex:i];
     [_tableView reloadData];
-    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_commentArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    for (id obj in _commentArray) {
+//        if ([obj isEqualToString:@""]) {
+//            NSLog(@"");
+//            [_commentArray removeObject:obj];
+//        }else {
+//            break;
+//        }
+//    }
+//    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_commentArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
 }
 @end
