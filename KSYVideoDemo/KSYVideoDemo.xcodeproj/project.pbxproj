@@ -28,7 +28,6 @@
 		7CB994E51C27F81A00E86919 /* KSYMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB994E41C27F81A00E86919 /* KSYMediaPlayer.framework */; };
 		7CB994E71C27F96700E86919 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB994E61C27F96700E86919 /* VideoToolbox.framework */; };
 		7CC3D9FF1C3A4C880004E6AB /* KSYCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3D9F21C3A4C880004E6AB /* KSYCommentView.m */; };
-		7CC3DA001C3A4C880004E6AB /* KSYCommentViewList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3D9F41C3A4C880004E6AB /* KSYCommentViewList.m */; };
 		7CC3DA011C3A4C880004E6AB /* KSYLockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3D9F61C3A4C880004E6AB /* KSYLockView.m */; };
 		7CC3DA021C3A4C880004E6AB /* KSYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3D9F81C3A4C880004E6AB /* KSYProgressView.m */; };
 		7CC3DA031C3A4C880004E6AB /* KSYSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3D9FA1C3A4C880004E6AB /* KSYSetView.m */; };
@@ -131,8 +130,6 @@
 		7CB994E61C27F96700E86919 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		7CC3D9F11C3A4C880004E6AB /* KSYCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYCommentView.h; sourceTree = "<group>"; };
 		7CC3D9F21C3A4C880004E6AB /* KSYCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYCommentView.m; sourceTree = "<group>"; };
-		7CC3D9F31C3A4C880004E6AB /* KSYCommentViewList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYCommentViewList.h; sourceTree = "<group>"; };
-		7CC3D9F41C3A4C880004E6AB /* KSYCommentViewList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYCommentViewList.m; sourceTree = "<group>"; };
 		7CC3D9F51C3A4C880004E6AB /* KSYLockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYLockView.h; sourceTree = "<group>"; };
 		7CC3D9F61C3A4C880004E6AB /* KSYLockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYLockView.m; sourceTree = "<group>"; };
 		7CC3D9F71C3A4C880004E6AB /* KSYProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYProgressView.h; sourceTree = "<group>"; };
@@ -408,8 +405,6 @@
 				E3A945821C35595B000F7FB3 /* KSYVideoPlayerView.m */,
 				7CC3D9F11C3A4C880004E6AB /* KSYCommentView.h */,
 				7CC3D9F21C3A4C880004E6AB /* KSYCommentView.m */,
-				7CC3D9F31C3A4C880004E6AB /* KSYCommentViewList.h */,
-				7CC3D9F41C3A4C880004E6AB /* KSYCommentViewList.m */,
 				7CC3D9F51C3A4C880004E6AB /* KSYLockView.h */,
 				7CC3D9F61C3A4C880004E6AB /* KSYLockView.m */,
 				7CC3D9F71C3A4C880004E6AB /* KSYProgressView.h */,
@@ -641,7 +636,6 @@
 				E3A945841C35595B000F7FB3 /* KSYVideoPlayerView.m in Sources */,
 				7CC3DA011C3A4C880004E6AB /* KSYLockView.m in Sources */,
 				7CDBE5E51C16E02700D221C7 /* KSYCommentCell.m in Sources */,
-				7CC3DA001C3A4C880004E6AB /* KSYCommentViewList.m in Sources */,
 				E3A3701C1C3A15C100E9FCD9 /* CommentModel.m in Sources */,
 				0A68AA4D1ABBFAE2006CA2EF /* AppDelegate.m in Sources */,
 				0A68AA4A1ABBFAE2006CA2EF /* main.m in Sources */,

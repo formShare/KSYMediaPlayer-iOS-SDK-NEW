@@ -15,8 +15,6 @@
 #define DeviceSizeBounds [UIScreen mainScreen].bounds
 #define SCREENHEIGHT   200
 
-//  弱引用宏
-#define WeakSelf(VC) __weak VC *weakSelf = self
 
 @interface KSYInteractiveView ()<KSYMessageToolBarDelegate,UIGestureRecognizerDelegate>
 {
