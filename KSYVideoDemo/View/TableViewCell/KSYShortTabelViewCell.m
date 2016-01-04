@@ -26,32 +26,32 @@
     }
     return self;
 }
-- (void)applicationDidBecomeActive
-{
-    
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (self.isLivePlay) {
-//            [self addSubview:self.player.view];
-//            [self sendSubviewToBack:self.player.view];
-//            
-//        }else if (self.isPuase){
-//            [self play];
-//        }
-//        
-//    });
-    [self.ksyShortView play];
-}
-
-- (void)applicationWillResignActive
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (([self.player isPlaying] && self.isBackGroundReleasePlayer ) || self.isLivePlay) {
-//            [self shutDown];
-//        }else if ([self.player isPlaying] && !self.isLivePlay){
-//            [self pause];
-//        };
-//    });
-    [self.ksyShortView pause];
-}
+//- (void)applicationDidBecomeActive
+//{
+//    
+////    dispatch_async(dispatch_get_main_queue(), ^{
+////        if (self.isLivePlay) {
+////            [self addSubview:self.player.view];
+////            [self sendSubviewToBack:self.player.view];
+////            
+////        }else if (self.isPuase){
+////            [self play];
+////        }
+////        
+////    });
+//    [self.ksyShortView play];
+//}
+//
+//- (void)applicationWillResignActive
+//{
+////    dispatch_async(dispatch_get_main_queue(), ^{
+////        if (([self.player isPlaying] && self.isBackGroundReleasePlayer ) || self.isLivePlay) {
+////            [self shutDown];
+////        }else if ([self.player isPlaying] && !self.isLivePlay){
+////            [self pause];
+////        };
+////    });
+//    [self.ksyShortView pause];
+//}
 
 @end
