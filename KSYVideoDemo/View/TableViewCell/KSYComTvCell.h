@@ -1,5 +1,5 @@
 //
-//  KSY1TableViewCell.h
+//  KSYComTvCell.h
 //  AMZVideoDemo
 //
 //  Created by 孙健 on 15/12/8.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "KSYCommentModel.h"
-@interface KSY1TableViewCell : UITableViewCell
+@interface KSYComTvCell : UITableViewCell
 
 //状态属性
 @property (nonatomic, strong) KSYCommentModel *model1;

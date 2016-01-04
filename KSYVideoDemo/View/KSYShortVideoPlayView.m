@@ -28,7 +28,7 @@
     //重置播放界面的大小
     self = [super initWithFrame:frame];//初始化父视图的(frame、url)
     if (self) {
-        ksyShortTableView=[[UITableView alloc]initWithFrame:self.frame style:UITableViewStyleGrouped];
+        ksyShortTableView=[[UITableView alloc]initWithFrame:frame style:UITableViewStyleGrouped];
         ksyShortTableView.delegate=self;
         ksyShortTableView.dataSource=self;
         [self addSubview:ksyShortTableView];
@@ -39,7 +39,7 @@
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [_models addObject:[KSYCommentModel modelWithDictionary:obj]];
-            KSY1TableViewCell *cell=[[KSY1TableViewCell alloc]init];
+            KSYComTvCell *cell=[[KSYComTvCell alloc]init];
             [_modelsCells addObject:cell];
         }];
         [self addCommentView];
@@ -90,9 +90,9 @@
     }else if(indexPath.section==1){
         commentView.hidden=NO;
         [_videoCell.ksyShortView pause];
-        KSY1TableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId2];
+        KSYComTvCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId2];
         if (!cell){
-            cell=[[KSY1TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY1TableViewCellIdentify"];
+            cell=[[KSYComTvCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY1TableViewCellIdentify"];
             UIView* tempView=[[UIView alloc] initWithFrame:cell.frame];
             tempView.backgroundColor =KSYCOLER(90, 90, 90);
             cell.backgroundView = tempView;  //更换背景色     不能直接设置backgroundColor
@@ -115,7 +115,7 @@
         return 260;
     }else if(indexPath.section==1){
         
-        KSY1TableViewCell *cell=_modelsCells[indexPath.row];
+        KSYComTvCell *cell=_modelsCells[indexPath.row];
         cell.model1=_models[indexPath.row];//这里执行set方法
         return cell.height;
 

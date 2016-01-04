@@ -1,18 +1,18 @@
 //
-//  KSY2TableViewCell.m
+//  KSYDetalTVCell.m
 //  AMZVideoDemo
 //
 //  Created by 孙健 on 15/12/15.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "KSY2TableViewCell.h"
+#import "KSYDetalTVCell.h"
 #define HOSTNAMEFONT 18
 #define HOSTLEVELFONT 16
 #define SIGNATUREFONT 17
 #define SPACING 10
 #define KSYCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
-@interface KSY2TableViewCell ()
+@interface KSYDetalTVCell ()
 {
     UIImageView *_hostImageView;
     UILabel *_hostName;
@@ -31,7 +31,7 @@
 
 
 
-@implementation KSY2TableViewCell
+@implementation KSYDetalTVCell
 
 
 #pragma mark 初始化视图方法

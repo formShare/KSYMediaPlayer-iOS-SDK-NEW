@@ -1,5 +1,5 @@
 //
-//  KSY3TableViewCell.h
+//  KSYIntTVCell.h
 //  AMZVideoDemo
 //
 //  Created by 孙健 on 15/12/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "KSYIntroduceModel.h"
-@interface KSY3TableViewCell : UITableViewCell
+@interface KSYIntTVCell : UITableViewCell
 
 
 //两个属性

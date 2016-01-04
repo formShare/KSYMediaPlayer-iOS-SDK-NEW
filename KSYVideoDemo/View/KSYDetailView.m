@@ -10,18 +10,15 @@
 
 @implementation KSYDetailView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
-    if (self)
-    {
+    if (self){
         [self addBellowPart];
     }
     return self;
 }
 
-- (void)addBellowPart
-{
+- (void)addBellowPart{
 
     self.backgroundColor=[UIColor whiteColor];
     //初始化分段控制器
@@ -45,55 +42,46 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.kSegmentedCTL.selectedSegmentIndex==1)
-    {
+    if (self.kSegmentedCTL.selectedSegmentIndex==1){
         return 1;
     }
     return   _models.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.kSegmentedCTL.selectedSegmentIndex==0)
-    {
-        KSY1TableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY1TableViewCellIdentify"];
-        if (cell==nil)
-        {
-            cell=[[KSY1TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY1TableViewCellIdentify"];
+    if (self.kSegmentedCTL.selectedSegmentIndex==0){
+        KSYComTvCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY1TableViewCellIdentify"];
+        if (cell==nil){
+            cell=[[KSYComTvCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY1TableViewCellIdentify"];
             UIView* tempView=[[UIView alloc] initWithFrame:cell.frame];
             tempView.backgroundColor =KSYCOLER(90, 90, 90);
             cell.backgroundView = tempView;  //更换背景色     不能直接设置backgroundColor
             UIView* tempView1=[[UIView alloc] initWithFrame:cell.frame];
             tempView1.backgroundColor = KSYCOLER(100, 100, 100);
             cell.selectedBackgroundView = tempView1;
-            
         }
          KSYCommentModel *SKYmodel=_models[indexPath.row];
         cell.model1=SKYmodel;
         return cell;
     }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==1)
-    {
-        KSY2TableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY2TableViewCellIdentify"];
-        if (cell==nil)
-        {
-            cell=[[KSY2TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY2TableViewCellIdentify"];
+    else if (self.kSegmentedCTL.selectedSegmentIndex==1){
+        KSYDetalTVCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY2TableViewCellIdentify"];
+        if (cell==nil){
+            cell=[[KSYDetalTVCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY2TableViewCellIdentify"];
         }
         KSYDetailModel *SKYmodel=_models[indexPath.row];
         cell.model2=SKYmodel;//调用set方法
         return cell;
         
     }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==2)
-    {
-        KSY3TableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY3TableViewCellIdentify"];
-        if (cell==nil)
-        {
-            cell=[[KSY3TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY3TableViewCellIdentify"];
+    else if (self.kSegmentedCTL.selectedSegmentIndex==2){
+        KSYIntTVCell *cell=[tableView dequeueReusableCellWithIdentifier:@"KSY3TableViewCellIdentify"];
+        if (cell==nil){
+            cell=[[KSYIntTVCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY3TableViewCellIdentify"];
         }
         KSYIntroduceModel *SKYmodel=_models[indexPath.row];
         cell.model3=SKYmodel;//调用set方法
         return cell;
-        
     }
     else
         return nil;
@@ -102,37 +90,29 @@
 #pragma mark 设置行高
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.kSegmentedCTL.selectedSegmentIndex==0)
-    {
-        KSY1TableViewCell *cell=_modelsCells[indexPath.row];
+    if (self.kSegmentedCTL.selectedSegmentIndex==0){
+        KSYComTvCell *cell=_modelsCells[indexPath.row];
         cell.model1=_models[indexPath.row];//这里执行set方法
         return cell.height;
     }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==1)
-    {
-        KSY2TableViewCell *cell=_modelsCells[indexPath.row];
+    else if (self.kSegmentedCTL.selectedSegmentIndex==1){
+        KSYDetalTVCell *cell=_modelsCells[indexPath.row];
         cell.model2=_models[indexPath.row];//这里执行set方法
         return cell.height;
     }
-    else if (self.kSegmentedCTL.selectedSegmentIndex==2)
-    {
-        KSY3TableViewCell *cell=_modelsCells[indexPath.row];
+    else if (self.kSegmentedCTL.selectedSegmentIndex==2){
+        KSYIntTVCell *cell=_modelsCells[indexPath.row];
         cell.model3=_models[indexPath.row];//这里执行set方法
         return cell.height;
         
     }
     else
-        
         return 0;
-    
 }
 
-- (void)segmentChange:(UISegmentedControl *)segment
-{
-    
+- (void)segmentChange:(UISegmentedControl *)segment{
     //如果是评论，加载评论的数据
-    if(segment.selectedSegmentIndex==0)
-    {
+    if(segment.selectedSegmentIndex==0){
         //每次进来都要重新刷新数据
         [_models removeAllObjects];
         [_modelsCells removeAllObjects];
@@ -143,21 +123,20 @@
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [_models addObject:[KSYCommentModel modelWithDictionary:obj]];
-            KSY1TableViewCell *cell=[[KSY1TableViewCell alloc]init];
+            KSYComTvCell *cell=[[KSYComTvCell alloc]init];
             [_modelsCells addObject:cell];
         }];
         [self.kTableView reloadData];
     }
     //如果是详情，获取详情的数据
-    else if(segment.selectedSegmentIndex==1)
-    {
+    else if(segment.selectedSegmentIndex==1){
         //根据路径获得字典
         [_models removeAllObjects];
         [_modelsCells removeAllObjects];
         NSString *path=[[NSBundle mainBundle]pathForResource:@"Model2" ofType:@"plist"];
         NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:path];
         [_models addObject:[KSYDetailModel modelWithDictionary:dict]];
-        KSY2TableViewCell *cell=[[KSY2TableViewCell alloc]init];
+        KSYDetalTVCell *cell=[[KSYDetalTVCell alloc]init];
         [_modelsCells addObject:cell];
         //这样做复杂啦换一种方法
         
@@ -165,8 +144,7 @@
         
     }
     //如果是推荐，获取推荐的数据
-    else if(segment.selectedSegmentIndex==2)
-    {
+    else if(segment.selectedSegmentIndex==2){
         [_models removeAllObjects];
         [_modelsCells removeAllObjects];
         NSString *path=[[NSBundle mainBundle] pathForResource:@"Model3" ofType:@"plist"];
@@ -176,7 +154,7 @@
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [_models addObject:[KSYIntroduceModel modelWithDictionary:obj]];
-            KSY3TableViewCell *cell=[[KSY3TableViewCell alloc]init];
+            KSYIntTVCell *cell=[[KSYIntTVCell alloc]init];
             [_modelsCells addObject:cell];
         }];
         [self.kTableView reloadData];
