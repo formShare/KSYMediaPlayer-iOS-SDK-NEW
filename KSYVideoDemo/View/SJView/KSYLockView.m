@@ -38,8 +38,8 @@
     UIButton *lockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     lockBtn.alpha = 0.6f;
     lockBtn.frame = CGRectMake(10, 10, self.width - 20, self.width - 20);
-    UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
-    UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
+    UIImage *lockOpenImg_n = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
+    UIImage *lockOpenImg_h = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
     [lockBtn setImage:lockOpenImg_n forState:UIControlStateNormal];
     [lockBtn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
     [lockBtn addTarget:self action:@selector(clickLockBtn:) forControlEvents:UIControlEventTouchUpInside];

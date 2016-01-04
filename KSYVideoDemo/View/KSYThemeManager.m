@@ -1,5 +1,5 @@
 //
-//  ThemeManager.m
+//  KSYThemeManager.m
 //  KSYVideoDemo
 //
 //  Created by Blues on 15/5/25.
@@ -18,9 +18,9 @@
 #define KSYPINK     [UIColor colorWithRed:1.0         green:100 / 255.0 blue:100 / 255.0 alpha:1]
 #define KSYRED      [UIColor colorWithRed:162 / 255.0 green:0.0         blue:13  / 255.0 alpha:1]
 
-#import "ThemeManager.h"
+#import "KSYThemeManager.h"
 
-@interface ThemeManager ()
+@interface KSYThemeManager ()
 
 @property (nonatomic, strong) NSString *strThemeName;
 @property (nonatomic, strong) NSString *strThemePath;
@@ -29,10 +29,10 @@
 
 @end
 
-@implementation ThemeManager
+@implementation KSYThemeManager
 
-+ (ThemeManager *)sharedInstance {
-    static ThemeManager *shareObj = nil;
++ (KSYThemeManager *)sharedInstance {
+    static KSYThemeManager *shareObj = nil;
     static dispatch_once_t onceObj;
     dispatch_once(&onceObj, ^{
         shareObj = [[self alloc] init];

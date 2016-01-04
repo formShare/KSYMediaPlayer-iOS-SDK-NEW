@@ -8,6 +8,15 @@
 
 #import "KSYPopularVideoView.h"
 
+@interface KSYPopularVideoView (){
+    CGRect PreviouceFrame;
+}
+
+@end
+
+
+
+
 @implementation KSYPopularVideoView
 
 - (instancetype)initWithFrame:(CGRect)frame UrlWithString:(NSString *)urlString playState:(KSYPopularLivePlayState)playState;
@@ -16,7 +25,8 @@
     self = [super initWithFrame:frame];//初始化父视图的(frame、url)
     if (self) {
         WeakSelf(KSYPopularVideoView);
-        self.ksyVideoPlayerView=[[KSYVideoPlayerView alloc]initWithFrame: CGRectMake(0, 0, self.width, self.height/2) UrlFromString:urlString playState:playState];
+        self.ksyVideoPlayerView=[[KSYVideoPlayerView alloc]initWithFrame: CGRectMake(0, 0, self.width, self.height/2-40) UrlFromString:urlString playState:playState];
+        PreviouceFrame=self.ksyVideoPlayerView.frame;
         self.ksyVideoPlayerView.lockScreen=^(BOOL isLocked){
             [weakSelf lockTheScreen:isLocked];
         };
@@ -72,9 +82,7 @@
     }
     CGRect frame=[UIScreen mainScreen].bounds;
     self.frame=CGRectMake(0, 64, frame.size.width, frame.size.height-64);
-    NSLog(NSStringFromCGRect(self.frame));
-    self.ksyVideoPlayerView.frame=CGRectMake(0, 0,self.frame.size.width,self.frame.size.height/2);
-    NSLog(NSStringFromCGRect(self.ksyVideoPlayerView.frame));
+    self.ksyVideoPlayerView.frame=CGRectMake(0, 0,self.width,self.height/2-40);
     [self.ksyVideoPlayerView minFullScreen];
     self.detailView.hidden=NO;
     self.commtenView.hidden=NO;
@@ -87,7 +95,7 @@
 #pragma mark 添加详细视图
 - (void)addDetailView
 {
-    _detailView=[[SJDetailView alloc]initWithFrame:CGRectMake(0, self.height/2, self.width, self.height/2)];
+    _detailView=[[KSYDetailView alloc]initWithFrame:CGRectMake(0, self.ksyVideoPlayerView.bottom,self.width,self.height/2+40)];
     [self addSubview: _detailView];
 }
 #pragma mark 添加底部评论视图

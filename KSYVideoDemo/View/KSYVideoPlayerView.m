@@ -55,7 +55,7 @@
 
     self=[super initWithFrame:frame urlString:urlString];//初始化父视图的(frame、url)
     if (self) {
-        ThemeManager *themeManager = [ThemeManager sharedInstance];
+        KSYThemeManager *themeManager = [KSYThemeManager sharedInstance];
         //    [themeManager changeTheme:@"blue"];
         //    [themeManager changeTheme:@"green"];
         //    [themeManager changeTheme:@"orange"];
@@ -225,24 +225,24 @@
 }
 #pragma mark -亮度调节
 - (void)brightnessDidBegin:(UISlider *)slider {
-    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+    UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
 }
 - (void)brightnessChanged:(UISlider *)slider {
     [[UIScreen mainScreen] setBrightness:slider.value];
 }
 - (void)brightnessChangeEnd:(UISlider *)slider {
-    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+    UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
 }
 
 #pragma mark -滚动条
 - (void)progDidBegin:(UISlider *)slider
 {
-    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+    UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
     if ([self.player isPlaying]==YES) {
-        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+        UIImage *playImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
         UIButton *btn = (UIButton *)[self viewWithTag:kBarPlayBtnTag];
         [btn setImage:playImg forState:UIControlStateNormal];
     }
@@ -269,10 +269,10 @@
         slider.value=0.0f;
         return;
     }
-    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+    UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
     if ([self.player isPlaying]==YES) {
-        UIImage *playImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
+        UIImage *playImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
         UIButton *btn = (UIButton *)[self viewWithTag:kBarPlayBtnTag];
         [btn setImage:playImg forState:UIControlStateNormal];
     }
@@ -287,12 +287,12 @@
     }
     if ([self.player isPlaying]==NO){
         [self play];
-        UIImage *pauseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
+        UIImage *pauseImg_n = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
         [btn setImage:pauseImg_n forState:UIControlStateNormal];
     }
     else{
         [self pause];
-        UIImage *playImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+        UIImage *playImg_n = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
        [btn setImage:playImg_n forState:UIControlStateNormal];
     }
 
@@ -342,8 +342,8 @@
         kToolView.hidden=YES;
         bottomView.kFullBtn.hidden = NO;
 
-        UIImage *lockCloseImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_normal"];
-        UIImage *lockCloseImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_hl"];
+        UIImage *lockCloseImg_n = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_normal"];
+        UIImage *lockCloseImg_h = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_close_hl"];
         [btn setImage:lockCloseImg_n forState:UIControlStateNormal];
         [btn setImage:lockCloseImg_h forState:UIControlStateHighlighted];
         if (self.lockScreen) {
@@ -356,8 +356,8 @@
         bottomView.hidden=NO;
         kToolView.hidden=NO;
         bottomView.kFullBtn.hidden = YES;
-        UIImage *lockOpenImg_n = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
-        UIImage *lockOpenImg_h = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
+        UIImage *lockOpenImg_n = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_normal"];
+        UIImage *lockOpenImg_h = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_lock_open_hl"];
         [btn setImage:lockOpenImg_n forState:UIControlStateNormal];
         [btn setImage:lockOpenImg_h forState:UIControlStateHighlighted];
         if (self.lockScreen) {
@@ -384,7 +384,7 @@
     kLockView.frame=CGRectMake(kCoverLockViewLeftMargin, (self.height - self.height / 6) / 2, self.height / 6, self.height / 6);
     [self addSubview:self.kToolView];
     UIButton *fullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
-    UIImage *fullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
+    UIImage *fullImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_exit_fullscreen_normal"];
     [fullBtn setImage:fullImg forState:UIControlStateNormal];
     self.indicator.center=self.center;
 }
@@ -399,7 +399,7 @@
     kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
     kToolView.hidden=YES;
     UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
-    UIImage *unFullImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
+    UIImage *unFullImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_fullscreen_normal"];
     [unFullBtn setImage:unFullImg forState:UIControlStateNormal];
     self.indicator.center=self.center;
 }
@@ -434,7 +434,7 @@
             [[UIScreen mainScreen] setBrightness: _curBrightness - deltaBright];
             UISlider *brightnessSlider = (UISlider *)[self viewWithTag:kBrightnessSliderTag];
             [brightnessSlider setValue: _curBrightness - deltaBright animated:NO];
-            UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+            UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
             [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
             UIView *brightnessView = [self viewWithTag:kBrightnessViewTag];
             brightnessView.alpha = 1.0;
@@ -452,7 +452,7 @@
                 voiceValue = 1;
             }
             [musicPlayer setVolume:voiceValue];
-            MediaVoiceView *mediaVoiceView = (MediaVoiceView *)[self viewWithTag:kMediaVoiceViewTag];
+            KSYMediaVoiceView *mediaVoiceView = (KSYMediaVoiceView *)[self viewWithTag:kMediaVoiceViewTag];
             [mediaVoiceView setIVoice:voiceValue];
             self.gestureType = kKSYVoice;
         }
@@ -491,18 +491,18 @@
             startLabel.text = strCurTime1;
             if (deltaX > 0) {
                 strCurTime2 = [@"+" stringByAppendingString:strCurTime2];
-                UIImage *forwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_forward_normal"];
+                UIImage *forwardImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_forward_normal"];
                 wardImageView.frame = CGRectMake(progressView.frame.size.width - 30, 15, 20, 20);
                 wardImageView.image = forwardImg;
             }
             else {
                 strCurTime2 = [@"-" stringByAppendingString:strCurTime2];
-                UIImage *backwardImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"bt_backward_normal"];
+                UIImage *backwardImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_backward_normal"];
                 wardImageView.frame = CGRectMake(10, 15, 20, 20);
                 wardImageView.image = backwardImg;
             }
             progressViewCurLabel.text = strCurTime2;
-            UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
+            UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
             [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
         }
     }
@@ -527,12 +527,12 @@
         
         [self.player setCurrentPlaybackTime: progressSlider.value];
         
-        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+        UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
         [progressSlider setThumbImage:dotImg forState:UIControlStateNormal];
     }
     else if (self.gestureType == kKSYBrightness) {
         UISlider *brightnessSlider = (UISlider *)[self viewWithTag:kBrightnessSliderTag];
-        UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+        UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
         [brightnessSlider setThumbImage:dotImg forState:UIControlStateNormal];
         if (isActive == NO) {
             UIView *brightnessView = [self viewWithTag:kBrightnessViewTag];

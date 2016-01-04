@@ -1,5 +1,5 @@
 //
-//  ThemeManager.h
+//  KSYThemeManager.h
 //  KSYVideoDemo
 //
 //  Created by Blues on 15/5/25.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ThemeManager : NSObject
+@interface KSYThemeManager : NSObject
 
-+ (ThemeManager *)sharedInstance;
++ (KSYThemeManager *)sharedInstance;
 - (NSString *)changeTheme:(NSString *)themeName;
 - (UIImage *)imageInCurThemeWithName:(NSString *)strName;
 - (void)setStrResourcePath:(NSString *)strResourcePath;

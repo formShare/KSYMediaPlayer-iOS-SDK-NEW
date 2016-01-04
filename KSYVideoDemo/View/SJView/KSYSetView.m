@@ -105,7 +105,7 @@
     
     //静音
     CGFloat lowVoiceImgWidth = kCoverBarWidth - 8;
-    UIImage *lowVoiceImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"voice_min"];
+    UIImage *lowVoiceImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"voice_min"];
     CGRect lowVoiceImgViewRect = CGRectMake(10, CGRectGetMaxY(voiceSetLabel.frame)+kVertialSpacing-10, lowVoiceImgWidth, lowVoiceImgWidth);
     UIImageView *lowVoiceImageView = [[UIImageView alloc]initWithImage:lowVoiceImg];
     lowVoiceImageView.frame=lowVoiceImgViewRect;
@@ -116,7 +116,7 @@
     
     //高音
     CGFloat highVoiceImgWidth = kCoverBarWidth - 8;
-    UIImage *highVoiceImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"voice_max"];
+    UIImage *highVoiceImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"voice_max"];
     CGRect highVoiceImgViewRect = CGRectMake(CGRectGetWidth(self.frame)-10-highVoiceImgWidth, CGRectGetMinY(lowVoiceImageView.frame), highVoiceImgWidth, highVoiceImgWidth);
     UIImageView *highVoiceImageView = [[UIImageView alloc]initWithImage:highVoiceImg];
     highVoiceImageView.contentMode=UIViewContentModeScaleAspectFit;
@@ -139,8 +139,8 @@
     CGFloat voiceSliderHeight = 10;
     
     
-    UIImage *dotImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
-    UIImage *minImg = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"slider_color"];
+    UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot_normal"];
+    UIImage *minImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"slider_color"];
     CGRect voiceSliderRect = CGRectMake(voiceSliderX, voiceSliderY, voiceSliderWidth, voiceSliderHeight);
     UISlider *voiceSlider = [[UISlider alloc] initWithFrame:voiceSliderRect];
     [self addSubview:voiceSlider];
@@ -168,7 +168,7 @@
     CGRect lowBrightnessImgViewRect = CGRectMake(10, CGRectGetMaxY(brightnessLabel.frame)+kVertialSpacing-10, lowbrightnessWidth, lowbrightnessWidth);
     UIImageView *lowBrightnessImgView = [[UIImageView alloc] initWithFrame:lowBrightnessImgViewRect];
     lowBrightnessImgView.contentMode=UIViewContentModeScaleAspectFit;
-    UIImage *brightnessImage = [[ThemeManager sharedInstance] imageInCurThemeWithName:@"brightness"];
+    UIImage *brightnessImage = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"brightness"];
     lowBrightnessImgView.image=brightnessImage;
     [self addSubview:lowBrightnessImgView];
     

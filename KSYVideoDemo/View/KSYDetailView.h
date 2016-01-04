@@ -1,5 +1,5 @@
 //
-//  SJDetailView.h
+//  KSYDetailView.h
 //  KSYVideoDemo
 //
 //  Created by 孙健 on 15/12/23.
@@ -10,7 +10,7 @@
 
 
 
-@interface SJDetailView : UIView<UITableViewDataSource,UITableViewDelegate>
+@interface KSYDetailView : UIView<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *models;
 @property (nonatomic, strong) NSMutableArray *modelsCells;

@@ -1,14 +1,14 @@
 //
-//  SJDetailView.m
+//  KSYDetailView.m
 //  KSYVideoDemo
 //
 //  Created by 孙健 on 15/12/23.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "SJDetailView.h"
+#import "KSYDetailView.h"
 
-@implementation SJDetailView
+@implementation KSYDetailView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
