@@ -12,10 +12,8 @@
 #import "KSYVideoPlayerView.h"
 @interface KSYPopularVideoView : UIView
 
-@property (nonatomic,strong) KSYDetailView *detailView;
-@property (nonatomic,strong)  KSYCommentView *commtenView;
-@property (nonatomic, strong)  KSYVideoPlayerView *ksyVideoPlayerView;
 
+@property (nonatomic, strong)  KSYVideoPlayerView *ksyVideoPlayerView;
 
 @property (nonatomic, copy) void (^changeNavigationBarColor)();
 @property (nonatomic, copy) void (^lockWindow)(BOOL isLocked);
