@@ -44,7 +44,7 @@
     [self requestSepctators];
     
     _phoneLivePlayVC = [[KSYPhoneLivePlayView alloc] initWithFrame:self.view.bounds urlString:self.videoUrlString playState:KSYPhoneLivePlay];
-    _phoneLivePlayVC.isBackGroundReleasePlayer = self.isReleasePlayer;
+    //观看用户
     _phoneLivePlayVC.spectatorsArray = _spectatorsArr;
     _phoneLivePlayVC.liveBroadcastCloseBlock = ^{
         
