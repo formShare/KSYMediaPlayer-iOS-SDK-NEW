@@ -14,7 +14,6 @@
 #import "KSYMessageToolBar.h"
 #import "KSYAlertView.h"
 
-#define DeviceSizeBounds [UIScreen mainScreen].bounds
 
 @interface KSYPhoneLivePlayView ()<UIAlertViewDelegate>
 

@@ -55,6 +55,7 @@ typedef enum KSYGestureType KSYGestureType;
 
 #define KSYSYS_OS_IOS8  ([[[[UIDevice currentDevice]systemVersion]substringToIndex:1] doubleValue]>=8)
 #define W16H9Scale ((float)16 / 9)
+#define DeviceSizeBounds [UIScreen mainScreen].bounds
 
 //  弱引用宏
 #define WeakSelf(VC) __weak VC *weakSelf = self
