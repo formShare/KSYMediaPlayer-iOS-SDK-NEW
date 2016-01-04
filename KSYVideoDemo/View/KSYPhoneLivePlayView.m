@@ -64,8 +64,8 @@
     WeakSelf(KSYPhoneLivePlayView);
     if (!_interactiveView) {
         _interactiveView = [[KSYInteractiveView alloc] initWithFrame:CGRectMake(0, 270, self.frame.size.width, self.frame.size.height - 270) playState:self.playState];
-        _interactiveView.spectatorsArray = self.spectatorsArray;
         _interactiveView.alertViewBlock = ^(id obj){
+            weakSelf.alertView.contentModel = obj;
             [weakSelf setInfoViewFrame:YES];
             
         };
@@ -88,10 +88,17 @@
             [weakSelf play];
         };
         
+        
     }
     return _interactiveView;
 }
 
+- (void)setSpectatorsArray:(NSArray *)spectatorsArray
+{
+    _spectatorsArray = spectatorsArray;
+    _interactiveView.spectatorsArray = self.spectatorsArray;
+
+}
 - (UIButton *)closeButton
 {
     if (!_closeButton) {

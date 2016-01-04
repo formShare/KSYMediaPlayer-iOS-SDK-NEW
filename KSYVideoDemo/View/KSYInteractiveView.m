@@ -83,7 +83,6 @@
             _spectatorsTableViews = [[KSYSpectatorsTableView alloc] initWithFrame:CGRectMake(46, _progressToolBar.top - 40 - 5, self.bounds.size.width - 46 - 80, 40)];
 
         }
-        _spectatorsTableViews.spectatorsArray = self.spectatorsArray;
         _spectatorsTableViews.specTatorsInfoBlock = ^(id obj){
         
             if (weakSelf.alertViewBlock) {
@@ -191,6 +190,14 @@
     
     self.frame = toFrame;
 
+}
+
+- (void)setSpectatorsArray:(NSArray *)spectatorsArray
+{
+    _spectatorsArray = spectatorsArray;
+    _spectatorsTableViews.spectatorsArray = self.spectatorsArray;
+
+    
 }
 #pragma mark- 事件
 - (void)addNewCommentWith:(id)object

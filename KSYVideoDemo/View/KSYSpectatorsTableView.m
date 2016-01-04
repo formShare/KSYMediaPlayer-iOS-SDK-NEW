@@ -92,8 +92,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.specTatorsInfoBlock) {
-//        self.specTatorsInfoBlock(self.spectatorsArr[indexPath.row]);
-        self.specTatorsInfoBlock(@"");
+        self.specTatorsInfoBlock(self.spectatorsArray[indexPath.row]);
 
     }
 }

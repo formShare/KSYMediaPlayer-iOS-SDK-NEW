@@ -9,6 +9,8 @@
 #import "KSYAlertView.h"
 #import "UIView+BFExtension.h"
 #import "UIColor+ColorExtension.h"
+#import "SpectatorModel.h"
+
 #define KTEXTSIZE       17
 #define KNAMETEXTSIZE   20
 #define KLABELWIDTH     50
@@ -104,7 +106,6 @@ static CGFloat kTransitionDuration = 0.3;
 {
     if (!_praiseNumberLabel) {
         _praiseNumberLabel = [UILabel new];
-        _praiseNumberLabel.text = @"5.5w    赞";
         _praiseNumberLabel.textAlignment = NSTextAlignmentCenter;
         _praiseNumberLabel.textColor = [UIColor whiteColor];
         _praiseNumberLabel.font = [UIFont systemFontOfSize:KTEXTSIZE];
@@ -115,7 +116,6 @@ static CGFloat kTransitionDuration = 0.3;
 {
     if (!_signLabel) {
         _signLabel = [UILabel new];
-        _signLabel.text = @"签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名";
         _signLabel.numberOfLines = 0;
         _signLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _signLabel.textColor = [UIColor whiteColor];
@@ -129,7 +129,6 @@ static CGFloat kTransitionDuration = 0.3;
 {
     if (!_frequencyLabel) {
         _frequencyLabel = [UILabel new];
-        _frequencyLabel.text = @"888";
         _frequencyLabel.textColor = [UIColor whiteColor];
         _frequencyLabel.font = [UIFont systemFontOfSize:KTEXTSIZE];
         _frequencyLabel.textAlignment = NSTextAlignmentCenter;
@@ -141,7 +140,6 @@ static CGFloat kTransitionDuration = 0.3;
 {
     if (!_fansNumberLabl) {
         _fansNumberLabl = [UILabel new];
-        _fansNumberLabl.text = @"20k";
         _fansNumberLabl.textColor = [UIColor whiteColor];
         _fansNumberLabl.font = [UIFont systemFontOfSize:KTEXTSIZE];
         _fansNumberLabl.textAlignment = NSTextAlignmentCenter;
@@ -153,7 +151,6 @@ static CGFloat kTransitionDuration = 0.3;
 {
     if (!_userNameLabel) {
         _userNameLabel = [UILabel new];
-        _userNameLabel.text = @"苍井空";
         _userNameLabel.textColor = [UIColor whiteColor];
         _userNameLabel.font = [UIFont boldSystemFontOfSize:KNAMETEXTSIZE];
         _userNameLabel.textAlignment = NSTextAlignmentCenter;
@@ -165,7 +162,6 @@ static CGFloat kTransitionDuration = 0.3;
 {
     if (!_followNumberLabel) {
         _followNumberLabel = [UILabel new];
-        _followNumberLabel.text = @"88";
         _followNumberLabel.textColor = [UIColor whiteColor];
         _followNumberLabel.font = [UIFont systemFontOfSize:KTEXTSIZE];
         _followNumberLabel.textAlignment = NSTextAlignmentCenter;
@@ -236,6 +232,20 @@ static CGFloat kTransitionDuration = 0.3;
     return _closeButton;
 }
 
+- (void)setContentModel:(id)contentModel
+{
+    SpectatorModel *model = (SpectatorModel *)contentModel;
+    _signLabel.text = model.signConent;
+    _praiseNumberLabel.text = [NSString stringWithFormat:@"%@   赞",model.praiseNumber];
+    _frequencyLabel.text = model.liveNumber;
+    _fansNumberLabl.text = model.fansNumber;
+    _userNameLabel.text = model.name;
+    _followNumberLabel.text = model.followNumber;
+
+
+
+    
+}
 - (void)alertViewDisAppere
 {
 

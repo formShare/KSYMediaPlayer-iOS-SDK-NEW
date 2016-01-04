@@ -10,4 +10,5 @@
 
 @interface KSYAlertView : UIView
 
+@property (nonatomic, strong)id contentModel;
 @end
