@@ -7,9 +7,10 @@
 //
 
 #import "KSYPopularVideoView.h"
-
+#import "AppDelegate.h"
 @interface KSYPopularVideoView (){
-    CGRect PreviouceFrame;
+    CGFloat _WIDTH;
+    CGFloat _HEIGHT;
 }
 
 @end
@@ -26,7 +27,6 @@
     if (self) {
         WeakSelf(KSYPopularVideoView);
         self.ksyVideoPlayerView=[[KSYVideoPlayerView alloc]initWithFrame: CGRectMake(0, 0, self.width, self.height/2-60) UrlFromString:urlString playState:playState];
-        PreviouceFrame=self.ksyVideoPlayerView.frame;
         self.ksyVideoPlayerView.lockScreen=^(BOOL isLocked){
             [weakSelf lockTheScreen:isLocked];
         };
@@ -40,6 +40,8 @@
         [self addDetailView];
         [self addCommtenView];
         [self registerObservers];
+        _WIDTH = THESCREENWIDTH;
+        _HEIGHT = THESCREENHEIGHT;
     }
     return self;
 
@@ -69,19 +71,18 @@
     [self unLunchFull];
 }
 - (void)lunchFull{
-    self.frame=[UIScreen mainScreen].bounds;
+    self.frame=CGRectMake(0, 0, _HEIGHT, _WIDTH);
+//    NSLog(NSStringFromCGRect(self.frame));
     self.ksyVideoPlayerView.frame=self.frame;
     [self.ksyVideoPlayerView lunchFullScreen];
     self.detailView.hidden=YES;
     self.commtenView.hidden=YES;
 }
 - (void)unLunchFull{
-
     if (self.ksyVideoPlayerView.isLock) {
         return;
     }
-    CGRect frame=[UIScreen mainScreen].bounds;
-    self.frame=CGRectMake(0, 64, frame.size.width, frame.size.height-64);
+    self.frame=CGRectMake(0, 64, _WIDTH,_HEIGHT-64);
     self.ksyVideoPlayerView.frame=CGRectMake(0, 0, self.width, self.height/2-60);
     [self.ksyVideoPlayerView minFullScreen];
     self.detailView.hidden=NO;
@@ -181,6 +182,7 @@
         [[UIApplication sharedApplication] setStatusBarHidden:NO
                                                 withAnimation:UIStatusBarAnimationFade];
 //        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+
         [self unLunchFull];
     }
 }

@@ -15,7 +15,6 @@
 #import "KSYMessageToolBar.h"
 #import "KSYAlertView.h"
 
-#define DeviceSizeBounds [UIScreen mainScreen].bounds
 //  弱引用宏
 #define WeakSelf(VC) __weak VC *weakSelf = self
 

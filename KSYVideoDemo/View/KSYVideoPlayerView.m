@@ -331,6 +331,18 @@
     kTotalLabel.text = [NSString stringWithFormat:@"%02d:%02d", iDuraMin, iDuraSec];
     kPlaySlider.value = position;
     kPlaySlider.maximumValue = duration;
+    if ([self.player isPlaying]) {
+        UIImage *playImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_pause_normal"];
+        [bottomView.kShortPlayBtn setImage:playImg forState:UIControlStateNormal];
+    }
+}
+- (void)moviePlayerFinishState:(MPMoviePlaybackState)finishState
+{
+    [super moviePlayerFinishState:finishState];
+    if (finishState == MPMoviePlaybackStateStopped) {
+        UIImage *playImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"bt_play_normal"];
+        [bottomView.kShortPlayBtn setImage:playImg forState:UIControlStateNormal];
+    }
 }
 - (void)lockBtn:(UIButton *)btn
 {
