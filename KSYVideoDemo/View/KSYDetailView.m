@@ -19,7 +19,7 @@
     }
     return self;
 }
-#pragma mark 添加下面的内容(就两个字，去做，动手去做)
+
 - (void)addBellowPart
 {
 
@@ -36,7 +36,8 @@
     lineLabel.backgroundColor=[UIColor blackColor];
     [self addSubview:lineLabel];
     //初始化表视图 只要你在做你就在想
-    self.kTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(lineLabel.frame)+10, THESCREENWIDTH, THESCREENHEIGHT/2-72) style:UITableViewStylePlain];
+    _kTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(lineLabel.frame)+10, THESCREENWIDTH, THESCREENHEIGHT/2-72) style:UITableViewStylePlain];
+    self.kTableView.backgroundColor = [UIColor blackColor];
     [self addSubview:self.kTableView];
     self.kTableView.delegate=self;
     self.kTableView.dataSource=self;
@@ -126,7 +127,6 @@
     
 }
 
-#pragma mark 分段控件只发生变化，想是你的本能，重要的是做了啥
 - (void)segmentChange:(UISegmentedControl *)segment
 {
     

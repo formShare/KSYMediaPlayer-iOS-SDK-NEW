@@ -12,6 +12,9 @@
     CGRect PreviouceFrame;
 }
 
+@property (nonatomic,strong) KSYDetailView *detailView;
+@property (nonatomic,strong)  KSYCommentView *commtenView;
+
 @end
 
 
@@ -46,7 +49,7 @@
 }
 
 
-#pragma mark 退出全屏模式
+// 退出全屏模式
 - (void)changeDeviceOrientation:(UIInterfaceOrientation)toOrientation
 {
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
@@ -92,13 +95,13 @@
         self.lockWindow(islocked);
     }
 }
-#pragma mark 添加详细视图
+// 添加详细视图
 - (void)addDetailView
 {
     _detailView=[[KSYDetailView alloc]initWithFrame:CGRectMake(0, self.ksyVideoPlayerView.bottom,self.width,self.height/2-40)];
     [self addSubview: _detailView];
 }
-#pragma mark 添加底部评论视图
+// 添加底部评论视图
 - (void)addCommtenView
 {
     WeakSelf(KSYPopularVideoView);
@@ -131,7 +134,7 @@
         NSLog(@"Animation Over!");
     }];
 }
-#pragma mark 注册通知
+// 注册通知
 - (void)registerObservers
 {
     
@@ -140,7 +143,7 @@
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
 }
-#pragma mark 移除通知
+// 移除通知
 - (void)unregisterObservers
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self

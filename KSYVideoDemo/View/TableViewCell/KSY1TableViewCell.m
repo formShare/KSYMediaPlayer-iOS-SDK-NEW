@@ -105,7 +105,7 @@
     _content.text=model1.content;
     _content.frame=contenRect;
     
-    _height=CGRectGetMaxY(_content.frame)+10;
+    _height=CGRectGetMaxY(_content.frame)+5;
     
 }
 

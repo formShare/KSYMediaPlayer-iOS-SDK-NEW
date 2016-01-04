@@ -42,7 +42,7 @@
     }
     return self;
 }
-#pragma mark 开始弹幕
+// 开始弹幕
 - (void)start {
     //如果数组中有内容
     if (_dataArray && _dataArray.count > 0) {
@@ -52,7 +52,7 @@
         }
     }
 }
-#pragma mark 结束弹幕
+// 结束弹幕
 - (void)stop {
     if (_timer) {
         //停止定时器
@@ -60,17 +60,17 @@
         _timer = nil;
     }
 }
-#pragma mark 设置字体大小
+// 设置字体大小
 -(void)setDanmuFont:(CGFloat)font
 {
     _font=font;
 }
-#pragma mark 设置弹幕透明度
+// 设置弹幕透明度
 -(void)setDanmuAlpha:(CGFloat)alpha
 {
     _alpha=alpha;
 }
-#pragma mark 发送弹幕
+// 发送弹幕
 - (void)postView {
     //如果数组不为空
     if (_dataArray && _dataArray.count > 0) {

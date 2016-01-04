@@ -73,7 +73,7 @@
     }
     return self;
 }
-#pragma mark 添加设置视图
+// 添加设置视图
 - (void)addSetView
 {
     if (!kSetView) {
@@ -82,7 +82,7 @@
     }
     [self addSubview:kSetView];
 }
-#pragma mark 添加工具视图
+// 添加工具视图
 - (KSYToolView *)kToolView
 {
     WeakSelf(KSYVideoPlayerView);
@@ -100,7 +100,7 @@
     }
     return kToolView;
 }
-#pragma mark 添加锁屏按钮
+// 添加锁屏按钮
 - (void)addLockBtn
 {
     WeakSelf(KSYVideoPlayerView);
@@ -111,14 +111,14 @@
     kLockView.hidden=YES;
     [self addSubview:kLockView];
 }
-#pragma mark 添加进度指示
+// 添加进度指示
 - (void)addProgressView
 {
     kProgressView=[[KSYProgressView alloc]initWithFrame:CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50)];
     kProgressView.hidden=YES;
     [self addSubview:kProgressView];
 }
-#pragma mark 添加顶部视图
+// 添加顶部视图
 - (void)addTopView
 {
     topView=[[KSYTopView alloc]initWithFrame:CGRectMake(0, 0, self.width, 40)];
@@ -127,7 +127,7 @@
     }
     [self addSubview:topView];
 }
-#pragma mark 添加底部视图
+// 添加底部视图
 - (void)addBottomView
 {
         
@@ -162,7 +162,7 @@
     };
     [self addSubview: bottomView];
 }
-#pragma mark 添加弹幕
+// 添加弹幕
 - (void)addDanmuView:(UIButton *)btn
 {
     isOpen=!isOpen;
@@ -184,7 +184,7 @@
         [kDanmuView removeFromSuperview];
     }
 }
-#pragma mark 修改bottom 的位置
+// 修改bottom 的位置
 - (void)changeBottom:(UITextField *)textField
 {
     bottomView.alpha=1.0;
@@ -199,7 +199,7 @@
         bottomView.alpha=0.6;
     }
 }
-#pragma mark 添加亮度视图
+// 添加亮度视图
 - (void)addBrightnessVIew
 {
     WeakSelf(KSYVideoPlayerView);
@@ -216,14 +216,14 @@
     kBrightnessView.hidden=YES;
     [self addSubview:kBrightnessView];
 }
-#pragma mark 添加声音视图
+// 添加声音视图
 - (void)addVoiceView
 {
     kVoiceView=[[KSYVoiceView alloc]initWithFrame:CGRectMake(THESCREENHEIGHT - kCoverBarWidth - kCoverBarRightMargin, THESCREENWIDTH / 4, kCoverBarWidth, THESCREENWIDTH / 2)];
     kVoiceView.hidden=YES;
     [self addSubview:kVoiceView];
 }
-#pragma mark -亮度调节
+// -亮度调节
 - (void)brightnessDidBegin:(UISlider *)slider {
     UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
@@ -236,7 +236,7 @@
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
 }
 
-#pragma mark -滚动条
+// 滚动条
 - (void)progDidBegin:(UISlider *)slider
 {
     UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
@@ -373,7 +373,7 @@
     [self hiddenAllControls];
     
 }
-#pragma mark 全屏模式
+// 全屏模式
 - (void)lunchFullScreen
 {
     topView.hidden=YES;
@@ -388,7 +388,7 @@
     [fullBtn setImage:fullImg forState:UIControlStateNormal];
     self.indicator.center=self.center;
 }
-#pragma mark 窗口最小化 动手去做
+// 窗口最小化
 - (void)minFullScreen
 {
     kBrightnessView.hidden=YES;
@@ -546,7 +546,7 @@
 }
 
 
-#pragma mark 显示控件
+// 显示控件
 - (void) showAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{
@@ -575,7 +575,7 @@
         isActive = YES;
     }];
 }
-#pragma mark 隐藏控件
+// 隐藏控件
 - (void) hiddenAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{
