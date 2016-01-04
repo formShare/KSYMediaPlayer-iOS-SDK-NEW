@@ -1,16 +1,16 @@
 //
-//  UserinfoModel2.m
+//  KSYDetailModel.m
 //  KSYVideoDemo
 //
 //  Created by KSC on 15/12/30.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "UserinfoModel2.h"
+#import "KSYDetailModel.h"
 
-@implementation UserinfoModel2
+@implementation KSYDetailModel
 
-- (UserinfoModel2 *)initWithDictionary:(NSDictionary *)dict
+- (KSYDetailModel *)initWithDictionary:(NSDictionary *)dict
 {
     if (self=[super init])
     {
@@ -27,9 +27,9 @@
     return self;
 }
 
-+ (UserinfoModel2 *)modelWithDictionary:(NSDictionary *)dict
++ (KSYDetailModel *)modelWithDictionary:(NSDictionary *)dict
 {
-    UserinfoModel2 *model2=[[UserinfoModel2 alloc]initWithDictionary:dict];
+    KSYDetailModel *model2=[[KSYDetailModel alloc]initWithDictionary:dict];
     return model2;
 }
 @end

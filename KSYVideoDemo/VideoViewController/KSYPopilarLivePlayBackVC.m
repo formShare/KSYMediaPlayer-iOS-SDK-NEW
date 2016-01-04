@@ -10,9 +10,10 @@
 #import "KSYPopularVideoView.h"
 #import "AppDelegate.h"
 
-@interface KSYPopilarLivePlayBackVC ()
+@interface KSYPopilarLivePlayBackVC ()<UIActionSheetDelegate>
 {
     KSYPopularVideoView *ksyPoularbackView;
+    UIAlertView *alertView;
 }
 @end
 
@@ -80,14 +81,29 @@
 }
 - (void)back
 {
-    [ksyPoularbackView.ksyVideoPlayerView shutDown];
+    [ksyPoularbackView.ksyVideoPlayerView shutDown ];
     [ksyPoularbackView unregisterObservers];
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }
 - (void)menu
 {
-    
+    UIActionSheet *ksyActionSheet=[[UIActionSheet alloc]initWithTitle:@"想要做什么？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"订阅",@"举报", nil];
+    [ksyActionSheet showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            alertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"以提供订阅按钮接口" delegate:self cancelButtonTitle:nil otherButtonTitles: @"OK",nil];
+            [alertView show];
+            break;
+        case 1:
+            alertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"以提供举报按钮接口" delegate:self cancelButtonTitle:nil otherButtonTitles: @"OK",nil];
+            [alertView show];
+        default:
+            break;
+    }
 }
 - (void)dealloc
 {

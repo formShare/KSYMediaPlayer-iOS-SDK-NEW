@@ -1,5 +1,5 @@
 //
-//  UserinfoModel2.h
+//  KSYDetailModel.h
 //  KSYVideoDemo
 //
 //  Created by KSC on 15/12/30.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UserinfoModel2 : NSObject
+@interface KSYDetailModel : NSObject
 
 
 @property (nonatomic, copy) NSString *hostImageProf;
@@ -22,8 +22,8 @@
 @property (nonatomic, copy) NSString *content;
 
 
-- (UserinfoModel2 *)initWithDictionary:(NSDictionary *)dict;
+- (KSYDetailModel *)initWithDictionary:(NSDictionary *)dict;
 
-+ (UserinfoModel2 *)modelWithDictionary:(NSDictionary *)dict;
++ (KSYDetailModel *)modelWithDictionary:(NSDictionary *)dict;
 
 @end

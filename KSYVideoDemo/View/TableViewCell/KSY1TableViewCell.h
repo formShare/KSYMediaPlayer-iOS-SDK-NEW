@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserinfoModel1.h"
+#import "KSYCommentModel.h"
 @interface KSY1TableViewCell : UITableViewCell
 
 //状态属性
-@property (nonatomic, strong) UserinfoModel1 *model1;
+@property (nonatomic, strong) KSYCommentModel *model1;
 //高度属性
 @property (nonatomic, assign) CGFloat height;
 

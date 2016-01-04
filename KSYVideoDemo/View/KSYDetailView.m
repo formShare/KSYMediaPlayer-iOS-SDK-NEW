@@ -36,7 +36,7 @@
     lineLabel.backgroundColor=[UIColor blackColor];
     [self addSubview:lineLabel];
     //初始化表视图 只要你在做你就在想
-    self.kTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(lineLabel.frame)+10, THESCREENWIDTH, THESCREENHEIGHT/2-60) style:UITableViewStylePlain];
+    self.kTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(lineLabel.frame)+10, THESCREENWIDTH, THESCREENHEIGHT/2-72) style:UITableViewStylePlain];
     [self addSubview:self.kTableView];
     self.kTableView.delegate=self;
     self.kTableView.dataSource=self;
@@ -66,7 +66,7 @@
             cell.selectedBackgroundView = tempView1;
             
         }
-         UserinfoModel1 *SKYmodel=_models[indexPath.row];
+         KSYCommentModel *SKYmodel=_models[indexPath.row];
         cell.model1=SKYmodel;
         return cell;
     }
@@ -77,7 +77,7 @@
         {
             cell=[[KSY2TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY2TableViewCellIdentify"];
         }
-        UserinfoModel2 *SKYmodel=_models[indexPath.row];
+        KSYDetailModel *SKYmodel=_models[indexPath.row];
         cell.model2=SKYmodel;//调用set方法
         return cell;
         
@@ -89,7 +89,7 @@
         {
             cell=[[KSY3TableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY3TableViewCellIdentify"];
         }
-        UserinfoModel3 *SKYmodel=_models[indexPath.row];
+        KSYIntroduceModel *SKYmodel=_models[indexPath.row];
         cell.model3=SKYmodel;//调用set方法
         return cell;
         
@@ -142,7 +142,7 @@
         _modelsCells=[[NSMutableArray alloc]init];
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_models addObject:[UserinfoModel1 modelWithDictionary:obj]];
+            [_models addObject:[KSYCommentModel modelWithDictionary:obj]];
             KSY1TableViewCell *cell=[[KSY1TableViewCell alloc]init];
             [_modelsCells addObject:cell];
         }];
@@ -156,7 +156,7 @@
         [_modelsCells removeAllObjects];
         NSString *path=[[NSBundle mainBundle]pathForResource:@"Model2" ofType:@"plist"];
         NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:path];
-        [_models addObject:[UserinfoModel2 modelWithDictionary:dict]];
+        [_models addObject:[KSYDetailModel modelWithDictionary:dict]];
         KSY2TableViewCell *cell=[[KSY2TableViewCell alloc]init];
         [_modelsCells addObject:cell];
         //这样做复杂啦换一种方法
@@ -175,7 +175,7 @@
         _modelsCells=[[NSMutableArray alloc]init];
         //利用代码块遍历
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_models addObject:[UserinfoModel3 modelWithDictionary:obj]];
+            [_models addObject:[KSYIntroduceModel modelWithDictionary:obj]];
             KSY3TableViewCell *cell=[[KSY3TableViewCell alloc]init];
             [_modelsCells addObject:cell];
         }];

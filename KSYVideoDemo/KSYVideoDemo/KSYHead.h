@@ -15,11 +15,11 @@
 #import "KSYThemeManager.h"
 #import "KSYMediaVoiceView.h"
 #import "KSY1TableViewCell.h"
-#import "UserinfoModel1.h"
+#import "KSYCommentModel.h"
 #import "KSY2TableViewCell.h"
-#import "UserinfoModel2.h"
+#import "KSYDetailModel.h"
 #import "KSY3TableViewCell.h"
-#import "UserinfoModel3.h"
+#import "KSYIntroduceModel.h"
 
 
 

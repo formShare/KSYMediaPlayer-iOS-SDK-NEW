@@ -396,6 +396,7 @@
     kLockView.hidden=YES;
     bottomView.frame=CGRectMake(0, self.height-40, self.width, 40);
     [bottomView resetSubviews];
+    bottomView.hidden=YES;
     kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
     kToolView.hidden=YES;
     UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];
