@@ -119,5 +119,4 @@
     AppDelegate *appDelegate=[UIApplication sharedApplication].delegate;
     appDelegate.allowRotation=NO;
 }
-
 @end

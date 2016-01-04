@@ -344,6 +344,7 @@
         [bottomView.kShortPlayBtn setImage:playImg forState:UIControlStateNormal];
     }
 }
+
 - (void)lockBtn:(UIButton *)btn
 {
     _isLock=!_isLock;

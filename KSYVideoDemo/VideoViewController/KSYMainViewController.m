@@ -104,7 +104,7 @@
 
 - (void)switchControlEvent:(UISwitch *)switchControl
 {
-
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -215,6 +215,7 @@
             }else {
                 KSYPopilarLivePlayBackVC *view=[[KSYPopilarLivePlayBackVC alloc]init];
                 view.urlPath=_httpTextF.text;
+                view.isReleasePlayer=_switchControl.isOn;
                 [self.navigationController pushViewController:view animated:YES];
             }
         }

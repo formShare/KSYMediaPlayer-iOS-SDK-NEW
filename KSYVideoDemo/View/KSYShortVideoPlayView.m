@@ -29,6 +29,7 @@
     self = [super initWithFrame:frame];//初始化父视图的(frame、url)
     if (self) {
         ksyShortTableView=[[UITableView alloc]initWithFrame:frame style:UITableViewStyleGrouped];
+        ksyShortTableView.backgroundColor=[UIColor blackColor];
         ksyShortTableView.delegate=self;
         ksyShortTableView.dataSource=self;
         [self addSubview:ksyShortTableView];
@@ -63,33 +64,27 @@
 #pragma mark 分区数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 #pragma mark 行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0) {
-        return 1;
-    }else{
-        return _models.count;
-    }
+    return _models.count;
 }
 #pragma mark 每行显示的内容
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId1=@"identify1";
     static NSString *cellId2=@"identify2";
-    if (indexPath.section==0) {
+    if (indexPath.row==0) {
         commentView.hidden=YES;
-        [_videoCell.ksyShortView play];
         _videoCell=[tableView dequeueReusableCellWithIdentifier:cellId1];
         if (!_videoCell) {
             _videoCell=[[KSYShortTabelViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId1 urlstr:videoString frame:CGRectMake(0, 0, self.width, 260)];
         }
         return _videoCell;
-    }else if(indexPath.section==1){
+    }else {
         commentView.hidden=NO;
-        [_videoCell.ksyShortView pause];
         KSYComTvCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId2];
         if (!cell){
             cell=[[KSYComTvCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"KSY1TableViewCellIdentify"];
@@ -104,32 +99,34 @@
         KSYCommentModel *SKYmodel=_models[indexPath.row];
         cell.model1=SKYmodel;
         return cell;
+    }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (ksyShortTableView.contentOffset.y>260.0) {
+        [_videoCell.ksyShortView pause];
     }else{
-        return nil;
+        [_videoCell.ksyShortView play];
     }
 }
 #pragma mark 设置行高
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0){
+    if (indexPath.row==0){
         return 260;
-    }else if(indexPath.section==1){
+    }else{
         
         KSYComTvCell *cell=_modelsCells[indexPath.row];
         cell.model1=_models[indexPath.row];//这里执行set方法
         return cell.height;
-
-    }else{
-        return 0;
     }
-    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1;
+    return 0.1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 1;
+    return 0.1;
 }
 - (void)changeCommentViewFrame
 {
@@ -141,5 +138,4 @@
     UITextField *kTextField=(UITextField *)[self viewWithTag:kCommentFieldTag];
     [kTextField resignFirstResponder];
 }
-
 @end

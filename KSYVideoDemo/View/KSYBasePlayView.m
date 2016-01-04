@@ -443,7 +443,7 @@
 {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.isLivePlay) {
+        if (self.isLivePlay||self.isBackGroundReleasePlayer) {
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
 
