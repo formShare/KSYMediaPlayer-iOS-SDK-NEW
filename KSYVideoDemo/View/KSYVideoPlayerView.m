@@ -318,8 +318,8 @@
     UILabel *kCurrentLabe = (UILabel *)[self viewWithTag:kProgressCurLabelTag];
     UILabel *kTotalLabel = (UILabel *)[self viewWithTag:kProgressMaxLabelTag];
     UISlider *kPlaySlider = (UISlider *)[self viewWithTag:kProgressSliderTag];
-    NSInteger duration = self.player.duration;
-    NSInteger position = self.player.currentPlaybackTime;
+    NSInteger duration = self.duration;
+    NSInteger position = self.currentPlaybackTime;
     
     int iMin  = (int)(position / 60);
     int iSec  = (int)(position % 60);
@@ -396,6 +396,7 @@
     kLockView.hidden=YES;
     bottomView.frame=CGRectMake(0, self.height-40, self.width, 40);
     [bottomView resetSubviews];
+    bottomView.hidden=YES;
     kProgressView.frame=CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50);
     kToolView.hidden=YES;
     UIButton *unFullBtn=(UIButton *)[self viewWithTag:kFullScreenBtnTag];

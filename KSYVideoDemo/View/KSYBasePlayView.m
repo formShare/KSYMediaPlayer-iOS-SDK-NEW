@@ -20,7 +20,7 @@
 @property (nonatomic) BOOL      isShowErrorAlert;
 @property (nonatomic) BOOL      isNetShowAlert;
 @property (nonatomic) BOOL      isWifiShowAlert;
-
+@property (nonatomic, assign) BOOL isPuase;
 
 @end
 
@@ -111,6 +111,7 @@
     if (self.player) {
         [self.player play];
         [self startTimer];
+        self.isPuase = NO;
 
     }
 
@@ -120,6 +121,7 @@
 {
     if (self.player) {
         [self.player pause];
+        self.isPuase = YES;
     }
 
 }
@@ -347,6 +349,7 @@
     if (MPMediaPlaybackIsPreparedToPlayDidChangeNotification ==  notify.name) {
         [self.indicator stopAnimating];
         [self startTimer];
+        self.isPuase = NO;
     }
     if (MPMoviePlayerPlaybackStateDidChangeNotification ==  notify.name) {
         
@@ -445,9 +448,7 @@
             [self addSubview:self.player.view];
             [self sendSubviewToBack:self.player.view];
 
-        }else if([self.player isPlaying] && !self.isBackGroundReleasePlayer){
-            [self play];
-        }else if (self.isBackGroundReleasePlayer){
+        }else if (self.isPuase){
             [self play];
         }
         

@@ -1,16 +1,16 @@
 //
-//  UserinfoModel1.m
+//  KSYCommentModel.m
 //  KSYVideoDemo
 //
 //  Created by KSC on 15/12/30.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "UserinfoModel1.h"
+#import "KSYCommentModel.h"
 
-@implementation UserinfoModel1
+@implementation KSYCommentModel
 
-- (UserinfoModel1 *)initWithDictionary:(NSDictionary *)dict
+- (KSYCommentModel *)initWithDictionary:(NSDictionary *)dict
 {
     if (self=[super init])
     {
@@ -22,9 +22,9 @@
     return self;
 }
 
-+ (UserinfoModel1 *)modelWithDictionary:(NSDictionary *)dict
++ (KSYCommentModel *)modelWithDictionary:(NSDictionary *)dict
 {
-    UserinfoModel1 *model=[[UserinfoModel1 alloc]initWithDictionary:dict];
+    KSYCommentModel *model=[[KSYCommentModel alloc]initWithDictionary:dict];
     return model;
 }
 

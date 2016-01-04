@@ -62,7 +62,7 @@
 }
 
 #pragma mark 设置模型 set方法 get方法
-- (void)setModel3:(UserinfoModel3 *)model3
+- (void)setModel3:(KSYIntroduceModel *)model3
 {
     //重置图片视图的大小
     CGFloat imageViewX=15,imageViewY=15;

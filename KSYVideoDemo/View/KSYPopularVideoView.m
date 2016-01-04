@@ -25,7 +25,7 @@
     self = [super initWithFrame:frame];//初始化父视图的(frame、url)
     if (self) {
         WeakSelf(KSYPopularVideoView);
-        self.ksyVideoPlayerView=[[KSYVideoPlayerView alloc]initWithFrame: CGRectMake(0, 0, self.width, self.height/2-40) UrlFromString:urlString playState:playState];
+        self.ksyVideoPlayerView=[[KSYVideoPlayerView alloc]initWithFrame: CGRectMake(0, 0, self.width, self.height/2-60) UrlFromString:urlString playState:playState];
         PreviouceFrame=self.ksyVideoPlayerView.frame;
         self.ksyVideoPlayerView.lockScreen=^(BOOL isLocked){
             [weakSelf lockTheScreen:isLocked];
@@ -82,7 +82,7 @@
     }
     CGRect frame=[UIScreen mainScreen].bounds;
     self.frame=CGRectMake(0, 64, frame.size.width, frame.size.height-64);
-    self.ksyVideoPlayerView.frame=CGRectMake(0, 0,self.width,self.height/2-40);
+    self.ksyVideoPlayerView.frame=CGRectMake(0, 0, self.width, self.height/2-60);
     [self.ksyVideoPlayerView minFullScreen];
     self.detailView.hidden=NO;
     self.commtenView.hidden=NO;
@@ -95,7 +95,7 @@
 #pragma mark 添加详细视图
 - (void)addDetailView
 {
-    _detailView=[[KSYDetailView alloc]initWithFrame:CGRectMake(0, self.ksyVideoPlayerView.bottom,self.width,self.height/2+40)];
+    _detailView=[[KSYDetailView alloc]initWithFrame:CGRectMake(0, self.ksyVideoPlayerView.bottom,self.width,self.height/2-40)];
     [self addSubview: _detailView];
 }
 #pragma mark 添加底部评论视图

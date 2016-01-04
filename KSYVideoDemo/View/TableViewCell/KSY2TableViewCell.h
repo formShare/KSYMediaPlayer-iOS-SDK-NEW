@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserinfoModel2.h"
+#import "KSYDetailModel.h"
 @interface KSY2TableViewCell : UITableViewCell
-@property (nonatomic, strong) UserinfoModel2 *model2;
+@property (nonatomic, strong) KSYDetailModel *model2;
 @property (nonatomic, assign) CGFloat height;
 @end

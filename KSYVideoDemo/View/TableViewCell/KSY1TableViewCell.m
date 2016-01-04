@@ -69,7 +69,7 @@
 }
 
 #pragma mark 设置单元格内容
-- (void)setModel1:(UserinfoModel1 *)model1
+- (void)setModel1:(KSYCommentModel *)model1
 {
     //设置用户名的位置
     //设置头像的位置

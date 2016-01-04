@@ -11,11 +11,11 @@
 
 @interface CommentModel : NSObject
 @property (nonatomic, copy)NSString *userName;
-@property (nonatomic, copy)NSString *userId;
 @property (nonatomic, copy)NSString *userHead;
 @property (nonatomic, copy)NSString *userComment;
 @property (nonatomic, strong)UIColor *backColor;
 @property (nonatomic, assign)BOOL isShoudDele;
+
 //临时成员
 @property (nonatomic, strong)UIColor *headColor;
 @end
