@@ -245,6 +245,7 @@
         case 3:
         {
             KSYShortVideoPlayVC *view=[[KSYShortVideoPlayVC alloc]init];
+            view.videoPath=_httpTextF;
             [self.navigationController pushViewController:view animated:YES];
         }
             break;

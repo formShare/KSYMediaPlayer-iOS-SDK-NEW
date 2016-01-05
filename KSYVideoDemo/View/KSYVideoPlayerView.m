@@ -63,10 +63,8 @@
         [themeManager changeTheme:@"red"];
         _isLock=NO;
         self.playState=playState;
-        if (playState!=kSYShortVideoPlay) {
-            [self addBottomView];
-            [self addTopView];
-        }
+        [self addBottomView];
+        [self addTopView];
         [self addBrightnessVIew];
         [self addVoiceView];
         [self addProgressView];
@@ -432,7 +430,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     // **** 锁屏状态下，屏幕禁用
-    if (_isLock == YES||self.height<THESCREENHEIGHT) {
+    if (_isLock == YES) {
         return;
     }
     CGPoint curPoint = [[touches anyObject] locationInView: self];

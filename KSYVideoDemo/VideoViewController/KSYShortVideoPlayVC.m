@@ -25,7 +25,7 @@
     self.navigationController.navigationBar.barTintColor=[UIColor blackColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self changeNavigationStayle];
-    ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) UrlPathString:@"http://121.42.58.232:8980/hls_test/1.m3u8"];
+    ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) UrlPathString:_videoPath];
     [self.view addSubview:ksyShortVideoplayView];
     
 }
@@ -68,8 +68,7 @@
 #pragma mark 转到另一个控制器
 - (void)back
 {
-
-    [ksyShortVideoplayView.videoCell.ksyShortView stop];
+    [ksyShortVideoplayView.videoCell.ksyShortView shutDown];
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }
