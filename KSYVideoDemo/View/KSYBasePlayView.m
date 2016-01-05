@@ -170,6 +170,7 @@
         _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES];
         
     }
+    _isShowFinishAlert = NO;
 }
 
 - (void)stopTimer
@@ -450,6 +451,7 @@
         }else if (self.isResignActive){
             [self play];
             self.isResignActive = NO;
+            
         }
         
     });
@@ -460,10 +462,13 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if (([self.player isPlaying] && self.isBackGroundReleasePlayer ) || self.isLivePlay) {
             [self shutDown];
-        }else if ([self.player isPlaying] && !self.isLivePlay){
+        }else if ( !self.isLivePlay && [self.player isPlaying]){
             [self pause];
             self.isResignActive = YES;
             
+        }else if (![self.player isPlaying] && !self.isLivePlay){
+            self.isResignActive = NO;
+
         };
     });
 }
