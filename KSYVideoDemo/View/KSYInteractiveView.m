@@ -179,8 +179,8 @@
     CGRect fromFrame = self.frame;
      toHeight = self.frame.size.height + bottomHeight;
     CGRect toFrame = CGRectMake(fromFrame.origin.x, fromFrame.origin.y + (fromFrame.size.height - toHeight), fromFrame.size.width, toHeight);
-    
-    if(bottomHeight == 0 && self.frame.size.height == self.messageToolBar.frame.size.height)
+    NSLog(@"toFrame is %@",NSStringFromCGRect(toFrame));
+    if((bottomHeight < 0 && self.frame.size.height == self.messageToolBar.frame.size.height) || toFrame.origin.y < -100)
     {
         return;
     }

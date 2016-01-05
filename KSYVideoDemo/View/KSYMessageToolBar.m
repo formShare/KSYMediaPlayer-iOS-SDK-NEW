@@ -17,7 +17,6 @@
 @property (strong, nonatomic) UIView *toolbarBackView;
 @property (strong, nonatomic) UIButton *controCommentBtn;
 @property (strong, nonatomic) UIButton *shareBtn;
-
 @end
 
 @implementation KSYMessageToolBar
@@ -68,7 +67,7 @@
 {
     self.version = [[[UIDevice currentDevice] systemVersion] floatValue];
     
-    self.toolbarBackView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
+    self.toolbarBackView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     [self addSubview:self.toolbarBackView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -146,7 +145,12 @@
 - (void)willShowBottomHeight:(CGFloat)bottomHeight
 {
 //    CGRect fromFrame = self.frame;
+    if (bottomHeight == 184) {
+        return;
+    }
     CGFloat toHeight = self.frame.size.height + bottomHeight;
+
+    //    NSLog(@"toheight is %f",toHeight);
 //    CGRect toFrame = CGRectMake(fromFrame.origin.x, fromFrame.origin.y + (fromFrame.size.height - toHeight), fromFrame.size.width, toHeight);
 //    
 //    if(bottomHeight == 0 && self.frame.size.height == self.toolbarBackView.frame.size.height)
@@ -165,6 +169,7 @@
 {
     if (beginFrame.origin.y == [[UIScreen mainScreen] bounds].size.height)
     {
+
         [self willShowBottomHeight:toFrame.size.height];
     }
     else if (toFrame.origin.y == [[UIScreen mainScreen] bounds].size.height)
@@ -191,6 +196,7 @@
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification
 {
+
     NSDictionary *userInfo = notification.userInfo;
     CGRect endFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect beginFrame = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
