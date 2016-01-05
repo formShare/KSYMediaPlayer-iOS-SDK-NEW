@@ -89,7 +89,7 @@
 
     [self.view addSubview:tableView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
     
 }
@@ -245,7 +245,7 @@
         case 3:
         {
             KSYShortVideoPlayVC *view=[[KSYShortVideoPlayVC alloc]init];
-            view.videoPath=_httpTextF;
+            view.videoPath=_httpTextF.text;
             [self.navigationController pushViewController:view animated:YES];
         }
             break;

@@ -66,9 +66,13 @@
 }
 
 #pragma mark 转到另一个控制器
+
+
 - (void)back
 {
     [ksyShortVideoplayView.videoCell.ksyShortView shutDown];
+    [ksyShortVideoplayView removeFromSuperview];
+
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }

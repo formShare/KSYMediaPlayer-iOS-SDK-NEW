@@ -307,7 +307,7 @@
                                                  options:UIViewAnimationCurveEaseInOut
                                               animations:^{
                                                   self.alertView.hidden = NO;
-                                                  [self.alertView setFrame:CGRectMake(70, 150 ,DeviceSizeBounds.size.width - 140, 430)];
+                                                  [self.alertView setFrame:CGRectMake(70, (self.frame.size.height - 430)/2.0 ,DeviceSizeBounds.size.width - 140, 430)];
                                               }
                                               completion:^(BOOL finished) {
                                               }];
