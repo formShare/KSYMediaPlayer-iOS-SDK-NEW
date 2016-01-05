@@ -241,14 +241,9 @@ static CGFloat kTransitionDuration = 0.3;
     _fansNumberLabl.text = model.fansNumber;
     _userNameLabel.text = model.name;
     _followNumberLabel.text = model.followNumber;
-
-
-
-    
 }
 - (void)alertViewDisAppere
 {
-
     self.hidden = YES;
 }
 

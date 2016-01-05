@@ -463,7 +463,6 @@
         }else if ([self.player isPlaying] && !self.isLivePlay){
             [self pause];
             self.isResignActive = YES;
-            
         };
     });
 }

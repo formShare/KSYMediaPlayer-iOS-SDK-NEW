@@ -19,4 +19,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier urlstr:(NSString *)urlstring frame:(CGRect)frame;
 
+@property (nonatomic, assign) BOOL isReleased;
+
+
 @end

@@ -238,7 +238,11 @@
         case 2:
         {
             KSYVideoOnDemandPlayVC *view=[[KSYVideoOnDemandPlayVC alloc]init];
+            view.urlPath=_httpTextF.text;
+            view.isReleasePlayer=_switchControl.isOn;
             [self.navigationController pushViewController:view animated:YES];
+//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"暂未开放，敬请期待" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//            [alertView show];
 
         }
             break;
@@ -246,6 +250,7 @@
         {
             KSYShortVideoPlayVC *view=[[KSYShortVideoPlayVC alloc]init];
             view.videoPath=_httpTextF.text;
+            view.isReleasePlayer = _switchControl.isOn;
             [self.navigationController pushViewController:view animated:YES];
         }
             break;

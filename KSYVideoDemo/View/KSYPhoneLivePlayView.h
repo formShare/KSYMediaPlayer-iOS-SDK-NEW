@@ -14,15 +14,15 @@
 @interface KSYPhoneLivePlayView : KSYBasePlayView
 
 - (instancetype)initWithFrame:(CGRect)frame urlString:(NSString *)urlString playState:(KSYPhoneLivePlayState)playState;
-//关闭事件block
+
 @property (nonatomic, copy) void (^liveBroadcastCloseBlock)();//设置声明方法
-//举报事件block
+
 @property (nonatomic, copy) void (^liveBroadcastReporteBlock)();
-//分享事件block
+
 @property (nonatomic, copy) void (^shareBlock)();
 @property (nonatomic ,strong)   NSArray     *spectatorsArray;
 
 - (void)addNewCommentWith:(id)model;
-//点赞
+
 - (void)onPraiseWithSpectatorsInteractiveType:(SpectatorsInteractiveType )type;
 @end

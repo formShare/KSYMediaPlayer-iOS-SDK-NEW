@@ -81,6 +81,7 @@
         _videoCell=[tableView dequeueReusableCellWithIdentifier:cellId1];
         if (!_videoCell) {
             _videoCell=[[KSYShortTabelViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId1 urlstr:videoString frame:CGRectMake(0, 0, self.width, 260)];
+            _videoCell.ksyShortView.isBackGroundReleasePlayer=self.isDidRelease;
         }
         return _videoCell;
     }else {

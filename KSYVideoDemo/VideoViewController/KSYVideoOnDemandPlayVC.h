@@ -11,6 +11,6 @@
 
 
 @interface KSYVideoOnDemandPlayVC : KSYBaseViewController
-
+@property (nonatomic, copy) NSString *urlPath;
 
 @end

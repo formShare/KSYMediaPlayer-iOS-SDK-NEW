@@ -18,8 +18,8 @@
 
 
 //- (void)setAvatarUrl:(NSString *)imageUrl withContent:(NSString *)content;
-- (void)KSBarrageItemViewsetDanmuFont:(CGFloat)font;//设置弹幕字体的大小
-- (void)KSBarrageItemViewsetDanmuAlpha:(CGFloat)alpha;//设置弹幕透明度
+- (void)KSBarrageItemViewsetDanmuFont:(CGFloat)font;
+- (void)KSBarrageItemViewsetDanmuAlpha:(CGFloat)alpha;
 - (void)setAvatarWithImage:(UIImage *)image withContent:(NSString *)content;
 - (void)setAvatarWithImageString:(NSString *)imageStr withContent:(NSString *)content;
 

@@ -26,8 +26,8 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self changeNavigationStayle];
     ksyShortVideoplayView=[[KSYShortVideoPlayView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) UrlPathString:_videoPath];
+    ksyShortVideoplayView.isDidRelease=self.isReleasePlayer;
     [self.view addSubview:ksyShortVideoplayView];
-    
 }
 
 #pragma mark 改变导航栏状态
@@ -72,7 +72,6 @@
 {
     [ksyShortVideoplayView.videoCell.ksyShortView shutDown];
     [ksyShortVideoplayView removeFromSuperview];
-
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }

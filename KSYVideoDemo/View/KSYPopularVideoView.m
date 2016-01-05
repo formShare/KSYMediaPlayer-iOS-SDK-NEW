@@ -96,13 +96,13 @@
         self.lockWindow(islocked);
     }
 }
-// 添加详细视图
+
 - (void)addDetailView
 {
     _detailView=[[KSYDetailView alloc]initWithFrame:CGRectMake(0, self.ksyVideoPlayerView.bottom,self.width,self.height/2-40)];
     [self addSubview: _detailView];
 }
-// 添加底部评论视图
+
 - (void)addCommtenView
 {
     WeakSelf(KSYPopularVideoView);
@@ -135,7 +135,7 @@
         NSLog(@"Animation Over!");
     }];
 }
-// 注册通知
+
 - (void)registerObservers
 {
     
@@ -144,7 +144,7 @@
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
 }
-// 移除通知
+
 - (void)unregisterObservers
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
