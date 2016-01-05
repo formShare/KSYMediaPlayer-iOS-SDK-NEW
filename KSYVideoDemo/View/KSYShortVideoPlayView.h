@@ -16,4 +16,5 @@
 @property (nonatomic, strong) NSMutableArray *models;
 @property (nonatomic, strong) NSMutableArray *modelsCells;
 @property (nonatomic, strong) KSYShortTabelViewCell *videoCell;
+@property (nonatomic, assign) BOOL isDidRelease;
 @end

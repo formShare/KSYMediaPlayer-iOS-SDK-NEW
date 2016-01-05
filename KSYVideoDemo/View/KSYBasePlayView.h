@@ -31,6 +31,7 @@
  */
 @property (nonatomic, assign) BOOL                          isBackGroundReleasePlayer;
 
+@property (nonatomic, assign) BOOL                          isPlaying;
 /**
  *	@brief	初始化播放器视图
  *

@@ -63,10 +63,8 @@
         [themeManager changeTheme:@"red"];
         _isLock=NO;
         self.playState=playState;
-        if (playState!=kSYShortVideoPlay) {
-            [self addBottomView];
-            [self addTopView];
-        }
+        [self addBottomView];
+        [self addTopView];
         [self addBrightnessVIew];
         [self addVoiceView];
         [self addProgressView];
@@ -75,7 +73,7 @@
     }
     return self;
 }
-// 添加设置视图
+
 - (void)addSetView
 {
     if (!kSetView) {
@@ -84,7 +82,7 @@
     }
     [self addSubview:kSetView];
 }
-// 添加工具视图
+
 - (KSYToolView *)kToolView
 {
     WeakSelf(KSYVideoPlayerView);
@@ -102,7 +100,7 @@
     }
     return kToolView;
 }
-// 添加锁屏按钮
+
 - (void)addLockBtn
 {
     WeakSelf(KSYVideoPlayerView);
@@ -113,14 +111,14 @@
     kLockView.hidden=YES;
     [self addSubview:kLockView];
 }
-// 添加进度指示
+
 - (void)addProgressView
 {
     kProgressView=[[KSYProgressView alloc]initWithFrame:CGRectMake((self.width - kProgressViewWidth) / 2, (self.height - 50) / 4, kProgressViewWidth, 50)];
     kProgressView.hidden=YES;
     [self addSubview:kProgressView];
 }
-// 添加顶部视图
+
 - (void)addTopView
 {
     topView=[[KSYTopView alloc]initWithFrame:CGRectMake(0, 0, self.width, 40)];
@@ -129,7 +127,7 @@
     }
     [self addSubview:topView];
 }
-// 添加底部视图
+
 - (void)addBottomView
 {
         
@@ -164,14 +162,13 @@
     };
     [self addSubview: bottomView];
 }
-// 添加弹幕
+
 - (void)addDanmuView:(UIButton *)btn
 {
     isOpen=!isOpen;
     if (isOpen==YES) {
         kDanmuView = [[KSBarrageView alloc] initWithFrame:CGRectMake(0, 0,self.width, self.height-60)];
         [self addSubview:kDanmuView];
-        //设置弹幕内容
         NSDictionary *dict1=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"djsflkjoiwene",@"content", nil];
         NSDictionary *dict2=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"1212341",@"content", nil];
         NSDictionary *dict3=[NSDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"Logo2"],@"avatar",@"大家好啊啊啊啊啊啊啊啊啊啊啊啊啊",@"content", nil];
@@ -186,7 +183,7 @@
         [kDanmuView removeFromSuperview];
     }
 }
-// 修改bottom 的位置
+
 - (void)changeBottom:(UITextField *)textField
 {
     bottomView.alpha=1.0;
@@ -201,7 +198,7 @@
         bottomView.alpha=0.6;
     }
 }
-// 添加亮度视图
+
 - (void)addBrightnessVIew
 {
     WeakSelf(KSYVideoPlayerView);
@@ -218,14 +215,14 @@
     kBrightnessView.hidden=YES;
     [self addSubview:kBrightnessView];
 }
-// 添加声音视图
+
 - (void)addVoiceView
 {
     kVoiceView=[[KSYVoiceView alloc]initWithFrame:CGRectMake(THESCREENHEIGHT - kCoverBarWidth - kCoverBarRightMargin, THESCREENWIDTH / 4, kCoverBarWidth, THESCREENWIDTH / 2)];
     kVoiceView.hidden=YES;
     [self addSubview:kVoiceView];
 }
-// -亮度调节
+
 - (void)brightnessDidBegin:(UISlider *)slider {
     UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
@@ -238,7 +235,7 @@
     [slider setThumbImage:dotImg forState:UIControlStateNormal];
 }
 
-// 滚动条
+
 - (void)progDidBegin:(UISlider *)slider
 {
     UIImage *dotImg = [[KSYThemeManager sharedInstance] imageInCurThemeWithName:@"img_dot"];
@@ -388,7 +385,7 @@
     [self hiddenAllControls];
     
 }
-// 全屏模式
+
 - (void)lunchFullScreen
 {
     topView.hidden=YES;
@@ -403,7 +400,7 @@
     [fullBtn setImage:fullImg forState:UIControlStateNormal];
     self.indicator.center=self.center;
 }
-// 窗口最小化
+
 - (void)minFullScreen
 {
     kBrightnessView.hidden=YES;
@@ -432,7 +429,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     // **** 锁屏状态下，屏幕禁用
-    if (_isLock == YES||self.height<THESCREENHEIGHT) {
+    if (_isLock == YES) {
         return;
     }
     CGPoint curPoint = [[touches anyObject] locationInView: self];
@@ -561,7 +558,6 @@
 }
 
 
-// 显示控件
 - (void) showAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{
@@ -590,7 +586,8 @@
         isActive = YES;
     }];
 }
-// 隐藏控件
+
+
 - (void) hiddenAllControls
 {
     [UIView animateWithDuration:0.3 animations:^{

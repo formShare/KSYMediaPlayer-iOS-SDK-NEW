@@ -81,7 +81,10 @@
         
         _interactiveView.seekBlock = ^(double value){
             [weakSelf moviePlayerSeekTo:value];
-            [weakSelf play];
+            if ([weakSelf isPlaying]) {
+                [weakSelf play];
+
+            }
         };
         
         

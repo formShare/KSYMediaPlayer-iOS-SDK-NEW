@@ -164,6 +164,10 @@
     return 0;
 }
 
+- (BOOL)isPlaying
+{
+    return [self.player isPlaying];
+}
 - (void)startTimer
 {
     if (!_timer) {
@@ -465,7 +469,6 @@
         }else if ( !self.isLivePlay && [self.player isPlaying]){
             [self pause];
             self.isResignActive = YES;
-            
         }else if (![self.player isPlaying] && !self.isLivePlay){
             self.isResignActive = NO;
 

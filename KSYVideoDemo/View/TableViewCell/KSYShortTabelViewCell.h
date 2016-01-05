@@ -7,16 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KSYVideoPlayerView.h"
+#import "KSYBasePlayView.h"
 
 @interface KSYShortTabelViewCell :UITableViewCell
 
 
 
-@property (nonatomic,strong) KSYVideoPlayerView *ksyShortView;
+@property (nonatomic,strong) KSYBasePlayView *ksyShortView;
 
 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier urlstr:(NSString *)urlstring frame:(CGRect)frame;
+
+@property (nonatomic, assign) BOOL isReleased;
+
 
 @end

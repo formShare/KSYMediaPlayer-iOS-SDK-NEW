@@ -9,7 +9,7 @@
 #import "KSBarrageItemView.h"
 
 @implementation KSBarrageItemView 
-#pragma mark 在这个方法中初始化弹幕的一切状态
+
 - (id)initWithFrame:(CGRect)frame  {
     self = [super initWithFrame:frame];
     if (self) {
