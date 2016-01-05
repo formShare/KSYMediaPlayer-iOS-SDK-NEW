@@ -89,7 +89,7 @@
 
     [self.view addSubview:tableView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
     
 }
@@ -104,7 +104,7 @@
 
 - (void)switchControlEvent:(UISwitch *)switchControl
 {
-
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -215,6 +215,7 @@
             }else {
                 KSYPopilarLivePlayBackVC *view=[[KSYPopilarLivePlayBackVC alloc]init];
                 view.urlPath=_httpTextF.text;
+                view.isReleasePlayer=_switchControl.isOn;
                 [self.navigationController pushViewController:view animated:YES];
             }
         }
@@ -224,10 +225,7 @@
             if (indexPath.row == 0) {
                 KSYPhoneLivePlayVC *phoneLivePlayerVC = [KSYPhoneLivePlayVC new];
                 phoneLivePlayerVC.videoUrlString = _rtmpTextF.text;
-                phoneLivePlayerVC.isReleasePlayer = _switchControl.isOn;
-//                phoneLivePlayerVC.videoUrlString = @"rtmp://test.live.ksyun.com/live/68D478.264";
-
-                [self.navigationController presentViewController:phoneLivePlayerVC animated:YES completion:nil];
+                phoneLivePlayerVC.isReleasePlayer = _switchControl.isOn;                [self.navigationController presentViewController:phoneLivePlayerVC animated:YES completion:nil];
             }else{
                 KSYPhoneLivePlayBackVC *phoneLivePlayBackVC = [KSYPhoneLivePlayBackVC new];
                 phoneLivePlayBackVC.videoUrlString = _httpTextF.text;

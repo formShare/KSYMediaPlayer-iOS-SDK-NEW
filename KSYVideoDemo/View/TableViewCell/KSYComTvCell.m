@@ -1,12 +1,12 @@
 //
-//  KSY1TableViewCell.m
+//  KSYComTvCell.m
 //  AMZVideoDemo
 //
 //  Created by 孙健 on 15/12/8.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "KSY1TableViewCell.h"
+#import "KSYComTvCell.h"
 #define KSYCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
 #define USERNAMEFONT 22
 #define TIMEFONT 21
@@ -16,7 +16,7 @@
 #define SPACING 10
 
 
-@interface KSY1TableViewCell()
+@interface KSYComTvCell()
 {
     UIImageView *_imageView;
     UILabel *_userName;
@@ -29,7 +29,7 @@
 
 
 
-@implementation KSY1TableViewCell
+@implementation KSYComTvCell
 
 #pragma mark 初始化单元格
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

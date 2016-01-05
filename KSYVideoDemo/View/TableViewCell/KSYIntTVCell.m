@@ -1,16 +1,16 @@
 //
-//  KSY3TableViewCell.m
+//  KSYIntTVCell.m
 //  AMZVideoDemo
 //
 //  Created by 孙健 on 15/12/14.
 //  Copyright © 2015年 kingsoft. All rights reserved.
 //
 
-#import "KSY3TableViewCell.h"
+#import "KSYIntTVCell.h"
 #define SPACING 10
 #define BIGFONT 22
 #define SMALLFONT 20
-@interface KSY3TableViewCell ()
+@interface KSYIntTVCell ()
 {
     UIImageView *imageView;
     UILabel *videoName;
@@ -23,7 +23,7 @@
 
 
 
-@implementation KSY3TableViewCell
+@implementation KSYIntTVCell
 
 #pragma mark 初始化方法
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

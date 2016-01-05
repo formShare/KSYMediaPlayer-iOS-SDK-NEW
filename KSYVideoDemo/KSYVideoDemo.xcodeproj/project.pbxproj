@@ -56,9 +56,9 @@
 		E3626A511C2E984300679848 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = E3626A4E1C2E984300679848 /* 1.png */; };
 		E3626A521C2E984300679848 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = E3626A4F1C2E984300679848 /* 2.png */; };
 		E3626A991C30DDAB00679848 /* KSYShortTabelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3626A981C30DDAB00679848 /* KSYShortTabelViewCell.m */; };
-		E37D161A1C2819C20009715A /* KSY1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16151C2819C20009715A /* KSY1TableViewCell.m */; };
-		E37D161B1C2819C20009715A /* KSY2TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16171C2819C20009715A /* KSY2TableViewCell.m */; };
-		E37D161C1C2819C20009715A /* KSY3TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16191C2819C20009715A /* KSY3TableViewCell.m */; };
+		E37D161A1C2819C20009715A /* KSYComTvCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16151C2819C20009715A /* KSYComTvCell.m */; };
+		E37D161B1C2819C20009715A /* KSYDetalTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16171C2819C20009715A /* KSYDetalTVCell.m */; };
+		E37D161C1C2819C20009715A /* KSYIntTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37D16191C2819C20009715A /* KSYIntTVCell.m */; };
 		E37D16291C2850170009715A /* backgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E37D161F1C2850170009715A /* backgroundImage.png */; };
 		E37D162A1C2850170009715A /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = E37D16201C2850170009715A /* default.png */; };
 		E37D162B1C2850170009715A /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = E37D16211C2850170009715A /* play.png */; };
@@ -180,12 +180,12 @@
 		E3626A4F1C2E984300679848 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
 		E3626A971C30DDAB00679848 /* KSYShortTabelViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSYShortTabelViewCell.h; path = TableViewCell/KSYShortTabelViewCell.h; sourceTree = "<group>"; };
 		E3626A981C30DDAB00679848 /* KSYShortTabelViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSYShortTabelViewCell.m; path = TableViewCell/KSYShortTabelViewCell.m; sourceTree = "<group>"; };
-		E37D16141C2819C20009715A /* KSY1TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSY1TableViewCell.h; sourceTree = "<group>"; };
-		E37D16151C2819C20009715A /* KSY1TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSY1TableViewCell.m; sourceTree = "<group>"; };
-		E37D16161C2819C20009715A /* KSY2TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSY2TableViewCell.h; sourceTree = "<group>"; };
-		E37D16171C2819C20009715A /* KSY2TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSY2TableViewCell.m; sourceTree = "<group>"; };
-		E37D16181C2819C20009715A /* KSY3TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSY3TableViewCell.h; sourceTree = "<group>"; };
-		E37D16191C2819C20009715A /* KSY3TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSY3TableViewCell.m; sourceTree = "<group>"; };
+		E37D16141C2819C20009715A /* KSYComTvCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYComTvCell.h; sourceTree = "<group>"; };
+		E37D16151C2819C20009715A /* KSYComTvCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYComTvCell.m; sourceTree = "<group>"; };
+		E37D16161C2819C20009715A /* KSYDetalTVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYDetalTVCell.h; sourceTree = "<group>"; };
+		E37D16171C2819C20009715A /* KSYDetalTVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYDetalTVCell.m; sourceTree = "<group>"; };
+		E37D16181C2819C20009715A /* KSYIntTVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSYIntTVCell.h; sourceTree = "<group>"; };
+		E37D16191C2819C20009715A /* KSYIntTVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSYIntTVCell.m; sourceTree = "<group>"; };
 		E37D161D1C281AC70009715A /* KSYHead.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSYHead.h; sourceTree = "<group>"; };
 		E37D161F1C2850170009715A /* backgroundImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundImage.png; sourceTree = "<group>"; };
 		E37D16201C2850170009715A /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
@@ -469,12 +469,12 @@
 		7CDBE5E21C16DD6600D221C7 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				E37D16141C2819C20009715A /* KSY1TableViewCell.h */,
-				E37D16151C2819C20009715A /* KSY1TableViewCell.m */,
-				E37D16161C2819C20009715A /* KSY2TableViewCell.h */,
-				E37D16171C2819C20009715A /* KSY2TableViewCell.m */,
-				E37D16181C2819C20009715A /* KSY3TableViewCell.h */,
-				E37D16191C2819C20009715A /* KSY3TableViewCell.m */,
+				E37D16141C2819C20009715A /* KSYComTvCell.h */,
+				E37D16151C2819C20009715A /* KSYComTvCell.m */,
+				E37D16161C2819C20009715A /* KSYDetalTVCell.h */,
+				E37D16171C2819C20009715A /* KSYDetalTVCell.m */,
+				E37D16181C2819C20009715A /* KSYIntTVCell.h */,
+				E37D16191C2819C20009715A /* KSYIntTVCell.m */,
 				7CDBE5E31C16E02700D221C7 /* KSYCommentCell.h */,
 				7CDBE5E41C16E02700D221C7 /* KSYCommentCell.m */,
 				7CDBE5EB1C17DF9B00D221C7 /* KSYSpectatorsCell.h */,
@@ -645,7 +645,7 @@
 				7CDBE5ED1C17DF9B00D221C7 /* KSYSpectatorsCell.m in Sources */,
 				7CC3DA051C3A4C880004E6AB /* KSYToolView.m in Sources */,
 				E3A9457E1C350D18000F7FB3 /* KSYBottomView.m in Sources */,
-				E37D161C1C2819C20009715A /* KSY3TableViewCell.m in Sources */,
+				E37D161C1C2819C20009715A /* KSYIntTVCell.m in Sources */,
 				7C5CA4DC1C2193BB003A92A8 /* UIColor+ColorExtension.m in Sources */,
 				7CC3DA021C3A4C880004E6AB /* KSYProgressView.m in Sources */,
 				7CDBE5B31C1555B800D221C7 /* KSYShortVideoPlayVC.m in Sources */,
@@ -656,11 +656,11 @@
 				7CDBE5E11C16D1B000D221C7 /* KSYCommentTableView.m in Sources */,
 				7CC3DA031C3A4C880004E6AB /* KSYSetView.m in Sources */,
 				E37D16381C285BA70009715A /* KSBarrageView.m in Sources */,
-				E37D161B1C2819C20009715A /* KSY2TableViewCell.m in Sources */,
+				E37D161B1C2819C20009715A /* KSYDetalTVCell.m in Sources */,
 				7CDBE5EA1C17D7E100D221C7 /* KSYSpectatorsTableView.m in Sources */,
 				E3A945831C35595B000F7FB3 /* KSYPopularVideoView.m in Sources */,
 				E3A945711C35097E000F7FB3 /* KSYPopilarLivePlayBackVC.m in Sources */,
-				E37D161A1C2819C20009715A /* KSY1TableViewCell.m in Sources */,
+				E37D161A1C2819C20009715A /* KSYComTvCell.m in Sources */,
 				E3A945641C350232000F7FB3 /* KSYCommentModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

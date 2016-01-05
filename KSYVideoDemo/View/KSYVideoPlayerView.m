@@ -63,8 +63,10 @@
         [themeManager changeTheme:@"red"];
         _isLock=NO;
         self.playState=playState;
-        [self addTopView];
-        [self addBottomView];
+        if (playState!=kSYShortVideoPlay) {
+            [self addBottomView];
+            [self addTopView];
+        }
         [self addBrightnessVIew];
         [self addVoiceView];
         [self addProgressView];
@@ -344,6 +346,7 @@
         [bottomView.kShortPlayBtn setImage:playImg forState:UIControlStateNormal];
     }
 }
+
 - (void)lockBtn:(UIButton *)btn
 {
     _isLock=!_isLock;
@@ -429,7 +432,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     // **** 锁屏状态下，屏幕禁用
-    if (_isLock == YES) {
+    if (_isLock == YES||self.height<THESCREENHEIGHT) {
         return;
     }
     CGPoint curPoint = [[touches anyObject] locationInView: self];

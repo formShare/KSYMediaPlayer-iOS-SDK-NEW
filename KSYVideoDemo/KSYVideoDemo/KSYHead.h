@@ -14,11 +14,11 @@
 #import "KSYBasePlayView.h"
 #import "KSYThemeManager.h"
 #import "KSYMediaVoiceView.h"
-#import "KSY1TableViewCell.h"
+#import "KSYComTvCell.h"
 #import "KSYCommentModel.h"
-#import "KSY2TableViewCell.h"
+#import "KSYDetalTVCell.h"
 #import "KSYDetailModel.h"
-#import "KSY3TableViewCell.h"
+#import "KSYIntTVCell.h"
 #import "KSYIntroduceModel.h"
 
 
