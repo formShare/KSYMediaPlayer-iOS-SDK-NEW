@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KSYBasePlayView.h"
+#import "KSYVideoPlayerView.h"
 
 @interface KSYShortTabelViewCell :UITableViewCell
 
 
 
-@property (nonatomic,strong) KSYBasePlayView *ksyShortView;
+@property (nonatomic,strong) KSYVideoPlayerView *ksyShortView;
 
 
 

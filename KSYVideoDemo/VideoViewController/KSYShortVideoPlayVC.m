@@ -12,6 +12,7 @@
 @interface KSYShortVideoPlayVC ()
 {
     KSYShortVideoPlayView *ksyShortVideoplayView;
+    UIAlertView *alertView;
 }
 
 @end
@@ -67,13 +68,30 @@
 #pragma mark 转到另一个控制器
 - (void)back
 {
+
     [ksyShortVideoplayView.videoCell.ksyShortView stop];
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBar.barTintColor=[UIColor whiteColor];
 }
 - (void)menu
 {
-    
+    UIActionSheet *ksyActionSheet=[[UIActionSheet alloc]initWithTitle:@"想要做什么？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"订阅",@"举报", nil];
+    [ksyActionSheet showInView:self.view];
 }
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            alertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"以提供订阅按钮接口" delegate:self cancelButtonTitle:nil otherButtonTitles: @"OK",nil];
+            [alertView show];
+            break;
+        case 1:
+            alertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"以提供举报按钮接口" delegate:self cancelButtonTitle:nil otherButtonTitles: @"OK",nil];
+            [alertView show];
+        default:
+            break;
+    }
+}
+
 
 @end
